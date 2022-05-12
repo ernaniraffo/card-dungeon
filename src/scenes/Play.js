@@ -7,7 +7,7 @@ class Play extends Phaser.Scene {
         // load assets here
         this.load.spritesheet("slime", "./assets/slime.png", {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 1});
         this.load.spritesheet("Knight", "./assets/Knight.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 1});
-        this.load.spritesheet("BG", "./assets/Background.png", {frameWidth: 1600, frameHeight: 1600, startFrame: 0, endFrame: 8});
+        this.load.spritesheet("BG", "./assets/Background.png", {frameWidth: 1600, frameHeight: 800, startFrame: 0, endFrame: 5});
         this.load.image("card", "./assets/card.png");
 
         // audio
@@ -61,11 +61,11 @@ class Play extends Phaser.Scene {
         // Background anim
         this.anims.create({
             key: "bganimate",
-            frames: this.anims.generateFrameNumbers("BG", {start: 0, end: 8}),
-            frameRate: 4,
+            frames: this.anims.generateFrameNumbers("BG", {start: 0, end: 5}),
+            frameRate: 2,
             repeat: -1
         });
-        this.background.setScale(.3);
+        this.background.setScale(.5);
         this.background.anims.play("bganimate");
         this.background.setDepth(-1);
 
