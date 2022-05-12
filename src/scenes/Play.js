@@ -8,7 +8,7 @@ class Play extends Phaser.Scene {
         this.load.spritesheet("slime", "./assets/slime.png", {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 1});
         this.load.spritesheet("Knight", "./assets/Knight.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 1});
         this.load.spritesheet("BG", "./assets/Background.png", {frameWidth: 1600, frameHeight: 800, startFrame: 0, endFrame: 5});
-        this.load.spritesheet("deck", "./assets/cards.png", {frameWidth: 96, frameHeight: 144, startFrame: 0, endFrame: 14});
+        this.load.spritesheet("cards", "./assets/cards.png", {frameWidth: 96, frameHeight: 144, startFrame: 0, endFrame: 14});
         this.load.image("card", "./assets/card.png");
         this.load.image("amalgam", "./assets/amalgam.png");
         this.load.image("dog", "./assets/dog.png");
@@ -82,16 +82,14 @@ class Play extends Phaser.Scene {
         this.background.setDepth(-1);
 
         // Card Frames
-        this.anims.create({
-            key: "bganimate",
-            frames: this.anims.generateFrameNumbers("BG", {start: 0, end: 5}),
-            frameRate: 2,
-            repeat: -1
-        });
-        this.background.setScale(.5);
-        this.background.anims.play("bganimate");
-        this.background.setDepth(-1);
-
+        for(let i = 0; i < 14; i++) {
+            this.anims.create({
+                key: i,
+                frames: this.anims.generateFrameNumbers("cards", {start: i, end: i}),
+                frameRate: 1,
+                repeat: -1
+            });
+        }
         // slime hp
         this.slime.hp = 20;
         this.EnemyHPbar = this.add.text(this.slime.x + 55, this.slime.y - 20, this.slime.hp, hpConfig).setOrigin(0.0);
@@ -103,17 +101,22 @@ class Play extends Phaser.Scene {
         this.hpBar.gone = false;
 
         // place card
-        this.card = this.add.sprite(game.config.width / 2, game.config.height - 23, "card").setInteractive();
-        this.card.damage = 5;
-        this.card.setScale(1.5);
+        this.card1 = this.add.sprite(game.config.width / 2, game.config.height - 23, "cards").setInteractive();
+        let randomNumber = Math.floor(Math.random() * 14);
+        this.card1.anims.play(randomNumber.toString());
+        this.card1.damage = cardTypes[randomNumber][1];
 
 
         // Card Selection
         if(yourTurn) {
-            this.card.on("pointerdown", () => {
-                this.slime.hp -= this.card.damage;
+            this.card1.on("pointerdown", () => {
+                this.slime.hp -= this.card1.damage;
                 yourTurn = false;
                 this.sound.play("hurt");
+                // New Card
+                let randomNumber = Math.floor(Math.random() * 14);
+                this.card1.anims.play(randomNumber.toString());
+                this.card1.damage = cardTypes[randomNumber][1];
             });
         }
     }
