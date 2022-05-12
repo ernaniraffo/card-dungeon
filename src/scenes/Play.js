@@ -9,6 +9,7 @@ class Play extends Phaser.Scene {
         this.load.spritesheet("Knight", "./assets/Knight.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 1});
         this.load.spritesheet("BG", "./assets/Background.png", {frameWidth: 1600, frameHeight: 1600, startFrame: 0, endFrame: 8});
         this.load.image("card", "./assets/card.png");
+        this.load.image("amalgam", "./assets/amalgam.png");
         this.load.image("deck", "./assets/cards.png");
         this.load.image("dog", "./assets/dog.png");
 
@@ -36,6 +37,9 @@ class Play extends Phaser.Scene {
         // place dog
         this.dog = this.add.sprite(game.config.width / 1.3, 2.5 *game.config.height / 4, "dog").setOrigin(0.0);
         this.dog.setScale(1.5);
+        // place dog
+        this.amalgam = this.add.sprite(game.config.width / 2, 2.5 *game.config.height / 4, "amalgam").setOrigin(0.0);
+        this.amalgam.setScale(2.5);
 
 
         // place Player
