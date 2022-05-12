@@ -7,6 +7,7 @@ class Play extends Phaser.Scene {
         // load assets here
         this.load.spritesheet("slime", "./assets/slime.png", {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 1});
         this.load.spritesheet("Knight", "./assets/Knight.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 1});
+        this.load.spritesheet("BG", "./assets/Background.png", {frameWidth: 1600, frameHeight: 1600, startFrame: 0, endFrame: 8});
         this.load.image("card", "./assets/card.png");
 
         // audio
@@ -28,10 +29,13 @@ class Play extends Phaser.Scene {
         }
 
         // place enemy slime
-        this.slime = this.add.sprite(game.config.width / 2, game.config.height / 2, "slime").setOrigin(0.0);
+        this.slime = this.add.sprite(game.config.width / 2, 2.5 *game.config.height / 4, "slime").setOrigin(0.0);
 
         // place Player
-        this.player = this.add.sprite(game.config.width / 10, game.config.height / 2, "Knight").setOrigin(0.0);
+        this.player = this.add.sprite(game.config.width / 10, 2.5 * game.config.height / 4, "Knight").setOrigin(0.0);
+
+        // Background
+        this.background = this.add.sprite(0,0, "BG").setOrigin(0);
 
         // slime anim
         this.anims.create({
@@ -52,6 +56,18 @@ class Play extends Phaser.Scene {
         });
         this.player.setScale(.5);
         this.player.anims.play("idle1");
+        this.background.setDepth(1);
+
+        // Background anim
+        this.anims.create({
+            key: "bganimate",
+            frames: this.anims.generateFrameNumbers("BG", {start: 0, end: 8}),
+            frameRate: 4,
+            repeat: -1
+        });
+        this.background.setScale(.3);
+        this.background.anims.play("bganimate");
+        this.background.setDepth(-1);
 
         // slime hp
         this.slime.hp = 20;
