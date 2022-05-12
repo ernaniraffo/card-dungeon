@@ -101,7 +101,7 @@ class Play extends Phaser.Scene {
         this.hpBar.gone = false;
 
         // place card
-        this.card1 = this.add.sprite(game.config.width / 2, game.config.height - 23, "cards").setInteractive();
+        this.card1 = this.add.sprite(game.config.width / 2, game.config.height /4, "cards").setInteractive();
         let randomNumber = Math.floor(Math.random() * 14);
         this.card1.anims.play(randomNumber.toString());
         this.card1.damage = cardTypes[randomNumber][1];
