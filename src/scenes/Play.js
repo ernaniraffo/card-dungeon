@@ -100,11 +100,24 @@ class Play extends Phaser.Scene {
         this.hpBar = this.add.text(this.player.x + 55, this.player.y - 20, this.player.hp, hpConfig).setOrigin(0.0);
         this.hpBar.gone = false;
 
-        // place card
-        this.card1 = this.add.sprite(game.config.width / 2, game.config.height /4, "cards").setInteractive();
-        let randomNumber = Math.floor(Math.random() * 14);
+        // place card 1
+        this.card1 = this.add.sprite(2 * game.config.width / 6, game.config.height /4, "cards").setInteractive();
+        let randomNumber = Math.floor(Math.random() * 15);
         this.card1.anims.play(randomNumber.toString());
         this.card1.damage = cardTypes[randomNumber][1];
+
+        // place card2
+        this.card2 = this.add.sprite(3 * game.config.width / 6, game.config.height /4, "cards").setInteractive();
+        randomNumber = Math.floor(Math.random() * 15);
+        this.card2.anims.play(randomNumber.toString());
+        this.card2.damage = cardTypes[randomNumber][1];
+
+        // place card3
+        this.card3 = this.add.sprite(4 * game.config.width / 6, game.config.height /4, "cards").setInteractive();
+        randomNumber = Math.floor(Math.random() * 15);
+        this.card3.anims.play(randomNumber.toString());
+        this.card3.damage = cardTypes[randomNumber][1];
+
 
 
         // Card Selection
@@ -117,6 +130,24 @@ class Play extends Phaser.Scene {
                 let randomNumber = Math.floor(Math.random() * 14);
                 this.card1.anims.play(randomNumber.toString());
                 this.card1.damage = cardTypes[randomNumber][1];
+            });
+            this.card2.on("pointerdown", () => {
+                this.slime.hp -= this.card2.damage;
+                yourTurn = false;
+                this.sound.play("hurt");
+                // New Card
+                let randomNumber = Math.floor(Math.random() * 14);
+                this.card2.anims.play(randomNumber.toString());
+                this.card2.damage = cardTypes[randomNumber][1];
+            });
+            this.card3.on("pointerdown", () => {
+                this.slime.hp -= this.card3.damage;
+                yourTurn = false;
+                this.sound.play("hurt");
+                // New Card
+                let randomNumber = Math.floor(Math.random() * 14);
+                this.card3.anims.play(randomNumber.toString());
+                this.card3.damage = cardTypes[randomNumber][1];
             });
         }
     }
