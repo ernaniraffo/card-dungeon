@@ -34,7 +34,9 @@ class Play extends Phaser.Scene {
         this.slime = this.add.sprite(game.config.width / 2, 2.5 *game.config.height / 4, "slime").setOrigin(0.0);
 
         // place dog
-        this.dog = this.add.sprite(game.config.width / 2, 2.5 *game.config.height / 4, "sog").setOrigin(0.3);
+        this.dog = this.add.sprite(game.config.width / 1.3, 2.5 *game.config.height / 4, "dog").setOrigin(0.0);
+        this.dog.setScale(1.5);
+
 
         // place Player
         this.player = this.add.sprite(game.config.width / 10, 2.5 * game.config.height / 4, "Knight").setOrigin(0.0);
