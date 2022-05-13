@@ -7,9 +7,10 @@ class Play extends Phaser.Scene {
         // load assets here
         this.load.spritesheet("slime", "./assets/slime.png", {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 1});
         this.load.spritesheet("Knight", "./assets/Knight.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 1});
-        this.load.spritesheet("BG", "./assets/Background.png", {frameWidth: 1600, frameHeight: 800, startFrame: 0, endFrame: 5});
+        this.load.spritesheet("BG", "./assets/Background.png", {frameWidth: 1600, frameHeight: 800, startFrame: 0, endFrame: 7});
         this.load.spritesheet("cards", "./assets/cards.png", {frameWidth: 96, frameHeight: 144, startFrame: 0, endFrame: 14});
         this.load.image("card", "./assets/card.png");
+        this.load.image("shadow", "./assets/Shadow.png");
         this.load.image("amalgam", "./assets/amalgam.png");
         this.load.image("dog", "./assets/dog.png");
 
@@ -23,7 +24,7 @@ class Play extends Phaser.Scene {
         let hpConfig = {
             fontFamily: 'Impact',
             fontSize: '20px',
-            color: '#8B0000',
+            color: 'White',
             padding: {
                 top: 5,
                 bottom: 5,
@@ -32,7 +33,7 @@ class Play extends Phaser.Scene {
         }
 
         // place enemy slime
-        this.slime = this.add.sprite(game.config.width / 2, 2.5 *game.config.height / 4, "slime").setOrigin(0.0);
+        this.slime = this.add.sprite(8 *game.config.width / 10, 2.5 *game.config.height / 4, "slime").setOrigin(0.0);
 
         // place dog
         this.dog = this.add.sprite(game.config.width / 1.3, 2.5 *game.config.height / 4, "dog").setOrigin(0.0);
@@ -42,12 +43,14 @@ class Play extends Phaser.Scene {
         this.amalgam.setScale(2);
         this.amalgam.setOrigin(0.5);
 
-
-        // place Player
-        this.player = this.add.sprite(game.config.width / 10, 2.5 * game.config.height / 4, "Knight").setOrigin(0.0);
-
         // Background
         this.background = this.add.sprite(0,0, "BG").setOrigin(0);
+        this.background.setDepth(-1);
+        // place Player
+        this.player = this.add.sprite(game.config.width / 10, 2.5 * game.config.height / 4, "Knight").setOrigin(0.0);
+        this.shadow = this.add.sprite((game.config.width / 10), (2.5 * game.config.height/4) , "shadow").setOrigin(0.0);
+        this.shadow.setDepth(-1);
+
 
         // slime anim
         this.anims.create({
@@ -67,6 +70,7 @@ class Play extends Phaser.Scene {
             repeat: -1
         });
         this.player.setScale(.5);
+        this.shadow.setScale(.5);
         this.player.anims.play("idle1");
         this.background.setDepth(1);
 
@@ -149,6 +153,38 @@ class Play extends Phaser.Scene {
                 this.card3.anims.play(randomNumber.toString());
                 this.card3.damage = cardTypes[randomNumber][1];
             });
+
+            // Make cards more readable
+            this.card1.on("pointerover", () => {
+                this.card1.setScale(1.5);
+                this.card1.y += 50;
+                this.card1.setDepth(2);
+            });
+            this.card1.on("pointerout", () => {
+                this.card1.setScale(1);
+                this.card1.y -= 50;
+                this.card1.setDepth(1);
+            });
+            this.card2.on("pointerover", () => {
+                this.card2.setScale(1.5);
+                this.card2.y += 50;
+                this.card2.setDepth(2);
+            });
+            this.card2.on("pointerout", () => {
+                this.card2.setScale(1);
+                this.card2.y -= 50;
+                this.card2.setDepth(1);
+            });
+            this.card3.on("pointerover", () => {
+                this.card3.setScale(1.5);
+                this.card3.y += 50;
+                this.card3.setDepth(2);
+            });
+            this.card3.on("pointerout", () => {
+                this.card3.setScale(1);
+                this.card3.y -= 50;
+                this.card3.setDepth(1);
+            });
         }
     }
     // Player Turn
@@ -194,5 +230,7 @@ class Play extends Phaser.Scene {
             this.EnemyTurn();
 
         }
+        this.shadow.x = this.player.x + 5;
+        this.shadow.y = this.player.y + 25;
     }
 }
