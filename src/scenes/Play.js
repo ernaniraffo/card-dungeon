@@ -38,7 +38,8 @@ class Play extends Phaser.Scene {
         // place dog
         this.dog = this.add.sprite(game.config.width / 1.3, 2.5 *game.config.height / 4, "dog").setOrigin(0.0);
         this.dog.setScale(1.5);
-        // place dog
+        
+        // place amalgam
         this.amalgam = this.add.sprite(game.config.width / 2, 2.5 *game.config.height / 10, "amalgam").setOrigin(0.0);
         this.amalgam.setScale(2);
         this.amalgam.setOrigin(0.5);
@@ -46,6 +47,7 @@ class Play extends Phaser.Scene {
         // Background
         this.background = this.add.sprite(0,0, "BG").setOrigin(0);
         this.background.setDepth(-1);
+
         // place Player
         this.player = this.add.sprite(game.config.width / 10, 2.5 * game.config.height / 4, "Knight").setOrigin(0.0);
         this.shadow = this.add.sprite((game.config.width / 10), (2.5 * game.config.height/4) , "shadow").setOrigin(0.0);
@@ -74,6 +76,16 @@ class Play extends Phaser.Scene {
         this.player.anims.play("idle1");
         this.background.setDepth(1);
 
+        // slime hp
+        this.slime.hp = 20;
+        this.EnemyHPbar = this.add.text(this.slime.x + 55, this.slime.y - 20, this.slime.hp, hpConfig).setOrigin(0.0);
+        this.EnemyHPbar.gone = false;
+
+        // Player hp
+        this.player.hp = 100;
+        this.hpBar = this.add.text(this.player.x + 55, this.player.y - 20, this.player.hp, hpConfig).setOrigin(0.0);
+        this.hpBar.gone = false;
+
         // Background anim
         this.anims.create({
             key: "bganimate",
@@ -85,105 +97,51 @@ class Play extends Phaser.Scene {
         this.background.anims.play("bganimate");
         this.background.setDepth(-1);
 
-        // Card Frames
-        for(let i = 0; i < 14; i++) {
-            this.anims.create({
-                key: i,
-                frames: this.anims.generateFrameNumbers("cards", {start: i, end: i}),
-                frameRate: 1,
-                repeat: -1
-            });
-        }
-        // slime hp
-        this.slime.hp = 20;
-        this.EnemyHPbar = this.add.text(this.slime.x + 55, this.slime.y - 20, this.slime.hp, hpConfig).setOrigin(0.0);
-        this.EnemyHPbar.gone = false;
+        let cardHeight = game.config.height /4;
 
-        // Player hp
-        this.player.hp = 100;
-        this.hpBar = this.add.text(this.player.x + 55, this.player.y - 20, this.player.hp, hpConfig).setOrigin(0.0);
-        this.hpBar.gone = false;
+        // card rows
+        let row1, row2, row3;
+        row1 = 2 * game.config.width / 6;
+        row2 = 3 * game.config.width / 6;
+        row3 = 4 * game.config.width / 6;
+        
+        let randomNumber = Math.floor(Math.random() * 14);
 
         // place card 1
-        this.card1 = this.add.sprite(2 * game.config.width / 6, game.config.height /4, "cards").setInteractive();
-        let randomNumber = Math.floor(Math.random() * 15);
-        this.card1.anims.play(randomNumber.toString());
-        this.card1.damage = cardTypes[randomNumber][1];
-
+        this.card1 = new Card(this, row1, cardHeight, "cards", cardTypes[randomNumber][1], 0, 0, randomNumber).setInteractive();
+        this.card1.row = row1;
+        this.card1.visible = true;
+        
+        randomNumber = Math.floor(Math.random() * 14);
+        
         // place card2
-        this.card2 = this.add.sprite(3 * game.config.width / 6, game.config.height /4, "cards").setInteractive();
-        randomNumber = Math.floor(Math.random() * 15);
-        this.card2.anims.play(randomNumber.toString());
-        this.card2.damage = cardTypes[randomNumber][1];
+        this.card2 = new Card(this, row2, cardHeight, "cards", cardTypes[randomNumber][1], 0, 0, randomNumber).setInteractive();
+        this.card2.row = row2;
+        this.card2.visible = true;
+        
+        randomNumber = Math.floor(Math.random() * 14);
 
         // place card3
-        this.card3 = this.add.sprite(4 * game.config.width / 6, game.config.height /4, "cards").setInteractive();
-        randomNumber = Math.floor(Math.random() * 15);
-        this.card3.anims.play(randomNumber.toString());
-        this.card3.damage = cardTypes[randomNumber][1];
-
-
+        this.card3 = new Card(this, row3, cardHeight, "cards", cardTypes[randomNumber][1], 0, 0, randomNumber).setInteractive();
+        this.card3.row = row3;
+        this.card3.visible = true;
 
         // Card Selection
         if(yourTurn) {
             this.card1.on("pointerdown", () => {
-                this.slime.hp -= this.card1.damage;
                 yourTurn = false;
+                this.slime.hp -= this.card1.use();
                 this.sound.play("hurt");
-                // New Card
-                let randomNumber = Math.floor(Math.random() * 14);
-                this.card1.anims.play(randomNumber.toString());
-                this.card1.damage = cardTypes[randomNumber][1];
             });
             this.card2.on("pointerdown", () => {
-                this.slime.hp -= this.card2.damage;
                 yourTurn = false;
+                this.slime.hp -= this.card2.use();
                 this.sound.play("hurt");
-                // New Card
-                let randomNumber = Math.floor(Math.random() * 14);
-                this.card2.anims.play(randomNumber.toString());
-                this.card2.damage = cardTypes[randomNumber][1];
             });
             this.card3.on("pointerdown", () => {
-                this.slime.hp -= this.card3.damage;
                 yourTurn = false;
+                this.slime.hp -= this.card3.use();
                 this.sound.play("hurt");
-                // New Card
-                let randomNumber = Math.floor(Math.random() * 14);
-                this.card3.anims.play(randomNumber.toString());
-                this.card3.damage = cardTypes[randomNumber][1];
-            });
-
-            // Make cards more readable
-            this.card1.on("pointerover", () => {
-                this.card1.setScale(1.5);
-                this.card1.y += 50;
-                this.card1.setDepth(2);
-            });
-            this.card1.on("pointerout", () => {
-                this.card1.setScale(1);
-                this.card1.y -= 50;
-                this.card1.setDepth(1);
-            });
-            this.card2.on("pointerover", () => {
-                this.card2.setScale(1.5);
-                this.card2.y += 50;
-                this.card2.setDepth(2);
-            });
-            this.card2.on("pointerout", () => {
-                this.card2.setScale(1);
-                this.card2.y -= 50;
-                this.card2.setDepth(1);
-            });
-            this.card3.on("pointerover", () => {
-                this.card3.setScale(1.5);
-                this.card3.y += 50;
-                this.card3.setDepth(2);
-            });
-            this.card3.on("pointerout", () => {
-                this.card3.setScale(1);
-                this.card3.y -= 50;
-                this.card3.setDepth(1);
             });
         }
     }
@@ -224,6 +182,7 @@ class Play extends Phaser.Scene {
                 }, null, this);
             }
         }
+
         if(yourTurn) {
             this.PlayerTurn();
         } else {
