@@ -122,7 +122,7 @@ class Play extends Phaser.Scene {
         randomNumber = Math.floor(Math.random() * 14);
 
         // place card3
-        this.card3 = new Card(this, row3, cardHeight, "cards", cardTypes[randomNumber][1], 0, 0, randomNumber).setInteractive();
+        this.card3 = new Card(this, row3, cardHeight, "cards", cardTypes[randomNumber][1], 0, 10, randomNumber).setInteractive();
         this.card3.row = row3;
         this.card3.visible = true;
 
@@ -131,16 +131,21 @@ class Play extends Phaser.Scene {
             this.card1.on("pointerdown", () => {
                 yourTurn = false;
                 this.burnFX(this.slime, this.card1);
+                this.bleed(this.player, this.card1);
                 this.slime.hp -= this.card1.use();
                 this.sound.play("hurt");
             });
             this.card2.on("pointerdown", () => {
                 yourTurn = false;
+                this.burnFX(this.slime, this.card2);
+                this.bleed(this.player, this.card2);
                 this.slime.hp -= this.card2.use();
                 this.sound.play("hurt");
             });
             this.card3.on("pointerdown", () => {
                 yourTurn = false;
+                this.burnFX(this.slime, this.card3);
+                this.bleed(this.player, this.card3);
                 this.slime.hp -= this.card3.use();
                 this.sound.play("hurt");
             });
@@ -197,10 +202,18 @@ class Play extends Phaser.Scene {
     burnFX(enemy, card) {
         if (card.burn > 0) {
             this.burning = this.time.delayedCall(700, () => {
-                console.log("decrementing enemy hp");
                 enemy.hp -= 1;
             }, null, this);
             this.burning.repeatCount = card.burn - 1;
+        }
+    }
+
+    bleed(self, card) {
+        if (card.bleed > 0) {
+            this.bleeding = this.time.delayedCall(700, () => {
+                self.hp -= 1;
+            }, null, this);
+            this.bleeding.repeatCount = card.bleed - 1;
         }
     }
 }

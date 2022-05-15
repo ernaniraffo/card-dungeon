@@ -28,7 +28,7 @@ let cardTypes = [
     ["Flatten", 2],
     ["Strong Stance", 0],
     ["Parry", 0],
-    ["Fan the Flames", 0],
+    ["Fan the Flames", 0, 2],
     ["Fuzzy Friend", 0],
     ["Flying Fury Fist", 1],
     ["Flagellate", 0],
