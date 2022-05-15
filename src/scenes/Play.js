@@ -32,6 +32,17 @@ class Play extends Phaser.Scene {
             fixedWidth: 0
         }
 
+        let strengthConfig = {
+            fontFamily: 'Impact',
+            fontSize: '15px',
+            color: 'Gold',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 0
+        }
+
         // place enemy slime
         this.slime = this.add.sprite(8 *game.config.width / 10, 2.5 *game.config.height / 4, "slime").setOrigin(0.0);
 
@@ -85,6 +96,9 @@ class Play extends Phaser.Scene {
         this.player.hp = 100;
         this.hpBar = this.add.text(this.player.x + 10, this.player.y - 55, this.player.hp, hpConfig).setOrigin(0.0);
         this.hpBar.gone = false;
+        this.player.strength = 0;
+        this.player.strengthBar = this.add.text(this.player.x + 65, this.player.y + 10, this.player.strength, strengthConfig).setOrigin(0,0);
+        this.player.strengthBar.alpha = 0;
 
         // Background anim
         this.anims.create({
@@ -105,24 +119,24 @@ class Play extends Phaser.Scene {
         row2 = 3 * game.config.width / 6;
         row3 = 4 * game.config.width / 6;
         
-        let randomNumber = Math.floor(Math.random() * 14);
+        let randomNumber = Math.floor(Math.random() * 15);
 
         // place card 1
-        this.card1 = new Card(this, row1, cardHeight, "cards", cardTypes[randomNumber][1], 5, 0, randomNumber).setInteractive();
+        this.card1 = new Card(this, row1, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4], randomNumber).setInteractive();
         this.card1.row = row1;
         this.card1.visible = true;
         
-        randomNumber = Math.floor(Math.random() * 14);
+        randomNumber = Math.floor(Math.random() * 15);
         
         // place card2
-        this.card2 = new Card(this, row2, cardHeight, "cards", cardTypes[randomNumber][1], 0, 0, randomNumber).setInteractive();
+        this.card2 = new Card(this, row2, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4],randomNumber).setInteractive();
         this.card2.row = row2;
         this.card2.visible = true;
         
-        randomNumber = Math.floor(Math.random() * 14);
+        randomNumber = Math.floor(Math.random() * 15);
 
         // place card3
-        this.card3 = new Card(this, row3, cardHeight, "cards", cardTypes[randomNumber][1], 0, 10, randomNumber).setInteractive();
+        this.card3 = new Card(this, row3, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4],randomNumber).setInteractive();
         this.card3.row = row3;
         this.card3.visible = true;
 
@@ -132,6 +146,7 @@ class Play extends Phaser.Scene {
                 yourTurn = false;
                 this.burnFX(this.slime, this.card1);
                 this.bleed(this.player, this.card1);
+                this.addStrength(this.player, this.card1);
                 this.slime.hp -= this.card1.use();
                 this.sound.play("hurt");
             });
@@ -139,6 +154,7 @@ class Play extends Phaser.Scene {
                 yourTurn = false;
                 this.burnFX(this.slime, this.card2);
                 this.bleed(this.player, this.card2);
+                this.addStrength(this.player, this.card2);
                 this.slime.hp -= this.card2.use();
                 this.sound.play("hurt");
             });
@@ -146,6 +162,7 @@ class Play extends Phaser.Scene {
                 yourTurn = false;
                 this.burnFX(this.slime, this.card3);
                 this.bleed(this.player, this.card3);
+                this.addStrength(this.player, this.card3);
                 this.slime.hp -= this.card3.use();
                 this.sound.play("hurt");
             });
@@ -159,7 +176,7 @@ class Play extends Phaser.Scene {
     EnemyTurn() {
         yourTurn = true;
         this.time.delayedCall(1000, () => {
-            this.player.hp -= 10;
+            this.player.hp -= 5;
         }, null, this);
     }
 
@@ -169,6 +186,7 @@ class Play extends Phaser.Scene {
             this.hpBar.text = this.player.hp;
             if (this.player.hp <= 0) {
                 this.player.destroy();
+                this.player.strengthBar.destroy();
                 this.hpBar.gone = true;
                 this.time.delayedCall(500, () => {
                     this.hpBar.destroy();
@@ -214,6 +232,21 @@ class Play extends Phaser.Scene {
                 self.hp -= 1;
             }, null, this);
             this.bleeding.repeatCount = card.bleed - 1;
+        }
+    }
+
+    addStrength (self, card) {
+        if (card.strength > 0) {
+            for (let i = 0; i <= 14; i++) {
+                cardTypes[i][1] += card.strength;
+            }
+            self.strength += card.strength;
+            self.strengthBar.text = 'Str: +' + self.strength.toString();
+            if (self.strength > 0) {
+                self.strengthBar.alpha = 1;
+            } else {
+                self.strengthBar.alpha = 0;
+            }
         }
     }
 }

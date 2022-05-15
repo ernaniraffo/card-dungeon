@@ -1,13 +1,15 @@
 class Card extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, texture, damage, burn, bleed, frame) {
+    constructor(scene, x, y, texture, damage, burn, bleed, strength, frame) {
         super(scene, x, y, texture, frame);
 
         // add to scene
         scene.add.existing(this);
         
+        // stats
         this.damage = damage;
         this.burn = burn;
         this.bleed = bleed;
+        this.strength = strength;
 
         this.visible = false;
         this.row = 0;
@@ -47,16 +49,15 @@ class Card extends Phaser.GameObjects.Sprite {
 
     }
 
-    shake () {
-        return;
-    }
-
     use () {
         let oldDamage = this.damage;
         // New Card
         let randomNumber = Math.floor(Math.random() * 14);
         this.play(randomNumber.toString());
         this.damage = cardTypes[randomNumber][1];
+        this.burn = cardTypes[randomNumber][2];
+        this.bleed = cardTypes[randomNumber][3];
+        this.strength = cardTypes[randomNumber][4];
 
         return oldDamage;
     }

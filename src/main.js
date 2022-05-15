@@ -17,22 +17,23 @@ let game = new Phaser.Game(config);
 let yourTurn = true;
 
 // 2D Array of Card Names, Stats + etc...
-// I just have the Name and Damage saved for now
+// Name, Damage, Burn, Bleed, Strength
 let cardTypes = [
-    ["Ace", 0],
-    ["Slash", 6],
-    ["Reklass Charge", 0],
-    ["Field Gauze", 0],
-    ["Mangle", 3],
-    ["Stitchasone", 0],
-    ["Flatten", 2],
-    ["Strong Stance", 0],
-    ["Parry", 0],
-    ["Fan the Flames", 0, 2],
-    ["Fuzzy Friend", 0],
-    ["Flying Fury Fist", 1],
-    ["Flagellate", 0],
-    ["Eldritch Lore", 0],
+    ["Ace", 1, 0, 0, 0],
+    ["Slash", 6, 0, 0, 0],
+    ["Reklass Charge", 5, 0, 0, 2,],
+    ["Field Gauze", 0, 0, 0, 0],
+    ["Mangle", 9, 0, 3, 0, 0],
+    ["Stitchasone", 0, 0, 0, 0],
+    ["Flatten", 2, 0, 0, 0],
+    ["Blue Ace", 5, 0, 0, 0],
+    ["Strong Stance", 0, 0, 0, 0],
+    ["Parry", 0, 0, 0, 0],
+    ["Fan the Flames", 0, 5, 0, 0],
+    ["Fuzzy Friend", 0, 0, 0, 0],
+    ["Flying Fury Fist", 5, 0, 0, 0],
+    ["Flagellate", 0, 0, 3, 0],
+    ["Eldritch Lore", 0, 0, 0, 0],
 ];
 
 // reserve keyboard variables
