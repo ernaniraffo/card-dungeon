@@ -23,8 +23,8 @@ class Play extends Phaser.Scene {
 
         let hpConfig = {
             fontFamily: 'Impact',
-            fontSize: '20px',
-            color: 'White',
+            fontSize: '45px',
+            color: 'Red',
             padding: {
                 top: 5,
                 bottom: 5,
@@ -78,12 +78,12 @@ class Play extends Phaser.Scene {
 
         // slime hp
         this.slime.hp = 20;
-        this.EnemyHPbar = this.add.text(this.slime.x + 55, this.slime.y - 20, this.slime.hp, hpConfig).setOrigin(0.0);
+        this.EnemyHPbar = this.add.text(this.slime.x + 7, this.slime.y - 55, this.slime.hp, hpConfig).setOrigin(0.0);
         this.EnemyHPbar.gone = false;
 
         // Player hp
         this.player.hp = 100;
-        this.hpBar = this.add.text(this.player.x + 55, this.player.y - 20, this.player.hp, hpConfig).setOrigin(0.0);
+        this.hpBar = this.add.text(this.player.x + 10, this.player.y - 55, this.player.hp, hpConfig).setOrigin(0.0);
         this.hpBar.gone = false;
 
         // Background anim
