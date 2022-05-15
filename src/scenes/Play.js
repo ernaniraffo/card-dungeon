@@ -108,7 +108,7 @@ class Play extends Phaser.Scene {
         let randomNumber = Math.floor(Math.random() * 14);
 
         // place card 1
-        this.card1 = new Card(this, row1, cardHeight, "cards", cardTypes[randomNumber][1], 0, 0, randomNumber).setInteractive();
+        this.card1 = new Card(this, row1, cardHeight, "cards", cardTypes[randomNumber][1], 5, 0, randomNumber).setInteractive();
         this.card1.row = row1;
         this.card1.visible = true;
         
@@ -130,6 +130,7 @@ class Play extends Phaser.Scene {
         if(yourTurn) {
             this.card1.on("pointerdown", () => {
                 yourTurn = false;
+                this.burnFX(this.slime, this.card1);
                 this.slime.hp -= this.card1.use();
                 this.sound.play("hurt");
             });
@@ -191,5 +192,15 @@ class Play extends Phaser.Scene {
         }
         this.shadow.x = this.player.x + 5;
         this.shadow.y = this.player.y + 25;
+    }
+
+    burnFX(enemy, card) {
+        if (card.burn > 0) {
+            this.burning = this.time.delayedCall(700, () => {
+                console.log("decrementing enemy hp");
+                enemy.hp -= 1;
+            }, null, this);
+            this.burning.repeatCount = card.burn - 1;
+        }
     }
 }
