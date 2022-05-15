@@ -19,20 +19,20 @@ let yourTurn = true;
 // 2D Array of Card Names, Stats + etc...
 // Name, Damage, Burn, Bleed, Strength
 let cardTypes = [
-    ["Ace", 1, 0, 0, 0],
+    ["Ace", 1, 0, 0, 1],
     ["Slash", 6, 0, 0, 0],
-    ["Reklass Charge", 5, 0, 0, 2,],
+    ["Reklass Charge", 4, 0, 0, 2],
     ["Field Gauze", 0, 0, 0, 0],
-    ["Mangle", 9, 0, 3, 0, 0],
+    ["Mangle", 6, 0, 3, 0, 0],
     ["Stitchasone", 0, 0, 0, 0],
     ["Flatten", 2, 0, 0, 0],
-    ["Blue Ace", 5, 0, 0, 0],
+    ["Blue Ace", 2, 0, 0, 2],
     ["Strong Stance", 0, 0, 0, 0],
     ["Parry", 0, 0, 0, 0],
-    ["Fan the Flames", 0, 5, 0, 0],
+    ["Fan the Flames", 0, 2, 0, 0],
     ["Fuzzy Friend", 0, 0, 0, 0],
     ["Flying Fury Fist", 5, 0, 0, 0],
-    ["Flagellate", 0, 0, 3, 0],
+    ["Flagellate", 0, 0, 3, 2],
     ["Eldritch Lore", 0, 0, 0, 0],
 ];
 

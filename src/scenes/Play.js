@@ -45,6 +45,7 @@ class Play extends Phaser.Scene {
 
         // place enemy slime
         this.slime = this.add.sprite(8 *game.config.width / 10, 2.5 *game.config.height / 4, "slime").setOrigin(0.0);
+        this.slime.attack = 10;
 
         // place dog
         this.dog = this.add.sprite(game.config.width / 1.3, 2.5 *game.config.height / 4, "dog").setOrigin(0.0);
@@ -144,25 +145,28 @@ class Play extends Phaser.Scene {
         if(yourTurn) {
             this.card1.on("pointerdown", () => {
                 yourTurn = false;
+                this.checkCard(this.card1);
                 this.burnFX(this.slime, this.card1);
                 this.bleed(this.player, this.card1);
-                this.addStrength(this.player, this.card1);
+                this.addStrength(this.player, this.card1, 1);
                 this.slime.hp -= this.card1.use();
                 this.sound.play("hurt");
             });
             this.card2.on("pointerdown", () => {
                 yourTurn = false;
+                this.checkCard(this.card2);
                 this.burnFX(this.slime, this.card2);
                 this.bleed(this.player, this.card2);
-                this.addStrength(this.player, this.card2);
+                this.addStrength(this.player, this.card2, 2);
                 this.slime.hp -= this.card2.use();
                 this.sound.play("hurt");
             });
             this.card3.on("pointerdown", () => {
                 yourTurn = false;
+                this.checkCard(this.card3);
                 this.burnFX(this.slime, this.card3);
                 this.bleed(this.player, this.card3);
-                this.addStrength(this.player, this.card3);
+                this.addStrength(this.player, this.card3, 3);
                 this.slime.hp -= this.card3.use();
                 this.sound.play("hurt");
             });
@@ -176,7 +180,7 @@ class Play extends Phaser.Scene {
     EnemyTurn() {
         yourTurn = true;
         this.time.delayedCall(1000, () => {
-            this.player.hp -= 5;
+            this.player.hp -= this.slime.attack;
         }, null, this);
     }
 
@@ -235,10 +239,16 @@ class Play extends Phaser.Scene {
         }
     }
 
-    addStrength (self, card) {
+    addStrength (self, card, num) {
         if (card.strength > 0) {
             for (let i = 0; i <= 14; i++) {
                 cardTypes[i][1] += card.strength;
+            }
+            for (let i = 1; i <= 3; i++) {
+                // also update current cards
+                if (i != num) {
+                    eval("this.card" + i + ".damage += card.strength");
+                }
             }
             self.strength += card.strength;
             self.strengthBar.text = 'Str: +' + self.strength.toString();
@@ -247,6 +257,32 @@ class Play extends Phaser.Scene {
             } else {
                 self.strengthBar.alpha = 0;
             }
+        }
+    }
+
+    checkCard(card) {
+        if (card.frame.name == 3) {
+            // heal ("Field Gauze")
+            this.player.hp += 3;
+        }
+        if (card.frame.name == 8) {
+            // take half damage ("Strong Stance")
+            this.slime.attack /= 2;
+        } else {
+            this.slime.attack = 10;
+        }
+        if (card.frame.name == 9) {
+            // parry
+            this.time.delayedCall(1500, () => {
+                this.slime.hp -= this.slime.attack;
+                this.sound.play("hurt");
+            }, null, this);
+        }
+        if (card.frame.name == 14) {
+            // change all three cards
+            this.card1.use();
+            this.card2.use();
+            this.card3.use();
         }
     }
 }
