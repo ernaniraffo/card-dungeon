@@ -36,5 +36,6 @@ let cardTypes = [
     ["Eldritch Lore", 0, 0, 0, 0],
 ];
 
+
 // reserve keyboard variables
 let keyRIGHT;
