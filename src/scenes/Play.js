@@ -146,10 +146,10 @@ class Play extends Phaser.Scene {
             if(yourTurn) {
                 yourTurn = false;
                 enemyTurn = true;
-                this.checkCard(this.card1);
                 this.burnFX(this.slime, this.card1);
                 this.bleed(this.player, this.card1);
                 this.addStrength(this.player, this.card1, 1);
+                this.checkCard(this.card1, 1);
                 this.slime.hp -= this.card1.use();
                 this.sound.play("hurt");
             }
@@ -158,10 +158,10 @@ class Play extends Phaser.Scene {
             if(yourTurn) {
                 yourTurn = false;
                 enemyTurn = true;
-                this.checkCard(this.card2);
                 this.burnFX(this.slime, this.card2);
                 this.bleed(this.player, this.card2);
                 this.addStrength(this.player, this.card2, 2);
+                this.checkCard(this.card2, 2);
                 this.slime.hp -= this.card2.use();
                 this.sound.play("hurt");
             }
@@ -170,10 +170,10 @@ class Play extends Phaser.Scene {
             if(yourTurn) {
                 yourTurn = false;
                 enemyTurn = true;
-                this.checkCard(this.card3);
                 this.burnFX(this.slime, this.card3);
                 this.bleed(this.player, this.card3);
                 this.addStrength(this.player, this.card3, 3);
+                this.checkCard(this.card3, 3);
                 this.slime.hp -= this.card3.use();
                 this.sound.play("hurt");
             }
@@ -265,7 +265,7 @@ class Play extends Phaser.Scene {
         }
     }
 
-    checkCard(card) {
+    checkCard(card, num) {
         if (card.frame.name == 3) {
             // heal ("Field Gauze")
             this.player.hp += 3;
@@ -284,10 +284,12 @@ class Play extends Phaser.Scene {
             }, null, this);
         }
         if (card.frame.name == 14) {
-            // change all three cards
-            this.card1.use();
-            this.card2.use();
-            this.card3.use();
+            // use the 2 other cards
+            for (let i = 1; i <= 3; i++) {
+                if (i != num) {
+                    eval("this.card" + i + ".use()");
+                }
+            }
         }
     }
 }
