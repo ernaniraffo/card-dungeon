@@ -15,6 +15,7 @@ let config = {
 
 let game = new Phaser.Game(config);
 let yourTurn = true;
+let enemyTurn = false;
 
 // 2D Array of Card Names, Stats + etc...
 // Name, Damage, Burn, Bleed, Strength

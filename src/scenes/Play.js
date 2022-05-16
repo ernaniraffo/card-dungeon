@@ -142,35 +142,42 @@ class Play extends Phaser.Scene {
         this.card3.visible = true;
 
         // Card Selection
-        if(yourTurn) {
-            this.card1.on("pointerdown", () => {
+        this.card1.on("pointerdown", () => {
+            if(yourTurn) {
                 yourTurn = false;
+                enemyTurn = true;
                 this.checkCard(this.card1);
                 this.burnFX(this.slime, this.card1);
                 this.bleed(this.player, this.card1);
                 this.addStrength(this.player, this.card1, 1);
                 this.slime.hp -= this.card1.use();
                 this.sound.play("hurt");
-            });
-            this.card2.on("pointerdown", () => {
+            }
+        });
+        this.card2.on("pointerdown", () => {
+            if(yourTurn) {
                 yourTurn = false;
+                enemyTurn = true;
                 this.checkCard(this.card2);
                 this.burnFX(this.slime, this.card2);
                 this.bleed(this.player, this.card2);
                 this.addStrength(this.player, this.card2, 2);
                 this.slime.hp -= this.card2.use();
                 this.sound.play("hurt");
-            });
-            this.card3.on("pointerdown", () => {
+            }
+        });
+        this.card3.on("pointerdown", () => {
+            if(yourTurn) {
                 yourTurn = false;
+                enemyTurn = true;
                 this.checkCard(this.card3);
                 this.burnFX(this.slime, this.card3);
                 this.bleed(this.player, this.card3);
                 this.addStrength(this.player, this.card3, 3);
                 this.slime.hp -= this.card3.use();
                 this.sound.play("hurt");
-            });
-        }
+            }
+        });
     }
     // Player Turn
     PlayerTurn() {
@@ -178,9 +185,10 @@ class Play extends Phaser.Scene {
     }
     // Enemy Turn
     EnemyTurn() {
-        yourTurn = true;
+        enemyTurn = false;
         this.time.delayedCall(1000, () => {
             this.player.hp -= this.slime.attack;
+            yourTurn = true;
         }, null, this);
     }
 
@@ -211,11 +219,8 @@ class Play extends Phaser.Scene {
             }
         }
 
-        if(yourTurn) {
-            this.PlayerTurn();
-        } else {
+        if(enemyTurn) {
             this.EnemyTurn();
-
         }
         this.shadow.x = this.player.x + 5;
         this.shadow.y = this.player.y + 25;
