@@ -203,6 +203,7 @@ class Play extends Phaser.Scene {
                 this.time.delayedCall(500, () => {
                     this.hpBar.destroy();
                 }, null, this);
+                this.scene.start("gameOver");
             }
         }
         // update the text
@@ -216,6 +217,7 @@ class Play extends Phaser.Scene {
                 this.time.delayedCall(500, () => {
                     this.EnemyHPbar.destroy();
                 }, null, this);
+                this.scene.start("gameOver");
             }
         }
 
