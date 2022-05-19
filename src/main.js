@@ -4,7 +4,7 @@ let config = {
     width: 800,
     height: 400,
     backgroundColor: 0x00000000,
-    scene: [Menu, Play],
+    scene: [Menu, Play, GameOver],
     physics: {
         default: 'arcade',
         arcade: {
@@ -39,4 +39,4 @@ let cardTypes = [
 
 
 // reserve keyboard variables
-let keyRIGHT;
+let keyRIGHT, keyR, keyM;
