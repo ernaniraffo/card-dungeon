@@ -9,6 +9,7 @@ class Play extends Phaser.Scene {
         this.load.spritesheet("Knight", "./assets/Knight.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 1});
         this.load.spritesheet("BG", "./assets/Background.png", {frameWidth: 1600, frameHeight: 800, startFrame: 0, endFrame: 7});
         this.load.spritesheet("cards", "./assets/cards.png", {frameWidth: 96, frameHeight: 144, startFrame: 0, endFrame: 14});
+        this.load.spritesheet("fire", "./assets/FireSpirit.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 3});
         this.load.image("card", "./assets/card.png");
         this.load.image("shadow", "./assets/Shadow.png");
         this.load.image("amalgam", "./assets/amalgam.png");
@@ -87,6 +88,14 @@ class Play extends Phaser.Scene {
         this.shadow.setScale(.5);
         this.player.anims.play("idle1");
         this.background.setDepth(1);
+
+        // Fire anim
+        this.anims.create({
+            key: "fire",
+            frames: this.anims.generateFrameNumbers("fire", {start: 0, end: 3}),
+            frameRate: 8,
+            repeat: -1
+        });
 
         // slime hp
         this.slime.hp = 20;
