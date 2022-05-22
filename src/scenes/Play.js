@@ -10,6 +10,10 @@ class Play extends Phaser.Scene {
         this.load.spritesheet("BG", "./assets/Background.png", {frameWidth: 1600, frameHeight: 800, startFrame: 0, endFrame: 7});
         this.load.spritesheet("cards", "./assets/cards.png", {frameWidth: 96, frameHeight: 144, startFrame: 0, endFrame: 14});
         this.load.spritesheet("fire", "./assets/FireSpirit.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 3});
+        this.load.spritesheet("shade", "./assets/shade.png", {frameWidth: 150, frameHeight: 150, startFrame: 0, endFrame: 8});
+        this.load.spritesheet("sporeMan", "./assets/sporeMan.png", {frameWidth: 250, frameHeight: 250, startFrame: 0, endFrame: 10});
+
+        this.load.image("rat", "./assets/rat.png");
         this.load.image("card", "./assets/card.png");
         this.load.image("shadow", "./assets/Shadow.png");
         this.load.image("amalgam", "./assets/amalgam.png");
@@ -48,9 +52,21 @@ class Play extends Phaser.Scene {
         this.slime = this.add.sprite(8 *game.config.width / 10, 2.5 *game.config.height / 4, "slime").setOrigin(0.0);
         this.slime.attack = 10;
 
+        // place enemy rat
+        this.rat = this.add.sprite(game.config.width / 3, 2.5 *game.config.height / 7, "rat").setOrigin(0.0);
+        this.rat.setScale(1.5);
+
         // place dog
         this.dog = this.add.sprite(game.config.width / 1.3, 2.5 *game.config.height / 4, "dog").setOrigin(0.0);
         this.dog.setScale(1.5);
+
+        //add shade
+        this.shade = this.add.sprite(game.config.width / 1.9, 2.5 *game.config.height / 4, "shade").setOrigin(0.0);
+        this.shade.setScale(1.5);
+
+        //add sporeman
+        this.sporeMan = this.add.sprite(game.config.width / 1.3, game.config.height / 10-90, "sporeMan").setOrigin(0.0);
+        this.sporeMan.setScale(1);
         
         // place amalgam
         this.amalgam = this.add.sprite(game.config.width / 2, 2.5 *game.config.height / 10, "amalgam").setOrigin(0.0);
@@ -76,6 +92,26 @@ class Play extends Phaser.Scene {
         });
         this.slime.setScale(1.5);
         this.slime.anims.play("idle");
+
+         // spore anim break this up into the attack and idle anims once coded!!!
+         this.anims.create({
+            key: "idleSpore",
+            frames: this.anims.generateFrameNumbers("sporeMan", {start: 0, end: 10}),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.sporeMan.anims.play("idleSpore");
+
+
+        //shade anim
+        this.anims.create({
+            key: "idleShade",
+            frames: this.anims.generateFrameNumbers("shade", {start: 0, end: 8}),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.shade.setScale(1.5);
+        this.shade.anims.play("idleShade");
 
         // Player anim
         this.anims.create({
