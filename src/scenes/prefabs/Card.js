@@ -6,7 +6,14 @@ class Card extends Phaser.GameObjects.Sprite {
         scene.add.existing(this);
         
         // stats
-        this.damage = damage;
+        
+        if (damage.constructor == Array) {
+            // random value
+            this.damage = Phaser.Math.Between(damage[0], damage[1]);
+        } else {
+            this.damage = damage;
+        }
+
         this.burn = burn;
         this.bleed = bleed;
         this.strength = strength;
@@ -15,7 +22,7 @@ class Card extends Phaser.GameObjects.Sprite {
         this.row = 0;
 
         // Card Frames
-        for(let i = 0; i <= 14; i++) {
+        for(let i = 0; i <= 22; i++) {
             this.anims.create({
                 key: i,
                 frames: this.anims.generateFrameNumbers(texture, {start: i, end: i}),
@@ -51,10 +58,19 @@ class Card extends Phaser.GameObjects.Sprite {
 
     use () {
         let oldDamage = this.damage;
+        // console.log("Old card's damage: ", oldDamage);
+
         // New Card
-        let randomNumber = Math.floor(Math.random() * 14);
+        let randomNumber = Math.floor(Math.random() * 22);
         this.play(randomNumber.toString());
+        
         this.damage = cardTypes[randomNumber][1];
+        if (this.damage.constructor == Array) {
+            // random value
+            this.damage = Phaser.Math.Between(this.damage[0], this.damage[1]);
+        }
+        // console.log("New card's damage: ", this.damage);
+
         this.burn = cardTypes[randomNumber][2];
         this.bleed = cardTypes[randomNumber][3];
         this.strength = cardTypes[randomNumber][4];

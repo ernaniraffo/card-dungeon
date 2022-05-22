@@ -8,7 +8,7 @@ class Play extends Phaser.Scene {
         this.load.spritesheet("slime", "./assets/slime.png", {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 1});
         this.load.spritesheet("Knight", "./assets/Knight.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 1});
         this.load.spritesheet("BG", "./assets/Background.png", {frameWidth: 1600, frameHeight: 800, startFrame: 0, endFrame: 7});
-        this.load.spritesheet("cards", "./assets/cards.png", {frameWidth: 96, frameHeight: 144, startFrame: 0, endFrame: 14});
+        this.load.spritesheet("cards", "./assets/cards.png", {frameWidth: 96, frameHeight: 144, startFrame: 0, endFrame: 22});
         this.load.spritesheet("shade", "./assets/shade.png", {frameWidth: 150, frameHeight: 150, startFrame: 0, endFrame: 8});
         this.load.spritesheet("sporeMan", "./assets/sporeMan.png", {frameWidth: 250, frameHeight: 250, startFrame: 0, endFrame: 10});
 
@@ -156,21 +156,21 @@ class Play extends Phaser.Scene {
         row2 = 3 * game.config.width / 6;
         row3 = 4 * game.config.width / 6;
         
-        let randomNumber = Math.floor(Math.random() * 15);
+        let randomNumber = Math.floor(Math.random() * 22);
 
         // place card 1
         this.card1 = new Card(this, row1, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4], randomNumber).setInteractive();
         this.card1.row = row1;
         this.card1.visible = true;
         
-        randomNumber = Math.floor(Math.random() * 15);
+        randomNumber = Math.floor(Math.random() * 22);
         
         // place card2
         this.card2 = new Card(this, row2, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4],randomNumber).setInteractive();
         this.card2.row = row2;
         this.card2.visible = true;
         
-        randomNumber = Math.floor(Math.random() * 15);
+        randomNumber = Math.floor(Math.random() * 22);
 
         // place card3
         this.card3 = new Card(this, row3, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4],randomNumber).setInteractive();
@@ -215,6 +215,7 @@ class Play extends Phaser.Scene {
             }
         });
     }
+    
     // Player Turn
     PlayerTurn() {
 
@@ -284,17 +285,26 @@ class Play extends Phaser.Scene {
 
     addStrength (self, card, num) {
         if (card.strength > 0) {
-            for (let i = 0; i <= 14; i++) {
-                cardTypes[i][1] += card.strength;
+            
+            for (let i = 0; i <= 22; i++) {
+                // console.log("Card: ", i);
+                if (cardTypes[i][1] instanceof Array) {
+                    cardTypes[i][1][1] += card.strength;
+                } else {
+                    cardTypes[i][1] += card.strength;
+                }
             }
+
             for (let i = 1; i <= 3; i++) {
                 // also update current cards
                 if (i != num) {
                     eval("this.card" + i + ".damage += card.strength");
                 }
             }
+
             self.strength += card.strength;
             self.strengthBar.text = 'Str: +' + self.strength.toString();
+            
             if (self.strength > 0) {
                 self.strengthBar.alpha = 1;
             } else {
@@ -304,16 +314,19 @@ class Play extends Phaser.Scene {
     }
 
     checkCard(card, num) {
+
         if (card.frame.name == 3) {
             // heal ("Field Gauze")
             this.player.hp += 3;
         }
+
         if (card.frame.name == 8) {
             // take half damage ("Strong Stance")
             this.slime.attack /= 2;
         } else {
             this.slime.attack = 10;
         }
+
         if (card.frame.name == 9) {
             // parry
             this.time.delayedCall(1500, () => {
@@ -321,6 +334,7 @@ class Play extends Phaser.Scene {
                 this.sound.play("hurt");
             }, null, this);
         }
+
         if (card.frame.name == 14) {
             // use the 2 other cards
             for (let i = 1; i <= 3; i++) {
@@ -329,5 +343,7 @@ class Play extends Phaser.Scene {
                 }
             }
         }
+
+
     }
 }
