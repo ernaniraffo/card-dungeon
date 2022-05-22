@@ -124,6 +124,14 @@ class Play extends Phaser.Scene {
         this.player.anims.play("idle1");
         this.background.setDepth(1);
 
+        // Fire anim
+        this.anims.create({
+            key: "fire",
+            frames: this.anims.generateFrameNumbers("fire", {start: 0, end: 3}),
+            frameRate: 8,
+            repeat: -1
+        });
+
         // slime hp
         this.slime.hp = 20;
         this.EnemyHPbar = this.add.text(this.slime.x + 7, this.slime.y - 55, this.slime.hp, hpConfig).setOrigin(0.0);
