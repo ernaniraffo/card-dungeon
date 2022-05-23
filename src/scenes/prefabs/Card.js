@@ -24,8 +24,8 @@ class Card extends Phaser.GameObjects.Sprite {
         // Card Frames
         for(let i = 0; i <= 22; i++) {
             this.anims.create({
-                key: i,
-                frames: this.anims.generateFrameNumbers(texture, {start: i, end: i}),
+                key: i.toString(),
+                frames: this.anims.generateFrameNumbers(texture, {start: i, end: i, first: i}),
                 frameRate: 1,
                 repeat: -1
             });
