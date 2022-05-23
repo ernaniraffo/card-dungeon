@@ -223,6 +223,8 @@ class Play extends Phaser.Scene {
                 this.sound.play("hurt");
             }
         });
+
+        this.reduced = false; // rot mist card used?
     }
     
     // Player Turn
@@ -352,7 +354,28 @@ class Play extends Phaser.Scene {
                 }
             }
         }
+        
+        if (card.frame.name == 18) {
+            // point blank
+            this.player.hp -= Math.floor(Phaser.Math.Between(0, 4));
+        }
 
+        if (card.frame.name == 19) {
+            // rot myst
+            this.slime.attack -= this.slime.attack * 0.25; // reduce next attack by 25%
+            this.reduced = true;
+        } else if (this.reduced) {
+            this.slime.attack += this.slime.attack * 0.25;
+        }
 
+        if (card.frame.name == 20) {
+            // flesh wound
+            this.player.hp += Math.floor(Phaser.Math.Between(1, 5));
+        }
+
+        if (card.frame.name == 21) {
+            // fatal blow
+            this.slime.hp -= this.slime.hp * 0.30;
+        }
     }
 }

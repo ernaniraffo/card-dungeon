@@ -39,7 +39,7 @@ let cardTypes = [
     ["Myst. Mixture", [0, 10], 0, 0, 0],
     ["Ichor Bomb", [3, 4], 0, 0, 0],
     ["Point Blank", [5, 7], 0, 0, 0],
-    ["Rot Myst", [2, 5], 0, 5, 0],
+    ["Rot Myst", 0, 0, 5, 0],
     ["Flesh Wound", 0, 0, 0, 0],
     ["Fatal Blow", 0, 0, 0, 0],
     ["Bile Bomb", [1, 5], 0, 0, 0]
