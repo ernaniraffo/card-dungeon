@@ -4,7 +4,7 @@ let config = {
     width: 800,
     height: 400,
     backgroundColor: 0x00000000,
-    scene: [Menu, Play, GameOver],
+    scene: [Menu, Play, GameOver, Level2],
     physics: {
         default: 'arcade',
         arcade: {
@@ -25,7 +25,7 @@ let cardTypes = [
     ["Reklass Charge", 4, 0, 0, 2],
     ["Field Gauze", 0, 0, 0, 0],
     ["Mangle", 6, 0, 3, 0, 0],
-    ["Stitchasone", 0, 0, 0, 0],
+    ["Stitchasone", 0, 0, 0, 3],
     ["Flatten", 2, 0, 0, 0],
     ["Blue Ace", 2, 0, 0, 2],
     ["Strong Stance", 0, 0, 0, 0],
@@ -45,6 +45,9 @@ let cardTypes = [
     ["Bile Bomb", [1, 5], 0, 0, 0]
 ];
 
+// global player strength + health
+let playerHealth;
+let playerStrength;
 
 // reserve keyboard variables
 let keyRIGHT, keyR, keyM;

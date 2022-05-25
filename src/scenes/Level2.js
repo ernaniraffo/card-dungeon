@@ -1,6 +1,6 @@
-class Play extends Phaser.Scene {
+class Level2 extends Phaser.Scene {
     constructor() {
-        super("playGame");
+        super("Level2");
     }
 
     preload() {
@@ -26,6 +26,11 @@ class Play extends Phaser.Scene {
 
     create() {
 
+        // reset these
+        yourTurn = true;
+        enemyTurn = false;
+
+        // hp config
         let hpConfig = {
             fontFamily: 'Impact',
             fontSize: '45px',
@@ -37,6 +42,7 @@ class Play extends Phaser.Scene {
             fixedWidth: 0
         }
 
+        // strength config
         let strengthConfig = {
             fontFamily: 'Impact',
             fontSize: '15px',
@@ -48,60 +54,13 @@ class Play extends Phaser.Scene {
             fixedWidth: 0
         }
 
-        // place enemy slime
-        this.slime = this.add.sprite(8 *game.config.width / 10, 2.5 *game.config.height / 4, "slime").setOrigin(0.0);
-        this.slime.attack = 10;
-
-        // place enemy rat
-        this.rat = this.add.sprite(game.config.width / 3, 2.5 *game.config.height / 7, "rat").setOrigin(0.0);
-        this.rat.setScale(1.5);
-
-        // place dog
-        this.dog = this.add.sprite(game.config.width / 1.3, 2.5 *game.config.height / 4, "dog").setOrigin(0.0);
-        this.dog.setScale(1.5);
-
-        //add shade
-        this.shade = this.add.sprite(game.config.width / 1.9, 2.5 *game.config.height / 4, "shade").setOrigin(0.0);
-        this.shade.setScale(1.5);
-
-        //add sporeman
-        this.sporeMan = this.add.sprite(game.config.width / 1.3, game.config.height / 10-90, "sporeMan").setOrigin(0.0);
-        this.sporeMan.setScale(1);
-        
-        // place amalgam
-        this.amalgam = this.add.sprite(game.config.width / 2, 2.5 *game.config.height / 10, "amalgam").setOrigin(0.0);
-        this.amalgam.setScale(2);
-        this.amalgam.setOrigin(0.5);
-
         // Background
         this.background = this.add.sprite(0,0, "BG").setOrigin(0);
         this.background.setDepth(-1);
 
-        // place Player
-        this.player = this.add.sprite(game.config.width / 10, 2.5 * game.config.height / 4, "Knight").setOrigin(0.0);
-        this.shadow = this.add.sprite((game.config.width / 10), (2.5 * game.config.height/4) , "shadow").setOrigin(0.0);
-        this.shadow.setDepth(-1);
-
-
-        // slime anim
-        this.anims.create({
-            key: "idle",
-            frames: this.anims.generateFrameNumbers("slime", {start: 0, end: 1}),
-            frameRate: 8,
-            repeat: -1
-        });
-        this.slime.setScale(1.5);
-        this.slime.anims.play("idle");
-
-        // spore anim break this up into the attack and idle anims once coded!!!
-        this.anims.create({
-            key: "idleSpore",
-            frames: this.anims.generateFrameNumbers("sporeMan", {start: 0, end: 10}),
-            frameRate: 8,
-            repeat: -1
-        });
-        this.sporeMan.anims.play("idleSpore");
-
+        //add shade
+        this.shade = this.add.sprite(game.config.width / 1.6, 1.65 *game.config.height / 4, "shade").setOrigin(0.0);
+        this.shade.setScale(1.5);
 
         //shade anim
         this.anims.create({
@@ -110,8 +69,13 @@ class Play extends Phaser.Scene {
             frameRate: 8,
             repeat: -1
         });
-        this.shade.setScale(1.5);
+        this.shade.setScale(2);
         this.shade.anims.play("idleShade");
+
+        // place Player
+        this.player = this.add.sprite(game.config.width / 10, 2.5 * game.config.height / 4, "Knight").setOrigin(0.0);
+        this.shadow = this.add.sprite((game.config.width / 10), (2.5 * game.config.height/4) , "shadow").setOrigin(0.0);
+        this.shadow.setDepth(-1);
 
         // Player anim
         this.anims.create({
@@ -133,18 +97,20 @@ class Play extends Phaser.Scene {
             repeat: -1
         });
 
-        // slime hp
-        this.slime.hp = 20;
-        this.EnemyHPbar = this.add.text(this.slime.x + 7, this.slime.y - 55, this.slime.hp, hpConfig).setOrigin(0.0);
+        // shade hp
+        this.shade.hp = 45;
+        this.EnemyHPbar = this.add.text(this.shade.x + 150, this.shade.y, this.shade.hp, hpConfig).setOrigin(0.0);
         this.EnemyHPbar.gone = false;
 
         // Player hp
-        this.player.hp = 100;
+        this.player.hp = playerHealth;
         this.player.hpBar = this.add.text(this.player.x + 10, this.player.y - 55, this.player.hp, hpConfig).setOrigin(0.0);
         this.player.hpBar.gone = false;
-        this.player.strength = 0;
-        this.player.strengthBar = this.add.text(this.player.x + 65, this.player.y + 10, this.player.strength, strengthConfig).setOrigin(0,0);
-        this.player.strengthBar.alpha = 0;
+        this.player.strength = playerStrength;
+        this.player.strengthBar = this.add.text(this.player.x + 65, this.player.y + 10, "Str: " + this.player.strength.toString(), strengthConfig).setOrigin(0,0);
+        if (this.player.strength == 0) {
+            this.player.strengthBar.alpha = 0;
+        }
 
         // Background anim
         this.anims.create({
@@ -188,45 +154,51 @@ class Play extends Phaser.Scene {
 
         // Card Selection
         this.card1.on("pointerdown", () => {
+            console.log("clicked on card");
             if(yourTurn) {
+                console.log("your turn!");
                 yourTurn = false;
                 enemyTurn = true;
-                this.burnFX(this.slime, this.card1);
+                this.burnFX(this.shade, this.card1);
                 this.bleed(this.player, this.card1);
                 this.addStrength(this.player, this.card1, 1);
                 this.checkCard(this.card1, 1);
-                this.slime.hp -= this.card1.use();
+                this.shade.hp -= this.card1.use();
                 this.sound.play("hurt");
             }
         });
         this.card2.on("pointerdown", () => {
+            console.log("clicked on card");
             if(yourTurn) {
+                console.log("your turn!");
                 yourTurn = false;
                 enemyTurn = true;
-                this.burnFX(this.slime, this.card2);
+                this.burnFX(this.shade, this.card2);
                 this.bleed(this.player, this.card2);
                 this.addStrength(this.player, this.card2, 2);
                 this.checkCard(this.card2, 2);
-                this.slime.hp -= this.card2.use();
+                this.shade.hp -= this.card2.use();
                 this.sound.play("hurt");
             }
         });
         this.card3.on("pointerdown", () => {
+            console.log("clicked on card");
             if(yourTurn) {
+                console.log("your turn!");
                 yourTurn = false;
                 enemyTurn = true;
-                this.burnFX(this.slime, this.card3);
+                this.burnFX(this.shade, this.card3);
                 this.bleed(this.player, this.card3);
                 this.addStrength(this.player, this.card3, 3);
                 this.checkCard(this.card3, 3);
-                this.slime.hp -= this.card3.use();
+                this.shade.hp -= this.card3.use();
                 this.sound.play("hurt");
             }
         });
 
         this.reduced = false; // rot mist card used?
     }
-    
+
     // Player Turn
     PlayerTurn() {
 
@@ -236,7 +208,7 @@ class Play extends Phaser.Scene {
     EnemyTurn() {
         enemyTurn = false;
         this.time.delayedCall(1000, () => {
-            this.player.hp -= this.slime.attack;
+            this.player.hp -= this.shade.attack;
             yourTurn = true;
         }, null, this);
     }
@@ -256,17 +228,17 @@ class Play extends Phaser.Scene {
             }
         }
         // update the enemy text
-        if (this.EnemyHPbar.txt != this.slime.hp && !(this.EnemyHPbar.gone)) {
-            this.EnemyHPbar.text = this.slime.hp;
-            if (this.slime.hp <= 0) {
+        if (this.EnemyHPbar.txt != this.shade.hp && !(this.EnemyHPbar.gone)) {
+            this.EnemyHPbar.text = this.shade.hp;
+            if (this.shade.hp <= 0) {
                 // kill the enemy
                 this.sound.play("killed");
-                this.slime.destroy();
+                this.shade.destroy();
                 this.EnemyHPbar.gone = true;
                 this.time.delayedCall(500, () => {
                     this.EnemyHPbar.destroy();
                 }, null, this);
-
+                
                 // add the player to next level scene
                 playerHealth = this.player.hp;
                 playerStrength = this.player.strength;
@@ -337,15 +309,15 @@ class Play extends Phaser.Scene {
 
         if (card.frame.name == 8) {
             // take half damage ("Strong Stance")
-            this.slime.attack /= 2;
+            this.shade.attack /= 2;
         } else {
-            this.slime.attack = 10;
+            this.shade.attack = 10;
         }
 
         if (card.frame.name == 9) {
             // parry
             this.time.delayedCall(1500, () => {
-                this.slime.hp -= this.slime.attack;
+                this.shade.hp -= this.shade.attack;
                 this.sound.play("hurt");
             }, null, this);
         }
@@ -366,10 +338,10 @@ class Play extends Phaser.Scene {
 
         if (card.frame.name == 19) {
             // rot myst
-            this.slime.attack -= this.slime.attack * 0.25; // reduce next attack by 25%
+            this.shade.attack -= this.shade.attack * 0.25; // reduce next attack by 25%
             this.reduced = true;
         } else if (this.reduced) {
-            this.slime.attack += this.slime.attack * 0.25;
+            this.shade.attack += this.shade.attack * 0.25;
         }
 
         if (card.frame.name == 20) {
@@ -379,7 +351,7 @@ class Play extends Phaser.Scene {
 
         if (card.frame.name == 21) {
             // fatal blow
-            this.slime.hp -= this.slime.hp * 0.30;
+            this.shade.hp -= this.shade.hp * 0.30;
         }
     }
 }
