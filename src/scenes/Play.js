@@ -14,6 +14,7 @@ class Play extends Phaser.Scene {
         this.load.spritesheet("sporeMan", "./assets/sporeMan.png", {frameWidth: 250, frameHeight: 250, startFrame: 0, endFrame: 10});
 
         this.load.image("rat", "./assets/rat.png");
+        this.load.image("rat2", "./assets/rat2.png");
         this.load.image("card", "./assets/card.png");
         this.load.image("shadow", "./assets/Shadow.png");
         this.load.image("amalgam", "./assets/amalgam.png");
@@ -55,6 +56,10 @@ class Play extends Phaser.Scene {
         // place enemy rat
         this.rat = this.add.sprite(game.config.width / 3, 2.5 *game.config.height / 7, "rat").setOrigin(0.0);
         this.rat.setScale(1.5);
+
+        // place enemy rat2
+        this.rat2 = this.add.sprite(game.config.width / 2, 2 *game.config.height / 10, "rat2").setOrigin(0.0);
+        this.rat2.setScale(.2);
 
         // place dog
         this.dog = this.add.sprite(game.config.width / 1.3, 2.5 *game.config.height / 4, "dog").setOrigin(0.0);
