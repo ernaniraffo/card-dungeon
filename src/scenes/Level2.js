@@ -19,6 +19,10 @@ class Level2 extends Phaser.Scene {
         this.load.image("amalgam", "./assets/amalgam.png");
         this.load.image("dog", "./assets/dog.png");
 
+        //selected card:
+        this.load.spritesheet("draw", "./assets/cards.png", {frameWidth: 96, frameHeight: 144, startFrame: 20, endFrame: 21});
+
+
         // audio
         this.load.audio("hurt", "./assets/hurt.wav");
         this.load.audio("killed", "./assets/killed.wav");
@@ -132,6 +136,15 @@ class Level2 extends Phaser.Scene {
         row3 = 4 * game.config.width / 6;
         
         let randomNumber = Math.floor(Math.random() * 22);
+
+        //add a new card to deck
+        // place card to pick from
+        //this.cardpick1 = new Card(this, row1, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4], randomNumber).setInteractive();
+        //this.cardpick1.row = row1;
+        //this.cardpick1.visible = true;
+        //this.cardpick1.setScale(200)
+        //this.cardpick1.setOrigin(0,0)
+ 
 
         // place card 1
         this.card1 = new Card(this, row1, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4], randomNumber).setInteractive();
