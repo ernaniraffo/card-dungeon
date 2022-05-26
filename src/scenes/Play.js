@@ -12,6 +12,7 @@ class Play extends Phaser.Scene {
         this.load.spritesheet("fire", "./assets/FireSpirit.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 3});
         this.load.spritesheet("shade", "./assets/shade.png", {frameWidth: 150, frameHeight: 150, startFrame: 0, endFrame: 8});
         this.load.spritesheet("sporeMan", "./assets/sporeMan.png", {frameWidth: 250, frameHeight: 250, startFrame: 0, endFrame: 10});
+        this.load.spritesheet("bleed", "./assets/bleed.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 20});
 
         this.load.image("rat", "./assets/rat.png");
         this.load.image("rat2", "./assets/rat2.png");
@@ -53,30 +54,30 @@ class Play extends Phaser.Scene {
         this.slime = this.add.sprite(8 *game.config.width / 10, 2.5 *game.config.height / 4, "slime").setOrigin(0.0);
         this.slime.attack = 10;
 
-        // place enemy rat
-        this.rat = this.add.sprite(game.config.width / 3, 2.5 *game.config.height / 7, "rat").setOrigin(0.0);
-        this.rat.setScale(1.5);
+        // // place enemy rat
+        // this.rat = this.add.sprite(game.config.width / 3, 2.5 *game.config.height / 7, "rat").setOrigin(0.0);
+        // this.rat.setScale(1.5);
 
-        // place enemy rat2
-        this.rat2 = this.add.sprite(game.config.width / 2, 2 *game.config.height / 10, "rat2").setOrigin(0.0);
-        this.rat2.setScale(.2);
+        // // place enemy rat2
+        // this.rat2 = this.add.sprite(game.config.width / 2, 2 *game.config.height / 10, "rat2").setOrigin(0.0);
+        // this.rat2.setScale(.2);
 
-        // place dog
-        this.dog = this.add.sprite(game.config.width / 1.3, 2.5 *game.config.height / 4, "dog").setOrigin(0.0);
-        this.dog.setScale(1.5);
+        // // place dog
+        // this.dog = this.add.sprite(game.config.width / 1.3, 2.5 *game.config.height / 4, "dog").setOrigin(0.0);
+        // this.dog.setScale(1.5);
 
-        //add shade
-        this.shade = this.add.sprite(game.config.width / 1.9, 2.5 *game.config.height / 4, "shade").setOrigin(0.0);
-        this.shade.setScale(1.5);
+        // //add shade
+        // this.shade = this.add.sprite(game.config.width / 1.9, 2.5 *game.config.height / 4, "shade").setOrigin(0.0);
+        // this.shade.setScale(1.5);
 
-        //add sporeman
-        this.sporeMan = this.add.sprite(game.config.width / 1.3, game.config.height / 10-90, "sporeMan").setOrigin(0.0);
-        this.sporeMan.setScale(1);
+        // //add sporeman
+        // this.sporeMan = this.add.sprite(game.config.width / 1.3, game.config.height / 10-90, "sporeMan").setOrigin(0.0);
+        // this.sporeMan.setScale(1);
         
-        // place amalgam
-        this.amalgam = this.add.sprite(game.config.width / 2, 2.5 *game.config.height / 10, "amalgam").setOrigin(0.0);
-        this.amalgam.setScale(2);
-        this.amalgam.setOrigin(0.5);
+        // // place amalgam
+        // this.amalgam = this.add.sprite(game.config.width / 2, 2.5 *game.config.height / 10, "amalgam").setOrigin(0.0);
+        // this.amalgam.setScale(2);
+        // this.amalgam.setOrigin(0.5);
 
         // Background
         this.background = this.add.sprite(0,0, "BG").setOrigin(0);
@@ -98,25 +99,25 @@ class Play extends Phaser.Scene {
         this.slime.setScale(1.5);
         this.slime.anims.play("idle");
 
-        // spore anim break this up into the attack and idle anims once coded!!!
-        this.anims.create({
-            key: "idleSpore",
-            frames: this.anims.generateFrameNumbers("sporeMan", {start: 0, end: 10}),
-            frameRate: 8,
-            repeat: -1
-        });
-        this.sporeMan.anims.play("idleSpore");
+        // // spore anim break this up into the attack and idle anims once coded!!!
+        // this.anims.create({
+        //     key: "idleSpore",
+        //     frames: this.anims.generateFrameNumbers("sporeMan", {start: 0, end: 10}),
+        //     frameRate: 8,
+        //     repeat: -1
+        // });
+        // this.sporeMan.anims.play("idleSpore");
 
 
-        //shade anim
-        this.anims.create({
-            key: "idleShade",
-            frames: this.anims.generateFrameNumbers("shade", {start: 0, end: 8}),
-            frameRate: 8,
-            repeat: -1
-        });
-        this.shade.setScale(1.5);
-        this.shade.anims.play("idleShade");
+        // //shade anim
+        // this.anims.create({
+        //     key: "idleShade",
+        //     frames: this.anims.generateFrameNumbers("shade", {start: 0, end: 8}),
+        //     frameRate: 8,
+        //     repeat: -1
+        // });
+        // this.shade.setScale(1.5);
+        // this.shade.anims.play("idleShade");
 
         // Player anim
         this.anims.create({
@@ -130,6 +131,13 @@ class Play extends Phaser.Scene {
         this.player.anims.play("idle1");
         this.background.setDepth(1);
 
+        // bleed anim
+        this.anims.create({
+            key: "bleeding",
+            frames: this.anims.generateFrameNumbers("bleed", {start: 0, end: 20}),
+            frameRate: 20
+        })
+
         // Fire anim
         this.anims.create({
             key: "fire",
@@ -140,6 +148,7 @@ class Play extends Phaser.Scene {
 
         // slime hp
         this.slime.hp = 20;
+        this.slime.bleed = 0;
         this.EnemyHPbar = this.add.text(this.slime.x + 7, this.slime.y - 55, this.slime.hp, hpConfig).setOrigin(0.0);
         this.EnemyHPbar.gone = false;
 
@@ -148,6 +157,7 @@ class Play extends Phaser.Scene {
         this.player.hpBar = this.add.text(this.player.x + 10, this.player.y - 55, this.player.hp, hpConfig).setOrigin(0.0);
         this.player.hpBar.gone = false;
         this.player.strength = 0;
+        this.player.bleed = 0;
         this.player.strengthBar = this.add.text(this.player.x + 65, this.player.y + 10, this.player.strength, strengthConfig).setOrigin(0,0);
         this.player.strengthBar.alpha = 0;
 
@@ -171,6 +181,7 @@ class Play extends Phaser.Scene {
         row3 = 4 * game.config.width / 6;
         
         let randomNumber = Math.floor(Math.random() * 22);
+        // randomNumber = 4;
 
         // place card 1
         this.card1 = new Card(this, row1, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4], randomNumber).setInteractive();
@@ -178,6 +189,7 @@ class Play extends Phaser.Scene {
         this.card1.visible = true;
         
         randomNumber = Math.floor(Math.random() * 22);
+        // randomNumber = 19;
         
         // place card2
         this.card2 = new Card(this, row2, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4],randomNumber).setInteractive();
@@ -185,6 +197,7 @@ class Play extends Phaser.Scene {
         this.card2.visible = true;
         
         randomNumber = Math.floor(Math.random() * 22);
+        // randomNumber = 4;
 
         // place card3
         this.card3 = new Card(this, row3, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4],randomNumber).setInteractive();
@@ -197,7 +210,7 @@ class Play extends Phaser.Scene {
                 yourTurn = false;
                 enemyTurn = true;
                 this.burnFX(this.slime, this.card1);
-                this.bleed(this.player, this.card1);
+                this.bleed(this.player, this.card1.bleed);
                 this.addStrength(this.player, this.card1, 1);
                 this.checkCard(this.card1, 1);
                 this.slime.hp -= this.card1.use();
@@ -209,7 +222,7 @@ class Play extends Phaser.Scene {
                 yourTurn = false;
                 enemyTurn = true;
                 this.burnFX(this.slime, this.card2);
-                this.bleed(this.player, this.card2);
+                this.bleed(this.player, this.card2.bleed);
                 this.addStrength(this.player, this.card2, 2);
                 this.checkCard(this.card2, 2);
                 this.slime.hp -= this.card2.use();
@@ -221,7 +234,7 @@ class Play extends Phaser.Scene {
                 yourTurn = false;
                 enemyTurn = true;
                 this.burnFX(this.slime, this.card3);
-                this.bleed(this.player, this.card3);
+                this.bleed(this.player, this.card3.bleed);
                 this.addStrength(this.player, this.card3, 3);
                 this.checkCard(this.card3, 3);
                 this.slime.hp -= this.card3.use();
@@ -241,6 +254,7 @@ class Play extends Phaser.Scene {
     EnemyTurn() {
         enemyTurn = false;
         this.time.delayedCall(1000, () => {
+            this.bleed(this.slime, 0);
             this.player.hp -= this.slime.attack;
             yourTurn = true;
         }, null, this);
@@ -282,6 +296,7 @@ class Play extends Phaser.Scene {
         if(enemyTurn) {
             this.EnemyTurn();
         }
+
         this.shadow.x = this.player.x + 5;
         this.shadow.y = this.player.y + 25;
     }
@@ -295,12 +310,30 @@ class Play extends Phaser.Scene {
         }
     }
 
-    bleed(self, card) {
-        if (card.bleed > 0) {
-            this.bleeding = this.time.delayedCall(700, () => {
-                self.hp -= 1;
-            }, null, this);
-            this.bleeding.repeatCount = card.bleed - 1;
+    bleed(self, amount) {
+
+        self.bleed += amount;
+
+        if (self.bleed > 0) {
+
+            let bleedDrop = this.add.sprite(self.x + 25, self.y + 25, "bleed").setOrigin(0,0);
+            bleedDrop.setScale(0.2);
+
+            // play anim before tween
+            bleedDrop.anims.play("bleeding");
+            
+            let bleedTween = this.tweens.add({
+                targets: bleedDrop,
+                alpha: { from: 1, to: 0 },
+                scale: { from: 0.2, to: 0.3 },
+                y: {from: self.y + 25, to: self.y + 100},
+                ease: 'Expo',
+            });
+            
+            bleedTween.setTimeScale(0.3);
+
+            self.bleed -= 1;
+            self.hp -= 1;
         }
     }
 
@@ -338,6 +371,8 @@ class Play extends Phaser.Scene {
         if (card.frame.name == 3) {
             // heal ("Field Gauze")
             this.player.hp += 3;
+            this.player.bleed = 0;
+            this.player.strength = 0;
         }
 
         if (card.frame.name == 8) {
@@ -371,8 +406,12 @@ class Play extends Phaser.Scene {
 
         if (card.frame.name == 19) {
             // rot myst
+            
             this.slime.attack -= this.slime.attack * 0.25; // reduce next attack by 25%
             this.reduced = true;
+            
+            this.slime.bleed += Math.floor(Phaser.Math.Between(2, 5));
+
         } else if (this.reduced) {
             this.slime.attack += this.slime.attack * 0.25;
         }
