@@ -208,37 +208,34 @@ class Play extends Phaser.Scene {
         this.card1.on("pointerdown", () => {
             if(yourTurn) {
                 yourTurn = false;
-                enemyTurn = true;
+                //enemyTurn = true;
                 this.burnFX(this.slime, this.card1);
                 this.bleed(this.player, this.card1.bleed);
                 this.addStrength(this.player, this.card1, 1);
                 this.checkCard(this.card1, 1);
-                this.slime.hp -= this.card1.use();
-                this.sound.play("hurt");
+                this.attackAnim(this.card1);
             }
         });
-        this.card2.on("pointerdown", () => {
+        this.card2.on("pointerdown", (card) => {
             if(yourTurn) {
                 yourTurn = false;
-                enemyTurn = true;
+                //enemyTurn = true;
                 this.burnFX(this.slime, this.card2);
                 this.bleed(this.player, this.card2.bleed);
                 this.addStrength(this.player, this.card2, 2);
                 this.checkCard(this.card2, 2);
-                this.slime.hp -= this.card2.use();
-                this.sound.play("hurt");
+                this.attackAnim(this.card2);
             }
         });
         this.card3.on("pointerdown", () => {
             if(yourTurn) {
                 yourTurn = false;
-                enemyTurn = true;
+                // enemyTurn = true;
                 this.burnFX(this.slime, this.card3);
                 this.bleed(this.player, this.card3.bleed);
                 this.addStrength(this.player, this.card3, 3);
                 this.checkCard(this.card3, 3);
-                this.slime.hp -= this.card3.use();
-                this.sound.play("hurt");
+                this.attackAnim(this.card3);
             }
         });
 
@@ -253,10 +250,25 @@ class Play extends Phaser.Scene {
     // Enemy Turn
     EnemyTurn() {
         enemyTurn = false;
+        this.bleed(this.slime, 0);
         this.time.delayedCall(1000, () => {
-            this.bleed(this.slime, 0);
-            this.player.hp -= this.slime.attack;
-            yourTurn = true;
+            // this.bleed(this.slime, 0);
+            let enemyTween = this.tweens.add({
+                targets: this.slime,
+                alpha: {from: 1, to: 1},
+                x: {from: this.slime.x, to: this.slime.x - 300},
+                ease: 'Expo.easeInOut',
+                yoyo: true,
+                repeat: 0,
+                hold: 300,
+                onComplete: function() {
+                    this.player.hp -= this.slime.attack;
+                    yourTurn = true;
+                },
+                onCompleteScope: this
+            });
+            enemyTween.setTimeScale(2.5);
+            // yourTurn = true;
         }, null, this);
     }
 
@@ -425,5 +437,28 @@ class Play extends Phaser.Scene {
             // fatal blow
             this.slime.hp -= this.slime.hp * 0.30;
         }
+    }
+
+    attackAnim(card) {
+
+        let attackTween = this.tweens.add({
+            targets: this.player,
+            alpha: {from: 1, to: 1},
+            x: {from: this.player.x, to: this.player.x + 300},
+            ease: 'Expo.easeInOut',
+            yoyo: true,
+            repeat: 0,
+            hold: 300,
+            duration: 1000,
+            onComplete: function() {
+                this.slime.hp -= card.use();
+                enemyTurn = true;
+            },
+            onCompleteScope: this
+        });
+        attackTween.setTimeScale(2.5);
+        this.time.delayedCall((1000 / 2.5), () => {
+            this.sound.play("hurt");
+        }, null, this);
     }
 }
