@@ -1,6 +1,6 @@
-class GameOver extends Phaser.Scene {
+class GameOver2 extends Phaser.Scene {
     constructor() {
-        super("gameOver");
+        super("gameOver2");
     }
 
     preload() {
@@ -24,7 +24,7 @@ class GameOver extends Phaser.Scene {
         this.background = this.add.sprite(0,0, "BG").setOrigin(0);
 
         this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', menuConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) for next Level or (M) for Menu', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to restart or (M) for Menu', menuConfig).setOrigin(0.5);
         
         // keys
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -34,7 +34,7 @@ class GameOver extends Phaser.Scene {
 
     update () {
         if (Phaser.Input.Keyboard.JustDown(keyR)) {
-            this.scene.start("Level2");
+            this.scene.start("playGame");
         }
         if (Phaser.Input.Keyboard.JustDown(keyM)) {
             this.scene.start("menuScene");

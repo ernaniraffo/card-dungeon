@@ -4,7 +4,7 @@ let config = {
     width: 800,
     height: 400,
     backgroundColor: 0x00000000,
-    scene: [Menu, Play, GameOver, Level2, CardSelect],
+    scene: [Menu, Play, GameOver, GameOver2, Level2, CardSelect],
     physics: {
         default: 'arcade',
         arcade: {
