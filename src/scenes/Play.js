@@ -24,6 +24,7 @@ class Play extends Phaser.Scene {
         // audio
         this.load.audio("hurt", "./assets/hurt.wav");
         this.load.audio("killed", "./assets/killed.wav");
+        this.load.audio("slimeattack", "./assets/slimeattack.wav");
     }
 
     create() {
@@ -251,7 +252,7 @@ class Play extends Phaser.Scene {
     EnemyTurn() {
         enemyTurn = false;
         this.bleed(this.slime, 0);
-        this.time.delayedCall(1000, () => {
+        this.time.delayedCall(1200, () => {
             // this.bleed(this.slime, 0);
             let enemyTween = this.tweens.add({
                 targets: this.slime,
@@ -260,13 +261,25 @@ class Play extends Phaser.Scene {
                 ease: 'Expo.easeInOut',
                 yoyo: true,
                 repeat: 0,
-                hold: 300,
+                hold: 500,
+                duration: 1000,
                 onComplete: function() {
                     this.player.hp -= this.slime.attack;
                     yourTurn = true;
                 },
                 onCompleteScope: this
             });
+            this.time.delayedCall((1000 / 3), () => {
+                this.sound.play("slimeattack");
+                let shake = this.tweens.add({
+                    targets: this.player,
+                    x: {from: this.player.x - 5, to: this.player.x},
+                    ease: 'Expo.easeInOut',
+                    yoyo: true,
+                    repeat: 3
+                });
+                shake.setTimeScale(20);
+            }, null, this);
             enemyTween.setTimeScale(2.5);
             // yourTurn = true;
         }, null, this);
@@ -448,7 +461,7 @@ class Play extends Phaser.Scene {
             ease: 'Expo.easeInOut',
             yoyo: true,
             repeat: 0,
-            hold: 300,
+            hold: 400,
             duration: 1000,
             onComplete: function() {
                 this.slime.hp -= card.use();
@@ -457,8 +470,30 @@ class Play extends Phaser.Scene {
             onCompleteScope: this
         });
         attackTween.setTimeScale(2.5);
+
         this.time.delayedCall((1000 / 2.5), () => {
-            this.sound.play("hurt");
+
+            // shake card
+            let Cardshake = this.tweens.add({
+                targets: card,
+                x: {from: card.x + 5, to: card.x, end: card.x},
+                y: {from: card.y - 5, to: card.y},
+                ease: 'Expo.easeInOut',
+                repeat: 5,
+            });
+            Cardshake.setTimeScale(20);
+
+            // use on slime
+            this.sound.play("hurt");    
+            let shake = this.tweens.add({
+                targets: this.slime,
+                x: {from: this.slime.x + 5, to: this.slime.x},
+                ease: 'Expo.easeInOut',
+                yoyo: true,
+                repeat: 3
+            });
+            shake.setTimeScale(20);
+            
         }, null, this);
     }
 }
