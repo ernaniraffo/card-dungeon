@@ -71,6 +71,16 @@ let copyCardTypes = [
     ["Bile Bomb", [1, 5], 0, 0, 0]
 ];
 
+
+//starting deck
+let StartingDeck = [
+    ["Ace", 1, 0, 0, 1],
+    ["Slash", 6, 0, 0, 0],
+    ["Reklass Charge", 4, 0, 0, 2],
+    ["Field Gauze", 0, 0, 0, 0],
+    ["Mangle", 6, 0, 3, 0, 0]
+]    
+
 // global player strength + health
 let playerHealth;
 let playerStrength;
