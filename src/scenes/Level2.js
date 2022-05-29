@@ -13,6 +13,7 @@ class Level2 extends Phaser.Scene {
         this.load.spritesheet("shade", "./assets/shade.png", {frameWidth: 150, frameHeight: 150, startFrame: 0, endFrame: 8});
         this.load.spritesheet("sporeMan", "./assets/sporeMan.png", {frameWidth: 250, frameHeight: 250, startFrame: 0, endFrame: 10});
         this.load.spritesheet("bleed", "./assets/bleed.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 20});
+        this.load.spritesheet("beasts", "./assets/Beasts.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 2});
 
         this.load.image("rat", "./assets/rat.png");
         this.load.image("card", "./assets/card.png");
@@ -108,6 +109,28 @@ class Level2 extends Phaser.Scene {
             key: "fire",
             frames: this.anims.generateFrameNumbers("fire", {start: 0, end: 3}),
             frameRate: 8,
+            repeat: -1
+        });
+
+        // Beast anim
+        this.anims.create({
+            key: "beast0",
+            frames: this.anims.generateFrameNumbers("beasts", {start: 0, end: 0}),
+            frameRate: 0,
+            repeat: -1
+        });
+        // Beast anim
+        this.anims.create({
+            key: "beast1",
+            frames: this.anims.generateFrameNumbers("beasts", {start: 1, end: 1}),
+            frameRate: 0,
+            repeat: -1
+        });
+        // Beast anim
+        this.anims.create({
+            key: "beast2",
+            frames: this.anims.generateFrameNumbers("beasts", {start: 2, end: 2}),
+            frameRate: 0,
             repeat: -1
         });
 
@@ -371,6 +394,18 @@ class Level2 extends Phaser.Scene {
             this.time.delayedCall(2500, () => {
                 this.shade.hp -= this.shade.attack;
                 this.sound.play("hurt");
+            }, null, this);
+        }
+
+        if (card.frame.name == 11) {
+            // Fuzzy Friend
+            this.time.delayedCall(1500, () => {
+                // place Random Beast
+                this.beast = this.add.sprite(this.player.x + 60,this.player.y + 80, "beasts").setOrigin(0.0);
+                this.beast.setScale(.2);
+                var randomFrame = Math.floor(Math.random() * 3);
+                randomFrame = "beast" + randomFrame;
+                this.beast.anims.play(randomFrame);
             }, null, this);
         }
 

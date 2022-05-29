@@ -108,30 +108,25 @@ class Play extends Phaser.Scene {
         // Beast anim
         this.anims.create({
             key: "beast0",
-            frames: this.anims.generateFrameNumbers("beast", {start: 0, end: 0}),
+            frames: this.anims.generateFrameNumbers("beasts", {start: 0, end: 0}),
             frameRate: 0,
             repeat: -1
         });
         // Beast anim
         this.anims.create({
             key: "beast1",
-            frames: this.anims.generateFrameNumbers("beast", {start: 1, end: 1}),
+            frames: this.anims.generateFrameNumbers("beasts", {start: 1, end: 1}),
             frameRate: 0,
             repeat: -1
         });
         // Beast anim
         this.anims.create({
             key: "beast2",
-            frames: this.anims.generateFrameNumbers("beast", {start: 2, end: 2}),
+            frames: this.anims.generateFrameNumbers("beasts", {start: 2, end: 2}),
             frameRate: 0,
             repeat: -1
         });
-        // place dog
-        this.beast = this.add.sprite(game.config.width / 1.3, 2.5 *game.config.height / 4, "beast").setOrigin(0.0);
-        this.beast.setScale(.2);
-        // var randomFrame = Math.floor(Math.random() * 3);
-        // randomFrame = "beast" + randomFrame;
-        // this.beast.anims.play(randomFrame);
+
 
         // // spore anim break this up into the attack and idle anims once coded!!!
         // this.anims.create({
@@ -267,6 +262,7 @@ class Play extends Phaser.Scene {
         });
 
         this.reduced = false; // rot mist card used?
+
     }
     
     // Player Turn
@@ -443,8 +439,8 @@ class Play extends Phaser.Scene {
         if (card.frame.name == 11) {
             // Fuzzy Friend
             this.time.delayedCall(1500, () => {
-                // place dog
-                this.beast = this.add.sprite(game.config.width / 1.3, 2.5 *game.config.height / 4, "beast").setOrigin(0.0);
+                // place Random Beast
+                this.beast = this.add.sprite(this.player.x + 60,this.player.y + 80, "beasts").setOrigin(0.0);
                 this.beast.setScale(.2);
                 var randomFrame = Math.floor(Math.random() * 3);
                 randomFrame = "beast" + randomFrame;
