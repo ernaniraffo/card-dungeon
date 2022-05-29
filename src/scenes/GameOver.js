@@ -23,7 +23,7 @@ class GameOver extends Phaser.Scene {
         }
         this.background = this.add.sprite(0,0, "BG").setOrigin(0);
 
-        this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2, 'Entering The Tainted Moor', menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) for next Level or (M) for Menu', menuConfig).setOrigin(0.5);
         
         // keys

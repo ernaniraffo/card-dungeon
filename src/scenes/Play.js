@@ -340,6 +340,7 @@ class Play extends Phaser.Scene {
                 playerHealth = this.player.hp;
                 playerStrength = this.player.strength;
                 this.scene.start("gameOver");
+                
             }
         }
 
