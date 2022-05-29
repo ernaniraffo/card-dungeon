@@ -67,14 +67,24 @@ class CardSelect extends Phaser.Scene {
     }
 
     create() {
-        //allows a random card after the first 5 which are already drawn
-        // min = Math.ceil(5);
-        // max = Math.floor(22);
-        let randomNumber = Math.floor(Math.random() * (Math.floor(22) - Math.ceil(5)) + Math.ceil(5));
+        //allows a random card after the first 5 which are already drawn for both cards
+        let randomNumberOne = Math.floor(Math.random() * (Math.floor(22) - Math.ceil(5)) + Math.ceil(5));
+        let randomNumberTwo = Math.floor(Math.random() * (Math.floor(22) - Math.ceil(5)) + Math.ceil(5));
+        //while true
+        //if randomNumberOne == 
         for(let i = 0; i <= 22; i++) {
             this.anims.create({
-                key: "cardHolder",
-                frames: this.anims.generateFrameNumbers("cards", {start: randomNumber, end:randomNumber}),
+                key: "cardHolderOne",
+                frames: this.anims.generateFrameNumbers("cards", {start: randomNumberOne, end:randomNumberOne}),
+                frameRate: 1,
+                repeat: -1
+            });
+        }
+
+        for(let i = 0; i <= 22; i++) {
+            this.anims.create({
+                key: "cardHolderTwo",
+                frames: this.anims.generateFrameNumbers("cards", {start: randomNumberTwo, end:randomNumberTwo}),
                 frameRate: 1,
                 repeat: -1
             });

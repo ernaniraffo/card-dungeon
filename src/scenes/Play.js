@@ -15,6 +15,8 @@ class Play extends Phaser.Scene {
         this.load.spritesheet("bleed", "./assets/bleed.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 20});
         this.load.spritesheet("beasts", "./assets/Beasts.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 2});
 
+        this.load.image("shield", "./assets/shield.png");
+        this.load.image("swords", "./assets/swords.png");
         this.load.image("rat", "./assets/rat.png");
         this.load.image("rat2", "./assets/rat2.png");
         this.load.image("card", "./assets/card.png");
@@ -29,7 +31,6 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-
         // reset these if restart
         yourTurn = true;
         enemyTurn = false;
@@ -71,7 +72,15 @@ class Play extends Phaser.Scene {
         // // place dog
         // this.dog = this.add.sprite(game.config.width / 1.3, 2.5 *game.config.height / 4, "dog").setOrigin(0.0);
         // this.dog.setScale(1.5);
+        //sword attack indicator
+        this.swords = this.add.sprite(game.config.width / 1.25, 2.5 *game.config.height / 6.5, "swords").setOrigin(0.0);
+        this.swords.setScale(.1);
+        this.swords.alpha=1;
 
+        //block attack indicator
+        this.shield = this.add.sprite(game.config.width / 1.25, 2.5 *game.config.height / 6.5, "shield").setOrigin(0.0);
+        this.shield.setScale(.1);
+        this.shield.alpha=0;
         // //add shade
         // this.shade = this.add.sprite(game.config.width / 1.9, 2.5 *game.config.height / 4, "shade").setOrigin(0.0);
         // this.shade.setScale(1.5);
@@ -272,7 +281,10 @@ class Play extends Phaser.Scene {
 
     // Enemy Turn
     EnemyTurn() {
+        attackType = Math.floor(Math.random() * 3);
         enemyTurn = false;
+        this.swords.alpha = 1;
+        this.shield.alpha = 0;
         this.bleed(this.slime, 0);
         this.time.delayedCall(1200, () => {
             let enemyTween = this.tweens.add({
@@ -306,7 +318,49 @@ class Play extends Phaser.Scene {
         }, null, this);
     }
 
+     // Enemy Turn
+     EnemyTurnBlock() {
+        attackType = Math.floor(Math.random() * 3);
+        enemyTurn = false;
+        this.swords.alpha = 0;
+        this.shield.alpha = 1;
+        this.bleed(this.slime, 0);
+        this.time.delayedCall(1200, () => {
+            let enemyTween = this.tweens.add({
+                targets: this.slime,
+                alpha: {from: 1, to: 1},
+                y: {from: this.slime.y, to: this.slime.y - 100},
+                ease: 'Expo.easeInOut',
+                yoyo: true,
+                repeat: 0,
+                hold: 500,
+                duration: 1000,
+                onComplete: function() {
+                    this.slime.hp+=6;
+                    yourTurn = true;
+                },
+                onCompleteScope: this
+            });
+            this.time.delayedCall((1000 / 3), () => {
+                this.sound.play("slimeattack");
+                let shake = this.tweens.add({
+                    targets: this.player,
+                    x: {from: this.player.x - 5, to: this.player.x},
+                    ease: 'Expo.easeInOut',
+                    yoyo: true,
+                    repeat: 3
+                });
+                shake.setTimeScale(20);
+            }, null, this);
+            enemyTween.setTimeScale(2.5);
+            // yourTurn = true;
+        }, null, this);
+    }
+
     update() {
+        //what attack enemy will use
+        let attackType;
+        attackType = Math.floor(Math.random() * 3);
         // update the player text
         if (this.player.hpBar.txt != this.player.hp && !(this.player.hpBar.gone)) {
             this.player.hpBar.text = this.player.hp;
@@ -341,7 +395,15 @@ class Play extends Phaser.Scene {
         }
 
         if(enemyTurn) {
-            this.EnemyTurn();
+            //let attack 2/3rds of time and block 1/3rd
+            if (this.attackType == 1 || this.attackType == 2) {
+                this.EnemyTurn();
+            }
+            if (this.attackType == 3){
+                this.EnemyTurnBlock();
+            }
+            //this.EnemyTurnAttack();
+
         }
 
         this.shadow.x = this.player.x + 5;

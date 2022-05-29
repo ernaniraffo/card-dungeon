@@ -29,7 +29,16 @@ class Level3 extends Phaser.Scene {
     }
 
     create() {
+        //sword to go over enemy head and designate attacks 
+        this.swords = this.add.sprite(game.config.width / 1.24, 2.5 *game.config.height / 11, "swords").setOrigin(0.0);
+        this.swords.setScale(.1);
+        this.swords.alpha=1;
 
+        //shield to go over enemy head and designate attacks 
+        this.shield = this.add.sprite(game.config.width / 1.24, 2.5 *game.config.height / 11, "shield").setOrigin(0.0);
+        this.shield.setScale(.1);
+        this.shield.alpha=0;
+        
         // reset these
         yourTurn = true;
         enemyTurn = false;
