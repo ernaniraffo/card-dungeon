@@ -61,7 +61,7 @@ class Level3 extends Phaser.Scene {
         this.background.setDepth(-1);
 
         //add sporeMan
-        this.sporeMan = this.add.sprite(game.config.width / 1.6, 1.65 *game.config.height / 4, "sporeMan").setOrigin(0.0);
+        this.sporeMan = this.add.sprite(game.config.width / 1.6, 1.65 * game.config.height / 5, "sporeMan").setOrigin(0.0);
         this.sporeMan.setScale(1);
 
         //sporeMan anim
@@ -124,7 +124,7 @@ class Level3 extends Phaser.Scene {
         this.player.hpBar = this.add.text(this.player.x + 10, this.player.y - 55, this.player.hp, hpConfig).setOrigin(0.0);
         this.player.hpBar.gone = false;
         this.player.strength = playerStrength;
-        this.player.strengthBar = this.add.text(this.player.x + 65, this.player.y + 10, "Str: " + this.player.strength.toString(), strengthConfig).setOrigin(0,0);
+        this.player.strengthBar = this.add.text(this.player.x + 65, this.player.y + 10, "Str: +" + this.player.strength.toString(), strengthConfig).setOrigin(0,0);
         if (this.player.strength == 0) {
             this.player.strengthBar.alpha = 0;
         }
