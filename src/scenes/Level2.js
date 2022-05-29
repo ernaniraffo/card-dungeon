@@ -118,7 +118,7 @@ class Level2 extends Phaser.Scene {
         this.EnemyHPbar.gone = false;
 
         // Player hp
-        this.player.hp = playerHealth;
+        this.player.hp = playerHealth + 15;
         this.player.hpBar = this.add.text(this.player.x + 10, this.player.y - 55, this.player.hp, hpConfig).setOrigin(0.0);
         this.player.hpBar.gone = false;
         this.player.strength = playerStrength;
@@ -274,7 +274,7 @@ class Level2 extends Phaser.Scene {
                 // add the player to next level scene
                 playerHealth = this.player.hp;
                 playerStrength = this.player.strength;
-                this.scene.start("gameOver2");
+                this.scene.start("Level3");
             }
         }
 
@@ -368,7 +368,7 @@ class Level2 extends Phaser.Scene {
 
         if (card.frame.name == 9) {
             // parry
-            this.time.delayedCall(1500, () => {
+            this.time.delayedCall(2500, () => {
                 this.shade.hp -= this.shade.attack;
                 this.sound.play("hurt");
             }, null, this);
@@ -441,7 +441,7 @@ class Level2 extends Phaser.Scene {
             });
             Cardshake.setTimeScale(20);
 
-            // use on slime
+            // use on shade
             this.sound.play("hurt");    
             let shake = this.tweens.add({
                 targets: this.shade,
