@@ -22,7 +22,7 @@ class Card extends Phaser.GameObjects.Sprite {
         this.row = 0;
 
         // Card Frames
-        for(let i = 0; i <= 22; i++) {
+        for(let i = 0; i <= (StartingDeck.length-1); i++) {
             this.anims.create({
                 key: i.toString(),
                 frames: this.anims.generateFrameNumbers(texture, {start: i, end: i, first: i}),
@@ -61,19 +61,19 @@ class Card extends Phaser.GameObjects.Sprite {
         // console.log("Old card's damage: ", oldDamage);
 
         // New Card
-        let randomNumber = Math.floor(Math.random() * 22);
+        let randomNumber = Math.floor(Math.random() * (StartingDeck.length));
         this.play(randomNumber.toString());
         
-        this.damage = cardTypes[randomNumber][1];
+        this.damage = StartingDeck[randomNumber][1];
         if (this.damage.constructor == Array) {
             // random value
             this.damage = Phaser.Math.Between(this.damage[0], this.damage[1]);
         }
         // console.log("New card's damage: ", this.damage);
 
-        this.burn = cardTypes[randomNumber][2];
-        this.bleed = cardTypes[randomNumber][3];
-        this.strength = cardTypes[randomNumber][4];
+        this.burn = StartingDeck[randomNumber][2];
+        this.bleed = StartingDeck[randomNumber][3];
+        this.strength = StartingDeck[randomNumber][4];
 
         return oldDamage;
     }

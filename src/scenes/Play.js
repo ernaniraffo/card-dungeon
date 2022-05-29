@@ -25,9 +25,14 @@ class Play extends Phaser.Scene {
         // audio
         this.load.audio("hurt", "./assets/hurt.wav");
         this.load.audio("killed", "./assets/killed.wav");
+        this.load.audio("slimeattack", "./assets/slimeattack.wav");
     }
 
     create() {
+
+        // reset these if restart
+        yourTurn = true;
+        enemyTurn = false;
 
         let hpConfig = {
             fontFamily: 'Impact',
@@ -209,27 +214,28 @@ class Play extends Phaser.Scene {
         row2 = 3 * game.config.width / 6;
         row3 = 4 * game.config.width / 6;
         
-        let randomNumber = Math.floor(Math.random() * 22);
-        // randomNumber = 4;
+        let randomNumber = Math.floor(Math.random() * (StartingDeck.length));
 
         // place card 1
-        this.card1 = new Card(this, row1, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4], randomNumber).setInteractive();
+        this.card1 = new Card(this, row1, cardHeight, "cards", StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4], randomNumber).setInteractive();
         this.card1.row = row1;
         this.card1.visible = true;
         
-        randomNumber = Math.floor(Math.random() * 22);
-        // randomNumber = 19;
-        
+        randomNumber = Math.floor(Math.random() * (StartingDeck.length));        
         // place card2
-        this.card2 = new Card(this, row2, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4],randomNumber).setInteractive();
+        this.card2 = new Card(this, row2, cardHeight, "cards", StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4],randomNumber).setInteractive();
         this.card2.row = row2;
         this.card2.visible = true;
         
+<<<<<<< HEAD
         randomNumber = Math.floor(Math.random() * 24);
         // randomNumber = 4;
 
+=======
+        randomNumber = Math.floor(Math.random() * (StartingDeck.length));
+>>>>>>> 8720cbb50d76956ab6e1de765ddc849aed6c9bf4
         // place card3
-        this.card3 = new Card(this, row3, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4],randomNumber).setInteractive();
+        this.card3 = new Card(this, row3, cardHeight, "cards", StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4],randomNumber).setInteractive();
         this.card3.row = row3;
         this.card3.visible = true;
 
@@ -237,37 +243,32 @@ class Play extends Phaser.Scene {
         this.card1.on("pointerdown", () => {
             if(yourTurn) {
                 yourTurn = false;
-                enemyTurn = true;
+                //enemyTurn = true;
                 this.burnFX(this.slime, this.card1);
                 this.bleed(this.player, this.card1.bleed);
                 this.addStrength(this.player, this.card1, 1);
                 this.checkCard(this.card1, 1);
-                this.slime.hp -= this.card1.use();
-                this.sound.play("hurt");
+                this.attackAnim(this.card1);
             }
         });
-        this.card2.on("pointerdown", () => {
+        this.card2.on("pointerdown", (card) => {
             if(yourTurn) {
                 yourTurn = false;
-                enemyTurn = true;
                 this.burnFX(this.slime, this.card2);
                 this.bleed(this.player, this.card2.bleed);
                 this.addStrength(this.player, this.card2, 2);
                 this.checkCard(this.card2, 2);
-                this.slime.hp -= this.card2.use();
-                this.sound.play("hurt");
+                this.attackAnim(this.card2);
             }
         });
         this.card3.on("pointerdown", () => {
             if(yourTurn) {
                 yourTurn = false;
-                enemyTurn = true;
                 this.burnFX(this.slime, this.card3);
                 this.bleed(this.player, this.card3.bleed);
                 this.addStrength(this.player, this.card3, 3);
                 this.checkCard(this.card3, 3);
-                this.slime.hp -= this.card3.use();
-                this.sound.play("hurt");
+                this.attackAnim(this.card3);
             }
         });
 
@@ -282,10 +283,36 @@ class Play extends Phaser.Scene {
     // Enemy Turn
     EnemyTurn() {
         enemyTurn = false;
-        this.time.delayedCall(1000, () => {
-            this.bleed(this.slime, 0);
-            this.player.hp -= this.slime.attack;
-            yourTurn = true;
+        this.bleed(this.slime, 0);
+        this.time.delayedCall(1200, () => {
+            let enemyTween = this.tweens.add({
+                targets: this.slime,
+                alpha: {from: 1, to: 1},
+                x: {from: this.slime.x, to: this.slime.x - 300},
+                ease: 'Expo.easeInOut',
+                yoyo: true,
+                repeat: 0,
+                hold: 500,
+                duration: 1000,
+                onComplete: function() {
+                    this.player.hp -= this.slime.attack;
+                    yourTurn = true;
+                },
+                onCompleteScope: this
+            });
+            this.time.delayedCall((1000 / 3), () => {
+                this.sound.play("slimeattack");
+                let shake = this.tweens.add({
+                    targets: this.player,
+                    x: {from: this.player.x - 5, to: this.player.x},
+                    ease: 'Expo.easeInOut',
+                    yoyo: true,
+                    repeat: 3
+                });
+                shake.setTimeScale(20);
+            }, null, this);
+            enemyTween.setTimeScale(2.5);
+            // yourTurn = true;
         }, null, this);
     }
 
@@ -318,7 +345,7 @@ class Play extends Phaser.Scene {
                 // add the player to next level scene
                 playerHealth = this.player.hp;
                 playerStrength = this.player.strength;
-                this.scene.start("CardSelect");
+                this.scene.start("gameOver");
             }
         }
 
@@ -369,11 +396,11 @@ class Play extends Phaser.Scene {
     addStrength (self, card, num) {
         if (card.strength > 0) {
             
-            for (let i = 0; i <= 22; i++) {
-                if (cardTypes[i][1] instanceof Array) {
-                    cardTypes[i][1][1] += card.strength;
+            for (let i = 0; i <= (StartingDeck.length-1); i++) {
+                if (StartingDeck[i][1] instanceof Array) {
+                    StartingDeck[i][1][1] += card.strength;
                 } else {
-                    cardTypes[i][1] += card.strength;
+                    StartingDeck[i][1] += card.strength;
                 }
             }
 
@@ -466,5 +493,49 @@ class Play extends Phaser.Scene {
             // fatal blow
             this.slime.hp -= Math.floor(this.slime.hp * 0.30);
         }
+    }
+
+    attackAnim(card) {
+
+        let attackTween = this.tweens.add({
+            targets: this.player,
+            alpha: {from: 1, to: 1},
+            x: {from: this.player.x, to: this.player.x + 300},
+            ease: 'Expo.easeInOut',
+            yoyo: true,
+            repeat: 0,
+            hold: 400,
+            duration: 1000,
+            onComplete: function() {
+                this.slime.hp -= card.use();
+                enemyTurn = true;
+            },
+            onCompleteScope: this
+        });
+        attackTween.setTimeScale(2.5);
+
+        this.time.delayedCall((1000 / 2.5), () => {
+
+            // shake card
+            let Cardshake = this.tweens.add({
+                targets: card,
+                x: {from: card.x + 10, to: card.x, end: card.x},
+                ease: 'Expo.easeInOut',
+                repeat: 5,
+            });
+            Cardshake.setTimeScale(20);
+
+            // use on slime
+            this.sound.play("hurt");    
+            let shake = this.tweens.add({
+                targets: this.slime,
+                x: {from: this.slime.x + 5, to: this.slime.x},
+                ease: 'Expo.easeInOut',
+                yoyo: true,
+                repeat: 3
+            });
+            shake.setTimeScale(20);
+            
+        }, null, this);
     }
 }
