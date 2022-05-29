@@ -563,6 +563,16 @@ class Play extends Phaser.Scene {
 
                 this.slime.hp -= card.use();
                 enemyTurn = true;
+                //what attack enemy will use
+                this.slime.attackType= Math.floor(Math.random() * 3);
+                console.log(this.slime.attackType);
+                if (this.slime.attackType == 0 || this.slime.attackType == 1) {
+                    this.shield.alpha=0;
+                    this.swords.alpha=1;
+                }
+                if (this.slime.attackType == 2){
+                    this.shield.alpha=0;
+                    this.swords.alpha=1;                }
             },
             onCompleteScope: this
         });
