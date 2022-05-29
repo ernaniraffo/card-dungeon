@@ -29,6 +29,10 @@ class Play extends Phaser.Scene {
 
     create() {
 
+        // reset these if restart
+        yourTurn = true;
+        enemyTurn = false;
+
         let hpConfig = {
             fontFamily: 'Impact',
             fontSize: '45px',
@@ -182,7 +186,6 @@ class Play extends Phaser.Scene {
         row3 = 4 * game.config.width / 6;
         
         let randomNumber = Math.floor(Math.random() * 22);
-        // randomNumber = 4;
 
         // place card 1
         this.card1 = new Card(this, row1, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4], randomNumber).setInteractive();
@@ -190,7 +193,6 @@ class Play extends Phaser.Scene {
         this.card1.visible = true;
         
         randomNumber = Math.floor(Math.random() * 22);
-        // randomNumber = 19;
         
         // place card2
         this.card2 = new Card(this, row2, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4],randomNumber).setInteractive();
@@ -198,7 +200,6 @@ class Play extends Phaser.Scene {
         this.card2.visible = true;
         
         randomNumber = Math.floor(Math.random() * 22);
-        // randomNumber = 4;
 
         // place card3
         this.card3 = new Card(this, row3, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4],randomNumber).setInteractive();
@@ -220,7 +221,6 @@ class Play extends Phaser.Scene {
         this.card2.on("pointerdown", (card) => {
             if(yourTurn) {
                 yourTurn = false;
-                //enemyTurn = true;
                 this.burnFX(this.slime, this.card2);
                 this.bleed(this.player, this.card2.bleed);
                 this.addStrength(this.player, this.card2, 2);
@@ -231,7 +231,6 @@ class Play extends Phaser.Scene {
         this.card3.on("pointerdown", () => {
             if(yourTurn) {
                 yourTurn = false;
-                // enemyTurn = true;
                 this.burnFX(this.slime, this.card3);
                 this.bleed(this.player, this.card3.bleed);
                 this.addStrength(this.player, this.card3, 3);
@@ -253,7 +252,6 @@ class Play extends Phaser.Scene {
         enemyTurn = false;
         this.bleed(this.slime, 0);
         this.time.delayedCall(1200, () => {
-            // this.bleed(this.slime, 0);
             let enemyTween = this.tweens.add({
                 targets: this.slime,
                 alpha: {from: 1, to: 1},
@@ -476,8 +474,7 @@ class Play extends Phaser.Scene {
             // shake card
             let Cardshake = this.tweens.add({
                 targets: card,
-                x: {from: card.x + 5, to: card.x, end: card.x},
-                y: {from: card.y - 5, to: card.y},
+                x: {from: card.x + 10, to: card.x, end: card.x},
                 ease: 'Expo.easeInOut',
                 repeat: 5,
             });

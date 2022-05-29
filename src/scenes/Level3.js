@@ -1,18 +1,17 @@
-class Level2 extends Phaser.Scene {
+class Level3 extends Phaser.Scene {
     constructor() {
-        super("Level2");
+        super("Level3");
     }
 
     preload() {
         // load assets here
         this.load.spritesheet("slime", "./assets/slime.png", {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 1});
         this.load.spritesheet("Knight", "./assets/Knight.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 1});
-        this.load.spritesheet("BG2", "./assets/Background2.png", {frameWidth: 1600, frameHeight: 800, startFrame: 0, endFrame: 7});
+        this.load.spritesheet("BG", "./assets/Background.png", {frameWidth: 1600, frameHeight: 800, startFrame: 0, endFrame: 7});
         this.load.spritesheet("cards", "./assets/cards.png", {frameWidth: 96, frameHeight: 144, startFrame: 0, endFrame: 22});
         this.load.spritesheet("fire", "./assets/FireSpirit.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 3});
         this.load.spritesheet("shade", "./assets/shade.png", {frameWidth: 150, frameHeight: 150, startFrame: 0, endFrame: 8});
         this.load.spritesheet("sporeMan", "./assets/sporeMan.png", {frameWidth: 250, frameHeight: 250, startFrame: 0, endFrame: 10});
-        this.load.spritesheet("bleed", "./assets/bleed.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 20});
 
         this.load.image("rat", "./assets/rat.png");
         this.load.image("card", "./assets/card.png");
@@ -20,14 +19,9 @@ class Level2 extends Phaser.Scene {
         this.load.image("amalgam", "./assets/amalgam.png");
         this.load.image("dog", "./assets/dog.png");
 
-        //selected card:
-        this.load.spritesheet("draw", "./assets/cards.png", {frameWidth: 96, frameHeight: 144, startFrame: 20, endFrame: 21});
-
-
         // audio
         this.load.audio("hurt", "./assets/hurt.wav");
         this.load.audio("killed", "./assets/killed.wav");
-        this.load.audio("shadeattack", "./assets/shadeattack.wav");
     }
 
     create() {
@@ -61,23 +55,22 @@ class Level2 extends Phaser.Scene {
         }
 
         // Background
-        this.background = this.add.sprite(0,0, "BG2").setOrigin(0);
+        this.background = this.add.sprite(0,0, "BG").setOrigin(0);
         this.background.setDepth(-1);
 
-        //add shade
-        this.shade = this.add.sprite(game.config.width / 1.6, 1.65 *game.config.height / 4, "shade").setOrigin(0.0);
-        this.shade.setScale(1.5);
-        this.shade.attack = 15;
+        //add sporeMan
+        this.sporeMan = this.add.sprite(game.config.width / 1.6, 1.65 *game.config.height / 4, "sporeMan").setOrigin(0.0);
+        this.sporeMan.setScale(1);
 
-        //shade anim
+        //sporeMan anim
+        // spore anim break this up into the attack and idle anims once coded!!!
         this.anims.create({
-            key: "idleShade",
-            frames: this.anims.generateFrameNumbers("shade", {start: 0, end: 8}),
+            key: "idleSpore",
+            frames: this.anims.generateFrameNumbers("sporeMan", {start: 0, end: 10}),
             frameRate: 8,
             repeat: -1
         });
-        this.shade.setScale(2);
-        this.shade.anims.play("idleShade");
+        this.sporeMan.anims.play("idleSpore");
 
         // place Player
         this.player = this.add.sprite(game.config.width / 10, 2.5 * game.config.height / 4, "Knight").setOrigin(0.0);
@@ -96,13 +89,6 @@ class Level2 extends Phaser.Scene {
         this.player.anims.play("idle1");
         this.background.setDepth(1);
 
-        // bleed anim
-        this.anims.create({
-            key: "bleeding",
-            frames: this.anims.generateFrameNumbers("bleed", {start: 0, end: 20}),
-            frameRate: 20
-        })
-
         // Fire anim
         this.anims.create({
             key: "fire",
@@ -111,10 +97,9 @@ class Level2 extends Phaser.Scene {
             repeat: -1
         });
 
-        // shade hp
-        this.shade.hp = 45;
-        this.shade.bleed = 0;
-        this.EnemyHPbar = this.add.text(this.shade.x + 150, this.shade.y, this.shade.hp, hpConfig).setOrigin(0.0);
+        // sporeMan hp
+        this.sporeMan.hp = 45;
+        this.EnemyHPbar = this.add.text(this.sporeMan.x + 150, this.sporeMan.y, this.sporeMan.hp, hpConfig).setOrigin(0.0);
         this.EnemyHPbar.gone = false;
 
         // Player hp
@@ -129,13 +114,13 @@ class Level2 extends Phaser.Scene {
 
         // Background anim
         this.anims.create({
-            key: "bganimate2",
-            frames: this.anims.generateFrameNumbers("BG2", {start: 0, end: 5}),
+            key: "bganimate",
+            frames: this.anims.generateFrameNumbers("BG", {start: 0, end: 5}),
             frameRate: 2,
             repeat: -1
         });
         this.background.setScale(.5);
-        this.background.anims.play("bganimate2");
+        this.background.anims.play("bganimate");
         this.background.setDepth(-1);
 
         let cardHeight = game.config.height /4;
@@ -171,33 +156,43 @@ class Level2 extends Phaser.Scene {
         this.card1.on("pointerdown", () => {
             console.log("clicked on card");
             if(yourTurn) {
+                console.log("your turn!");
                 yourTurn = false;
-                this.burnFX(this.shade, this.card1);
-                this.bleed(this.player, this.card1.bleed);
+                enemyTurn = true;
+                this.burnFX(this.sporeMan, this.card1);
+                this.bleed(this.player, this.card1);
                 this.addStrength(this.player, this.card1, 1);
                 this.checkCard(this.card1, 1);
-                this.attackAnim(this.card1);
+                this.sporeMan.hp -= this.card1.use();
+                this.sound.play("hurt");
             }
         });
         this.card2.on("pointerdown", () => {
             console.log("clicked on card");
             if(yourTurn) {
+                console.log("your turn!");
                 yourTurn = false;
-                this.burnFX(this.shade, this.card2);
-                this.bleed(this.player, this.card2.bleed);
+                enemyTurn = true;
+                this.burnFX(this.sporeMan, this.card2);
+                this.bleed(this.player, this.card2);
                 this.addStrength(this.player, this.card2, 2);
                 this.checkCard(this.card2, 2);
-                this.attackAnim(this.card2);
+                this.sporeMan.hp -= this.card2.use();
+                this.sound.play("hurt");
             }
         });
         this.card3.on("pointerdown", () => {
+            console.log("clicked on card");
             if(yourTurn) {
+                console.log("your turn!");
                 yourTurn = false;
-                this.burnFX(this.shade, this.card3);
-                this.bleed(this.player, this.card3.bleed);
+                enemyTurn = true;
+                this.burnFX(this.sporeMan, this.card3);
+                this.bleed(this.player, this.card3);
                 this.addStrength(this.player, this.card3, 3);
                 this.checkCard(this.card3, 3);
-                this.attackAnim(this.card3);
+                this.sporeMan.hp -= this.card3.use();
+                this.sound.play("hurt");
             }
         });
 
@@ -212,36 +207,9 @@ class Level2 extends Phaser.Scene {
     // Enemy Turn
     EnemyTurn() {
         enemyTurn = false;
-        this.bleed(this.shade, 0);
-        this.time.delayedCall(1200, () => {
-            let enemyTween = this.tweens.add({
-                targets: this.shade,
-                alpha: {from: 1, to: 1},
-                x: {from: this.shade.x, to: this.shade.x - 300},
-                ease: 'Expo.easeInOut',
-                yoyo: true,
-                repeat: 0,
-                hold: 500,
-                duration: 1000,
-                onComplete: function() {
-                    this.player.hp -= this.shade.attack;
-                    yourTurn = true;
-                },
-                onCompleteScope: this
-            });
-            this.time.delayedCall((1000 / 3), () => {
-                this.sound.play("shadeattack");
-                let shake = this.tweens.add({
-                    targets: this.player,
-                    x: {from: this.player.x - 5, to: this.player.x},
-                    ease: 'Expo.easeInOut',
-                    yoyo: true,
-                    repeat: 3
-                });
-                shake.setTimeScale(20);
-            }, null, this);
-            enemyTween.setTimeScale(2.5);
-            // yourTurn = true;
+        this.time.delayedCall(1000, () => {
+            this.player.hp -= this.sporeMan.attack;
+            yourTurn = true;
         }, null, this);
     }
 
@@ -256,16 +224,16 @@ class Level2 extends Phaser.Scene {
                 this.time.delayedCall(500, () => {
                     this.player.hpBar.destroy();
                 }, null, this);
-                this.scene.start("gameOver2");
+                this.scene.start("gameOver");
             }
         }
         // update the enemy text
-        if (this.EnemyHPbar.txt != this.shade.hp && !(this.EnemyHPbar.gone)) {
-            this.EnemyHPbar.text = this.shade.hp;
-            if (this.shade.hp <= 0) {
+        if (this.EnemyHPbar.txt != this.sporeMan.hp && !(this.EnemyHPbar.gone)) {
+            this.EnemyHPbar.text = this.sporeMan.hp;
+            if (this.sporeMan.hp <= 0) {
                 // kill the enemy
                 this.sound.play("killed");
-                this.shade.destroy();
+                this.sporeMan.destroy();
                 this.EnemyHPbar.gone = true;
                 this.time.delayedCall(500, () => {
                     this.EnemyHPbar.destroy();
@@ -274,7 +242,7 @@ class Level2 extends Phaser.Scene {
                 // add the player to next level scene
                 playerHealth = this.player.hp;
                 playerStrength = this.player.strength;
-                this.scene.start("gameOver2");
+                this.scene.start("Level3");
             }
         }
 
@@ -294,30 +262,12 @@ class Level2 extends Phaser.Scene {
         }
     }
 
-    bleed(self, amount) {
-
-        self.bleed += amount;
-
-        if (self.bleed > 0) {
-
-            let bleedDrop = this.add.sprite(self.x + 25, self.y + 25, "bleed").setOrigin(0,0);
-            bleedDrop.setScale(0.2);
-
-            // play anim before tween
-            bleedDrop.anims.play("bleeding");
-            
-            let bleedTween = this.tweens.add({
-                targets: bleedDrop,
-                alpha: { from: 1, to: 0 },
-                scale: { from: 0.2, to: 0.3 },
-                y: {from: self.y + 25, to: self.y + 100},
-                ease: 'Expo',
-            });
-            
-            bleedTween.setTimeScale(0.3);
-
-            self.bleed -= 1;
-            self.hp -= 1;
+    bleed(self, card) {
+        if (card.bleed > 0) {
+            this.bleeding = this.time.delayedCall(700, () => {
+                self.hp -= 1;
+            }, null, this);
+            this.bleeding.repeatCount = card.bleed - 1;
         }
     }
 
@@ -355,21 +305,19 @@ class Level2 extends Phaser.Scene {
         if (card.frame.name == 3) {
             // heal ("Field Gauze")
             this.player.hp += 3;
-            this.player.bleed = 0;
-            this.player.strength = 0;
         }
 
         if (card.frame.name == 8) {
             // take half damage ("Strong Stance")
-            this.shade.attack /= 2;
+            this.sporeMan.attack /= 2;
         } else {
-            this.shade.attack = 10;
+            this.sporeMan.attack = 10;
         }
 
         if (card.frame.name == 9) {
             // parry
             this.time.delayedCall(1500, () => {
-                this.shade.hp -= this.shade.attack;
+                this.sporeMan.hp -= this.sporeMan.attack;
                 this.sound.play("hurt");
             }, null, this);
         }
@@ -390,14 +338,10 @@ class Level2 extends Phaser.Scene {
 
         if (card.frame.name == 19) {
             // rot myst
-            
-            this.shade.attack -= this.shade.attack * 0.25; // reduce next attack by 25%
+            this.sporeMan.attack -= this.sporeMan.attack * 0.25; // reduce next attack by 25%
             this.reduced = true;
-            
-            this.shade.bleed += Math.floor(Phaser.Math.Between(2, 5));
-
         } else if (this.reduced) {
-            this.shade.attack += this.shade.attack * 0.25;
+            this.sporeMan.attack += this.sporeMan.attack * 0.25;
         }
 
         if (card.frame.name == 20) {
@@ -407,7 +351,7 @@ class Level2 extends Phaser.Scene {
 
         if (card.frame.name == 21) {
             // fatal blow
-            this.shade.hp -= this.shade.hp * 0.30;
+            this.sporeMan.hp -= this.sporeMan.hp * 0.30;
         }
     }
 
@@ -423,7 +367,7 @@ class Level2 extends Phaser.Scene {
             hold: 400,
             duration: 1000,
             onComplete: function() {
-                this.shade.hp -= card.use();
+                this.slime.hp -= card.use();
                 enemyTurn = true;
             },
             onCompleteScope: this
@@ -435,7 +379,8 @@ class Level2 extends Phaser.Scene {
             // shake card
             let Cardshake = this.tweens.add({
                 targets: card,
-                x: {from: card.x + 10, to: card.x, end: card.x},
+                x: {from: card.x + 5, to: card.x, end: card.x},
+                y: {from: card.y - 5, to: card.y},
                 ease: 'Expo.easeInOut',
                 repeat: 5,
             });
@@ -444,8 +389,8 @@ class Level2 extends Phaser.Scene {
             // use on slime
             this.sound.play("hurt");    
             let shake = this.tweens.add({
-                targets: this.shade,
-                x: {from: this.shade.x + 5, to: this.shade.x},
+                targets: this.slime,
+                x: {from: this.slime.x + 5, to: this.slime.x},
                 ease: 'Expo.easeInOut',
                 yoyo: true,
                 repeat: 3
