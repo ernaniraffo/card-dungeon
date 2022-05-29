@@ -189,7 +189,9 @@ class Play extends Phaser.Scene {
         this.slime.bleed = 0;
         this.EnemyHPbar = this.add.text(this.slime.x + 7, this.slime.y - 55, this.slime.hp, hpConfig).setOrigin(0.0);
         this.EnemyHPbar.gone = false;
-
+        //the type of attack the slime will do
+        this.slime.attackType= Math.floor(Math.random() * 3);
+        console.log(this.slime.attackType)
         // Player hp
         this.player.hp = 100;
         this.player.hpBar = this.add.text(this.player.x + 10, this.player.y - 55, this.player.hp, hpConfig).setOrigin(0.0);
@@ -281,7 +283,6 @@ class Play extends Phaser.Scene {
 
     // Enemy Turn
     EnemyTurn() {
-        attackType = Math.floor(Math.random() * 3);
         enemyTurn = false;
         this.swords.alpha = 1;
         this.shield.alpha = 0;
@@ -320,7 +321,6 @@ class Play extends Phaser.Scene {
 
      // Enemy Turn
      EnemyTurnBlock() {
-        attackType = Math.floor(Math.random() * 3);
         enemyTurn = false;
         this.swords.alpha = 0;
         this.shield.alpha = 1;
@@ -358,9 +358,8 @@ class Play extends Phaser.Scene {
     }
 
     update() {
-        //what attack enemy will use
-        let attackType;
-        attackType = Math.floor(Math.random() * 3);
+
+
         // update the player text
         if (this.player.hpBar.txt != this.player.hp && !(this.player.hpBar.gone)) {
             this.player.hpBar.text = this.player.hp;
@@ -396,10 +395,11 @@ class Play extends Phaser.Scene {
 
         if(enemyTurn) {
             //let attack 2/3rds of time and block 1/3rd
-            if (this.attackType == 1 || this.attackType == 2) {
+            console.log(this.slime.attackType);
+            if (this.slime.attackType == 0 || this.slime.attackType == 1) {
                 this.EnemyTurn();
             }
-            if (this.attackType == 3){
+            if (this.slime.attackType == 2){
                 this.EnemyTurnBlock();
             }
             //this.EnemyTurnAttack();
@@ -560,6 +560,7 @@ class Play extends Phaser.Scene {
             hold: 400,
             duration: 1000,
             onComplete: function() {
+
                 this.slime.hp -= card.use();
                 enemyTurn = true;
             },
