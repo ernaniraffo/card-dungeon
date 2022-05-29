@@ -227,13 +227,7 @@ class Play extends Phaser.Scene {
         this.card2.row = row2;
         this.card2.visible = true;
         
-<<<<<<< HEAD
-        randomNumber = Math.floor(Math.random() * 24);
-        // randomNumber = 4;
-
-=======
         randomNumber = Math.floor(Math.random() * (StartingDeck.length));
->>>>>>> 8720cbb50d76956ab6e1de765ddc849aed6c9bf4
         // place card3
         this.card3 = new Card(this, row3, cardHeight, "cards", StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4],randomNumber).setInteractive();
         this.card3.row = row3;
