@@ -13,6 +13,7 @@ class Play extends Phaser.Scene {
         this.load.spritesheet("shade", "./assets/shade.png", {frameWidth: 150, frameHeight: 150, startFrame: 0, endFrame: 8});
         this.load.spritesheet("sporeMan", "./assets/sporeMan.png", {frameWidth: 250, frameHeight: 250, startFrame: 0, endFrame: 10});
         this.load.spritesheet("bleed", "./assets/bleed.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 20});
+        this.load.spritesheet("beasts", "./assets/Beasts.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 2});
 
         this.load.image("rat", "./assets/rat.png");
         this.load.image("rat2", "./assets/rat2.png");
@@ -98,6 +99,34 @@ class Play extends Phaser.Scene {
         });
         this.slime.setScale(1.5);
         this.slime.anims.play("idle");
+
+        // Beast anim
+        this.anims.create({
+            key: "beast0",
+            frames: this.anims.generateFrameNumbers("beast", {start: 0, end: 0}),
+            frameRate: 0,
+            repeat: -1
+        });
+        // Beast anim
+        this.anims.create({
+            key: "beast1",
+            frames: this.anims.generateFrameNumbers("beast", {start: 1, end: 1}),
+            frameRate: 0,
+            repeat: -1
+        });
+        // Beast anim
+        this.anims.create({
+            key: "beast2",
+            frames: this.anims.generateFrameNumbers("beast", {start: 2, end: 2}),
+            frameRate: 0,
+            repeat: -1
+        });
+        // place dog
+        this.beast = this.add.sprite(game.config.width / 1.3, 2.5 *game.config.height / 4, "beast").setOrigin(0.0);
+        this.beast.setScale(.2);
+        // var randomFrame = Math.floor(Math.random() * 3);
+        // randomFrame = "beast" + randomFrame;
+        // this.beast.anims.play(randomFrame);
 
         // // spore anim break this up into the attack and idle anims once coded!!!
         // this.anims.create({
@@ -196,7 +225,7 @@ class Play extends Phaser.Scene {
         this.card2.row = row2;
         this.card2.visible = true;
         
-        randomNumber = Math.floor(Math.random() * 22);
+        randomNumber = Math.floor(Math.random() * 24);
         // randomNumber = 4;
 
         // place card3
@@ -390,6 +419,18 @@ class Play extends Phaser.Scene {
             }, null, this);
         }
 
+        if (card.frame.name == 11) {
+            // Fuzzy Friend
+            this.time.delayedCall(1500, () => {
+                // place dog
+                this.beast = this.add.sprite(game.config.width / 1.3, 2.5 *game.config.height / 4, "beast").setOrigin(0.0);
+                this.beast.setScale(.2);
+                var randomFrame = Math.floor(Math.random() * 3);
+                randomFrame = "beast" + randomFrame;
+                this.beast.anims.play(randomFrame);
+            }, null, this);
+        }
+
         if (card.frame.name == 14) {
             // use the 2 other cards
             for (let i = 1; i <= 3; i++) {
@@ -423,7 +464,7 @@ class Play extends Phaser.Scene {
 
         if (card.frame.name == 21) {
             // fatal blow
-            this.slime.hp -= this.slime.hp * 0.30;
+            this.slime.hp -= Math.floor(this.slime.hp * 0.30);
         }
     }
 }
