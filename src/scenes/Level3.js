@@ -154,6 +154,7 @@ class Level3 extends Phaser.Scene {
 
         // Player hp
         this.player.hp = playerHealth;
+        this.player.bleed = 0;
         this.player.hpBar = this.add.text(this.player.x + 10, this.player.y - 55, this.player.hp, hpConfig).setOrigin(0.0);
         this.player.hpBar.gone = false;
         this.player.strength = playerStrength;
