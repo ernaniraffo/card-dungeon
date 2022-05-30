@@ -19,7 +19,7 @@ class Play extends Phaser.Scene {
         this.load.image("swords", "./assets/swords.png");
         this.load.image("rat", "./assets/rat.png");
         this.load.image("rat2", "./assets/rat2.png");
-        this.load.image("card", "./assets/card.png");
+        //this.load.image("card", "./assets/card.png");
         this.load.image("shadow", "./assets/Shadow.png");
         this.load.image("amalgam", "./assets/amalgam.png");
         this.load.image("dog", "./assets/dog.png");

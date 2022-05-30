@@ -17,7 +17,7 @@ class Level3 extends Phaser.Scene {
 
 
         this.load.image("rat", "./assets/rat.png");
-        this.load.image("card", "./assets/card.png");
+        //this.load.image("card", "./assets/card.png");
         this.load.image("shadow", "./assets/Shadow.png");
         this.load.image("amalgam", "./assets/amalgam.png");
         this.load.image("dog", "./assets/dog.png");
