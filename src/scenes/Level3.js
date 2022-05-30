@@ -324,8 +324,26 @@ class Level3 extends Phaser.Scene {
     burnFX(enemy, card) {
         if (card.burn > 0) {
             this.burning = this.time.delayedCall(700, () => {
+                let flames = this.add.particles("fire");
+                let emitter = flames.createEmitter({
+                    x: enemy.x + 25,
+                    y: enemy.y + 25,
+                    moveToX: { min: enemy.x - 25, max: enemy.x + 60},
+                    moveToY: { min: enemy.y, max: enemy.y + 60},
+                    alpha: 0.5,
+                    scale: 0.2,
+                    quantity: 1,
+                    delay: 2
+                });
+                flames.setDepth(1); // change depth to go behind enemy
+                
+                this.time.delayedCall(25, () => {
+                    emitter.stop();
+                }, null, this);
+
                 enemy.hp -= 1;
             }, null, this);
+            
             this.burning.repeatCount = card.burn - 1;
         }
     }

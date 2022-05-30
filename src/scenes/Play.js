@@ -61,17 +61,6 @@ class Play extends Phaser.Scene {
         this.slime = this.add.sprite(8 *game.config.width / 10, 2.5 *game.config.height / 4, "slime").setOrigin(0.0);
         this.slime.attack = 10;
 
-        // // place enemy rat
-        // this.rat = this.add.sprite(game.config.width / 3, 2.5 *game.config.height / 7, "rat").setOrigin(0.0);
-        // this.rat.setScale(1.5);
-
-        // // place enemy rat2
-        // this.rat2 = this.add.sprite(game.config.width / 2, 2 *game.config.height / 10, "rat2").setOrigin(0.0);
-        // this.rat2.setScale(.2);
-
-        // // place dog
-        // this.dog = this.add.sprite(game.config.width / 1.3, 2.5 *game.config.height / 4, "dog").setOrigin(0.0);
-        // this.dog.setScale(1.5);
         //sword attack indicator
         this.swords = this.add.sprite(game.config.width / 1.25, 2.5 *game.config.height / 6.5, "swords").setOrigin(0.0);
         this.swords.setScale(.1);
@@ -81,18 +70,6 @@ class Play extends Phaser.Scene {
         this.shield = this.add.sprite(game.config.width / 1.25, 2.5 *game.config.height / 6.5, "shield").setOrigin(0.0);
         this.shield.setScale(.1);
         this.shield.alpha=0;
-        // //add shade
-        // this.shade = this.add.sprite(game.config.width / 1.9, 2.5 *game.config.height / 4, "shade").setOrigin(0.0);
-        // this.shade.setScale(1.5);
-
-        // //add sporeman
-        // this.sporeMan = this.add.sprite(game.config.width / 1.3, game.config.height / 10-90, "sporeMan").setOrigin(0.0);
-        // this.sporeMan.setScale(1);
-        
-        // // place amalgam
-        // this.amalgam = this.add.sprite(game.config.width / 2, 2.5 *game.config.height / 10, "amalgam").setOrigin(0.0);
-        // this.amalgam.setScale(2);
-        // this.amalgam.setOrigin(0.5);
 
         // Background
         this.background = this.add.sprite(0,0, "BG").setOrigin(0);
@@ -136,27 +113,6 @@ class Play extends Phaser.Scene {
             repeat: -1
         });
 
-
-        // // spore anim break this up into the attack and idle anims once coded!!!
-        // this.anims.create({
-        //     key: "idleSpore",
-        //     frames: this.anims.generateFrameNumbers("sporeMan", {start: 0, end: 10}),
-        //     frameRate: 8,
-        //     repeat: -1
-        // });
-        // this.sporeMan.anims.play("idleSpore");
-
-
-        // //shade anim
-        // this.anims.create({
-        //     key: "idleShade",
-        //     frames: this.anims.generateFrameNumbers("shade", {start: 0, end: 8}),
-        //     frameRate: 8,
-        //     repeat: -1
-        // });
-        // this.shade.setScale(1.5);
-        // this.shade.anims.play("idleShade");
-
         // Player anim
         this.anims.create({
             key: "idle1",
@@ -178,7 +134,7 @@ class Play extends Phaser.Scene {
 
         // Fire anim
         this.anims.create({
-            key: "fire",
+            key: "burning",
             frames: this.anims.generateFrameNumbers("fire", {start: 0, end: 3}),
             frameRate: 8,
             repeat: -1
@@ -227,7 +183,7 @@ class Play extends Phaser.Scene {
         this.card1.row = row1;
         this.card1.visible = true;
         
-        randomNumber = Math.floor(Math.random() * (StartingDeck.length));        
+        randomNumber = Math.floor(Math.random() * (StartingDeck.length));
         // place card2
         this.card2 = new Card(this, row2, cardHeight, "cards", StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4],randomNumber).setInteractive();
         this.card2.row = row2;
@@ -413,8 +369,26 @@ class Play extends Phaser.Scene {
     burnFX(enemy, card) {
         if (card.burn > 0) {
             this.burning = this.time.delayedCall(700, () => {
+                let flames = this.add.particles("fire");
+                let emitter = flames.createEmitter({
+                    x: enemy.x + 25,
+                    y: enemy.y + 25,
+                    moveToX: { min: enemy.x - 25, max: enemy.x + 60},
+                    moveToY: { min: enemy.y, max: enemy.y + 60},
+                    alpha: 0.5,
+                    scale: 0.2,
+                    quantity: 1,
+                    delay: 2
+                });
+                flames.setDepth(1); // change depth to go behind enemy
+                
+                this.time.delayedCall(25, () => {
+                    emitter.stop();
+                }, null, this);
+
                 enemy.hp -= 1;
             }, null, this);
+
             this.burning.repeatCount = card.burn - 1;
         }
     }
