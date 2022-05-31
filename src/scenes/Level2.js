@@ -146,7 +146,7 @@ class Level2 extends Phaser.Scene {
         // shade hp
         this.shade.hp = 45;
         this.shade.bleed = 0;
-        this.EnemyHPbar = this.add.text(this.shade.x + 150, this.shade.y, this.shade.hp, hpConfig).setOrigin(0.0);
+        this.EnemyHPbar = this.add.text(this.shade.x + 150, this.shade.y, this.shade.hp, hpConfig).setOrigin(0, 0);
         this.EnemyHPbar.gone = false;
 
         //the type of attack the shade will do
@@ -184,6 +184,7 @@ class Level2 extends Phaser.Scene {
         row3 = 4 * game.config.width / 6;
         
         let randomNumber = Math.floor(Math.random() * 22);
+        randomNumber = 10;
 
         // place card 1
         this.card1 = new Card(this, row1, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4], randomNumber).setInteractive();
@@ -373,12 +374,12 @@ class Level2 extends Phaser.Scene {
             this.burning = this.time.delayedCall(700, () => {
                 let flames = this.add.particles("fire");
                 let emitter = flames.createEmitter({
-                    x: enemy.x + 25,
-                    y: enemy.y + 25,
-                    moveToX: { min: enemy.x - 25, max: enemy.x + 60},
-                    moveToY: { min: enemy.y, max: enemy.y + 60},
-                    alpha: 0.5,
-                    scale: 0.2,
+                    x: enemy.x + 150,
+                    y: enemy.y + 150,
+                    moveToX: { min: enemy.x + 70, max: enemy.x + 250},
+                    moveToY: { min: enemy.y + 50, max: enemy.y + 200},
+                    alpha: 0.4,
+                    scale: 0.6,
                     quantity: 1,
                     delay: 2
                 });
@@ -389,9 +390,11 @@ class Level2 extends Phaser.Scene {
                 }, null, this);
 
                 enemy.hp -= 1;
+                this.sound.play("burningFX");
             }, null, this);
             
             this.burning.repeatCount = card.burn - 1;
+
         }
     }
 

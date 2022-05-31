@@ -326,12 +326,12 @@ class Level3 extends Phaser.Scene {
             this.burning = this.time.delayedCall(700, () => {
                 let flames = this.add.particles("fire");
                 let emitter = flames.createEmitter({
-                    x: enemy.x + 25,
-                    y: enemy.y + 25,
-                    moveToX: { min: enemy.x - 25, max: enemy.x + 60},
-                    moveToY: { min: enemy.y, max: enemy.y + 60},
-                    alpha: 0.5,
-                    scale: 0.2,
+                    x: enemy.x + 115,
+                    y: enemy.y + 150,
+                    moveToX: { min: enemy.x + 70, max: enemy.x + 250},
+                    moveToY: { min: enemy.y + 50, max: enemy.y + 200},
+                    alpha: 0.4,
+                    scale: 0.6,
                     quantity: 1,
                     delay: 2
                 });
@@ -342,9 +342,11 @@ class Level3 extends Phaser.Scene {
                 }, null, this);
 
                 enemy.hp -= 1;
+                this.sound.play("burningFX");
             }, null, this);
             
             this.burning.repeatCount = card.burn - 1;
+
         }
     }
 

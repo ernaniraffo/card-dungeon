@@ -28,6 +28,7 @@ class Play extends Phaser.Scene {
         this.load.audio("hurt", "./assets/hurt.wav");
         this.load.audio("killed", "./assets/killed.wav");
         this.load.audio("slimeattack", "./assets/slimeattack.wav");
+        this.load.audio("burningFX", "./assets/burning.wav");
     }
 
     create() {
@@ -387,6 +388,7 @@ class Play extends Phaser.Scene {
                 }, null, this);
 
                 enemy.hp -= 1;
+                this.sound.play("burningFX");
             }, null, this);
 
             this.burning.repeatCount = card.burn - 1;
