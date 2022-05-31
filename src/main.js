@@ -20,14 +20,14 @@ let enemyTurn = false;
 // 2D Array of Card Names, Stats + etc...
 // Name, Damage, Burn, Bleed, Strength
 let cardTypes = [
-    ["Ace", 1, 0, 0, 1],
+    ["Ace", 5, 0, 0, 10],
     ["Slash", 6, 0, 0, 0],
     ["Reklass Charge", 4, 0, 0, 2],
     ["Field Gauze", 0, 0, 0, 0],
     ["Mangle", 6, 0, 3, 0, 0],
     ["Stitchasone", 0, 0, 0, 3],
     ["Flatten", 2, 0, 0, 0],
-    ["Blue Ace", 2, 0, 0, 2],
+    ["Blue Ace", 8, 0, 0, 15],
     ["Strong Stance", 0, 0, 0, 0],
     ["Parry", 0, 0, 0, 0],
     ["Fan the Flames", 0, 2, 0, 0],
@@ -46,14 +46,14 @@ let cardTypes = [
 ];
 
 let copyCardTypes = [
-    ["Ace", 1, 0, 0, 1],
+    ["Ace", 5, 0, 0, 10],
     ["Slash", 6, 0, 0, 0],
     ["Reklass Charge", 4, 0, 0, 2],
     ["Field Gauze", 0, 0, 0, 0],
     ["Mangle", 6, 0, 3, 0, 0],
     ["Stitchasone", 0, 0, 0, 3],
     ["Flatten", 2, 0, 0, 0],
-    ["Blue Ace", 2, 0, 0, 2],
+    ["Blue Ace", 2, 0, 0, 15],
     ["Strong Stance", 0, 0, 0, 0],
     ["Parry", 0, 0, 0, 0],
     ["Fan the Flames", 0, 2, 0, 0],
@@ -74,12 +74,21 @@ let copyCardTypes = [
 
 //starting deck
 let StartingDeck = [
-    ["Ace", 1, 0, 0, 1],
+    ["Ace", 5, 0, 0, 10],
     ["Slash", 6, 0, 0, 0],
     ["Reklass Charge", 4, 0, 0, 2],
     ["Field Gauze", 0, 0, 0, 0],
     ["Mangle", 6, 0, 3, 0, 0]
-]    
+]
+
+//starting deck
+let StartingDeckCopy = [
+    ["Ace", 5, 0, 0, 10],
+    ["Slash", 6, 0, 0, 0],
+    ["Reklass Charge", 4, 0, 0, 2],
+    ["Field Gauze", 0, 0, 0, 0],
+    ["Mangle", 6, 0, 3, 0, 0]
+] 
 
 // global player strength + health
 let playerHealth;

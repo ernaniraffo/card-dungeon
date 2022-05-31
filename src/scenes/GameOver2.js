@@ -34,7 +34,7 @@ class GameOver2 extends Phaser.Scene {
 
     update () {
         // reset cards
-        cardTypes = copyCardTypes;
+        StartingDeck = StartingDeckCopy;
         if (Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.start("playGame");
         }
