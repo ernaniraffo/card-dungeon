@@ -56,7 +56,6 @@ class CardSelect extends Phaser.Scene {
         this.load.spritesheet("sporeMan", "./assets/sporeMan.png", {frameWidth: 250, frameHeight: 250, startFrame: 0, endFrame: 10});
 
         this.load.image("rat", "./assets/rat.png");
-        this.load.image("card", "./assets/card.png");
         this.load.image("shadow", "./assets/Shadow.png");
         this.load.image("amalgam", "./assets/amalgam.png");
         this.load.image("dog", "./assets/dog.png");
@@ -90,7 +89,7 @@ class CardSelect extends Phaser.Scene {
             });
         }
         var panel = CreatePanel(this)
-            .setPosition(300, 200)
+            .setPosition(353, 200)
             .layout()
         //.drawBounds(this.add.graphics(), 0xff0000)
 
