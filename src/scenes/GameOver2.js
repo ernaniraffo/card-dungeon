@@ -23,7 +23,7 @@ class GameOver2 extends Phaser.Scene {
         }
         this.background = this.add.sprite(0,0, "BG").setOrigin(0);
 
-        this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2, 'YOU LOST --- GAME OVER', menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to restart or (M) for Menu', menuConfig).setOrigin(0.5);
         
         // keys
@@ -33,9 +33,9 @@ class GameOver2 extends Phaser.Scene {
     }
 
     update () {
+        // reset cards
+        cardTypes = copyCardTypes;
         if (Phaser.Input.Keyboard.JustDown(keyR)) {
-            // reset cards
-            cardTypes = copyCardTypes;
             this.scene.start("playGame");
         }
         if (Phaser.Input.Keyboard.JustDown(keyM)) {

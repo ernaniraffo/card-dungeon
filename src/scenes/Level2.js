@@ -5,15 +5,15 @@ class Level2 extends Phaser.Scene {
 
     preload() {
         // load assets here
-        this.load.spritesheet("slime", "./assets/slime.png", {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 1});
-        this.load.spritesheet("Knight", "./assets/Knight.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 1});
-        this.load.spritesheet("BG2", "./assets/Background2.png", {frameWidth: 1600, frameHeight: 800, startFrame: 0, endFrame: 7});
-        this.load.spritesheet("cards", "./assets/cards.png", {frameWidth: 96, frameHeight: 144, startFrame: 0, endFrame: 22});
-        this.load.spritesheet("fire", "./assets/FireSpirit.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 3});
-        this.load.spritesheet("shade", "./assets/shade.png", {frameWidth: 150, frameHeight: 150, startFrame: 0, endFrame: 8});
-        this.load.spritesheet("sporeMan", "./assets/sporeMan.png", {frameWidth: 250, frameHeight: 250, startFrame: 0, endFrame: 10});
-        this.load.spritesheet("bleed", "./assets/bleed.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 20});
-        this.load.spritesheet("beasts", "./assets/Beasts.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 2});
+        this.load.spritesheet("slime", "./assets/slime.png", { frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 1 });
+        this.load.spritesheet("Knight", "./assets/Knight.png", { frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 1 });
+        this.load.spritesheet("BG2", "./assets/Background2.png", { frameWidth: 1600, frameHeight: 800, startFrame: 0, endFrame: 7 });
+        this.load.spritesheet("cards", "./assets/cards.png", { frameWidth: 96, frameHeight: 144, startFrame: 0, endFrame: 22 });
+        this.load.spritesheet("fire", "./assets/FireSpirit.png", { frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 3 });
+        this.load.spritesheet("shade", "./assets/shade.png", { frameWidth: 150, frameHeight: 150, startFrame: 0, endFrame: 8 });
+        this.load.spritesheet("sporeMan", "./assets/sporeMan.png", { frameWidth: 250, frameHeight: 250, startFrame: 0, endFrame: 10 });
+        this.load.spritesheet("bleed", "./assets/bleed.png", { frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 20 });
+        this.load.spritesheet("beasts", "./assets/Beasts.png", { frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 2 });
 
         this.load.image("rat", "./assets/rat.png");
         //this.load.image("card", "./assets/card.png");
@@ -22,7 +22,7 @@ class Level2 extends Phaser.Scene {
         this.load.image("dog", "./assets/dog.png");
 
         //selected card:
-        this.load.spritesheet("draw", "./assets/cards.png", {frameWidth: 96, frameHeight: 144, startFrame: 20, endFrame: 21});
+        this.load.spritesheet("draw", "./assets/cards.png", { frameWidth: 96, frameHeight: 144, startFrame: 20, endFrame: 21 });
 
 
         // audio
@@ -33,14 +33,14 @@ class Level2 extends Phaser.Scene {
 
     create() {
         //sword to go over enemy head and designate attacks 
-        this.swords = this.add.sprite(game.config.width / 1.23, 2.5 *game.config.height / 8, "swords").setOrigin(0.0);
+        this.swords = this.add.sprite(game.config.width / 1.23, 2.5 * game.config.height / 8, "swords").setOrigin(0.0);
         this.swords.setScale(.1);
-        this.swords.alpha=1;
+        this.swords.alpha = 1;
 
         //shield to go over enemy head and designate attacks 
-        this.shield = this.add.sprite(game.config.width / 1.23, 2.5 *game.config.height / 8, "shield").setOrigin(0.0);
+        this.shield = this.add.sprite(game.config.width / 1.23, 2.5 * game.config.height / 8, "shield").setOrigin(0.0);
         this.shield.setScale(.1);
-        this.shield.alpha=0;
+        this.shield.alpha = 0;
 
         // reset these
         yourTurn = true;
@@ -71,18 +71,18 @@ class Level2 extends Phaser.Scene {
         }
 
         // Background
-        this.background = this.add.sprite(0,0, "BG2").setOrigin(0);
+        this.background = this.add.sprite(0, 0, "BG2").setOrigin(0);
         this.background.setDepth(-1);
 
         //add shade
-        this.shade = this.add.sprite(game.config.width / 1.6, 1.65 *game.config.height / 4, "shade").setOrigin(0.0);
+        this.shade = this.add.sprite(game.config.width / 1.6, 1.65 * game.config.height / 4, "shade").setOrigin(0.0);
         this.shade.setScale(1.5);
         this.shade.attack = 15;
 
         //shade anim
         this.anims.create({
             key: "idleShade",
-            frames: this.anims.generateFrameNumbers("shade", {start: 0, end: 8}),
+            frames: this.anims.generateFrameNumbers("shade", { start: 0, end: 8 }),
             frameRate: 8,
             repeat: -1
         });
@@ -91,13 +91,13 @@ class Level2 extends Phaser.Scene {
 
         // place Player
         this.player = this.add.sprite(game.config.width / 10, 2.5 * game.config.height / 4, "Knight").setOrigin(0.0);
-        this.shadow = this.add.sprite((game.config.width / 10), (2.5 * game.config.height/4) , "shadow").setOrigin(0.0);
+        this.shadow = this.add.sprite((game.config.width / 10), (2.5 * game.config.height / 4), "shadow").setOrigin(0.0);
         this.shadow.setDepth(-1);
 
         // Player anim
         this.anims.create({
             key: "idle1",
-            frames: this.anims.generateFrameNumbers("Knight", {start: 0, end: 1}),
+            frames: this.anims.generateFrameNumbers("Knight", { start: 0, end: 1 }),
             frameRate: 8,
             repeat: -1
         });
@@ -109,14 +109,14 @@ class Level2 extends Phaser.Scene {
         // bleed anim
         this.anims.create({
             key: "bleeding",
-            frames: this.anims.generateFrameNumbers("bleed", {start: 0, end: 20}),
+            frames: this.anims.generateFrameNumbers("bleed", { start: 0, end: 20 }),
             frameRate: 20
         })
 
         // Fire anim
         this.anims.create({
             key: "fire",
-            frames: this.anims.generateFrameNumbers("fire", {start: 0, end: 3}),
+            frames: this.anims.generateFrameNumbers("fire", { start: 0, end: 3 }),
             frameRate: 8,
             repeat: -1
         });
@@ -124,21 +124,21 @@ class Level2 extends Phaser.Scene {
         // Beast anim
         this.anims.create({
             key: "beast0",
-            frames: this.anims.generateFrameNumbers("beasts", {start: 0, end: 0}),
+            frames: this.anims.generateFrameNumbers("beasts", { start: 0, end: 0 }),
             frameRate: 0,
-            repeat: -1 
+            repeat: -1
         });
         // Beast anim
         this.anims.create({
             key: "beast1",
-            frames: this.anims.generateFrameNumbers("beasts", {start: 1, end: 1}),
+            frames: this.anims.generateFrameNumbers("beasts", { start: 1, end: 1 }),
             frameRate: 0,
             repeat: -1
         });
         // Beast anim
         this.anims.create({
             key: "beast2",
-            frames: this.anims.generateFrameNumbers("beasts", {start: 2, end: 2}),
+            frames: this.anims.generateFrameNumbers("beasts", { start: 2, end: 2 }),
             frameRate: 0,
             repeat: -1
         });
@@ -150,7 +150,7 @@ class Level2 extends Phaser.Scene {
         this.EnemyHPbar.gone = false;
 
         //the type of attack the shade will do
-        this.shade.attackType= Math.floor(Math.random() * 3);
+        this.shade.attackType = Math.floor(Math.random() * 3);
         console.log(this.shade.attackType)
 
         // Player hp
@@ -159,7 +159,7 @@ class Level2 extends Phaser.Scene {
         this.player.hpBar.gone = false;
         this.player.strength = playerStrength;
         this.player.bleed = 0;
-        this.player.strengthBar = this.add.text(this.player.x + 65, this.player.y + 10, "Str: +" + this.player.strength.toString(), strengthConfig).setOrigin(0,0);
+        this.player.strengthBar = this.add.text(this.player.x + 65, this.player.y + 10, "Str: +" + this.player.strength.toString(), strengthConfig).setOrigin(0, 0);
         if (this.player.strength == 0) {
             this.player.strengthBar.alpha = 0;
         }
@@ -167,7 +167,7 @@ class Level2 extends Phaser.Scene {
         // Background anim
         this.anims.create({
             key: "bganimate2",
-            frames: this.anims.generateFrameNumbers("BG2", {start: 0, end: 5}),
+            frames: this.anims.generateFrameNumbers("BG2", { start: 0, end: 5 }),
             frameRate: 2,
             repeat: -1
         });
@@ -175,14 +175,14 @@ class Level2 extends Phaser.Scene {
         this.background.anims.play("bganimate2");
         this.background.setDepth(-1);
 
-        let cardHeight = game.config.height /4;
+        let cardHeight = game.config.height / 4;
 
         // card rows
         let row1, row2, row3;
         row1 = 2 * game.config.width / 6;
         row2 = 3 * game.config.width / 6;
         row3 = 4 * game.config.width / 6;
-        
+
         let randomNumber = Math.floor(Math.random() * 22);
         randomNumber = 10;
 
@@ -190,25 +190,25 @@ class Level2 extends Phaser.Scene {
         this.card1 = new Card(this, row1, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4], randomNumber).setInteractive();
         this.card1.row = row1;
         this.card1.visible = true;
-        
+
         randomNumber = Math.floor(Math.random() * 22);
-        
+
         // place card2
-        this.card2 = new Card(this, row2, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4],randomNumber).setInteractive();
+        this.card2 = new Card(this, row2, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4], randomNumber).setInteractive();
         this.card2.row = row2;
         this.card2.visible = true;
-        
+
         randomNumber = Math.floor(Math.random() * 22);
 
         // place card3
-        this.card3 = new Card(this, row3, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4],randomNumber).setInteractive();
+        this.card3 = new Card(this, row3, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4], randomNumber).setInteractive();
         this.card3.row = row3;
         this.card3.visible = true;
 
         // Card Selection
         this.card1.on("pointerdown", () => {
             console.log("clicked on card");
-            if(yourTurn) {
+            if (yourTurn) {
                 yourTurn = false;
                 this.burnFX(this.shade, this.card1);
                 this.bleed(this.player, this.card1.bleed);
@@ -219,7 +219,7 @@ class Level2 extends Phaser.Scene {
         });
         this.card2.on("pointerdown", () => {
             console.log("clicked on card");
-            if(yourTurn) {
+            if (yourTurn) {
                 yourTurn = false;
                 this.burnFX(this.shade, this.card2);
                 this.bleed(this.player, this.card2.bleed);
@@ -229,7 +229,7 @@ class Level2 extends Phaser.Scene {
             }
         });
         this.card3.on("pointerdown", () => {
-            if(yourTurn) {
+            if (yourTurn) {
                 yourTurn = false;
                 this.burnFX(this.shade, this.card3);
                 this.bleed(this.player, this.card3.bleed);
@@ -256,14 +256,14 @@ class Level2 extends Phaser.Scene {
         this.time.delayedCall(1200, () => {
             let enemyTween = this.tweens.add({
                 targets: this.shade,
-                alpha: {from: 1, to: 1},
-                x: {from: this.shade.x, to: this.shade.x - 300},
+                alpha: { from: 1, to: 1 },
+                x: { from: this.shade.x, to: this.shade.x - 300 },
                 ease: 'Expo.easeInOut',
                 yoyo: true,
                 repeat: 0,
                 hold: 500,
                 duration: 1000,
-                onComplete: function() {
+                onComplete: function () {
                     this.player.hp -= this.shade.attack;
                     yourTurn = true;
                 },
@@ -273,7 +273,7 @@ class Level2 extends Phaser.Scene {
                 this.sound.play("shadeattack");
                 let shake = this.tweens.add({
                     targets: this.player,
-                    x: {from: this.player.x - 5, to: this.player.x},
+                    x: { from: this.player.x - 5, to: this.player.x },
                     ease: 'Expo.easeInOut',
                     yoyo: true,
                     repeat: 3
@@ -292,15 +292,15 @@ class Level2 extends Phaser.Scene {
         this.time.delayedCall(1200, () => {
             let enemyTween = this.tweens.add({
                 targets: this.shade,
-                alpha: {from: 1, to: 1},
-                y: {from: this.shade.y, to: this.shade.y - 100},
+                alpha: { from: 1, to: 1 },
+                y: { from: this.shade.y, to: this.shade.y - 100 },
                 ease: 'Expo.easeInOut',
                 yoyo: true,
                 repeat: 0,
                 hold: 500,
                 duration: 1000,
-                onComplete: function() {
-                    this.shade.hp+=6;
+                onComplete: function () {
+                    this.shade.hp += 6;
                     yourTurn = true;
                 },
                 onCompleteScope: this
@@ -309,7 +309,7 @@ class Level2 extends Phaser.Scene {
                 this.sound.play("shadeattack");
                 let shake = this.tweens.add({
                     targets: this.player,
-                    x: {from: this.player.x - 5, to: this.player.x},
+                    x: { from: this.player.x - 5, to: this.player.x },
                     ease: 'Expo.easeInOut',
                     yoyo: true,
                     repeat: 3
@@ -347,7 +347,7 @@ class Level2 extends Phaser.Scene {
                 this.time.delayedCall(500, () => {
                     this.EnemyHPbar.destroy();
                 }, null, this);
-                
+
                 // add the player to next level scene
                 playerHealth = this.player.hp;
                 playerStrength = this.player.strength;
@@ -355,13 +355,13 @@ class Level2 extends Phaser.Scene {
             }
         }
 
-        if(enemyTurn) {
+        if (enemyTurn) {
             //let attack 2/3rds of time and block 1/3rd
             console.log(this.shade.attackType);
             if (this.shade.attackType == 0 || this.shade.attackType == 1) {
                 this.EnemyTurn();
             }
-            if (this.shade.attackType == 2){
+            if (this.shade.attackType == 2) {
                 this.EnemyTurnBlock();
             }
         }
@@ -376,15 +376,15 @@ class Level2 extends Phaser.Scene {
                 let emitter = flames.createEmitter({
                     x: enemy.x + 150,
                     y: enemy.y + 150,
-                    moveToX: { min: enemy.x + 70, max: enemy.x + 250},
-                    moveToY: { min: enemy.y + 50, max: enemy.y + 200},
+                    moveToX: { min: enemy.x + 70, max: enemy.x + 250 },
+                    moveToY: { min: enemy.y + 50, max: enemy.y + 200 },
                     alpha: 0.4,
                     scale: 0.6,
                     quantity: 1,
                     delay: 2
                 });
                 flames.setDepth(1); // change depth to go behind enemy
-                
+
                 this.time.delayedCall(25, () => {
                     emitter.stop();
                 }, null, this);
@@ -392,7 +392,7 @@ class Level2 extends Phaser.Scene {
                 enemy.hp -= 1;
                 this.sound.play("burningFX");
             }, null, this);
-            
+
             this.burning.repeatCount = card.burn - 1;
 
         }
@@ -404,20 +404,20 @@ class Level2 extends Phaser.Scene {
 
         if (self.bleed > 0) {
 
-            let bleedDrop = this.add.sprite(self.x + 25, self.y + 25, "bleed").setOrigin(0,0);
+            let bleedDrop = this.add.sprite(self.x + 25, self.y + 25, "bleed").setOrigin(0, 0);
             bleedDrop.setScale(0.2);
 
             // play anim before tween
             bleedDrop.anims.play("bleeding");
-            
+
             let bleedTween = this.tweens.add({
                 targets: bleedDrop,
                 alpha: { from: 1, to: 0 },
                 scale: { from: 0.2, to: 0.3 },
-                y: {from: self.y + 25, to: self.y + 100},
+                y: { from: self.y + 25, to: self.y + 100 },
                 ease: 'Expo',
             });
-            
+
             bleedTween.setTimeScale(0.3);
 
             self.bleed -= 1;
@@ -425,9 +425,9 @@ class Level2 extends Phaser.Scene {
         }
     }
 
-    addStrength (self, card, num) {
+    addStrength(self, card, num) {
         if (card.strength > 0) {
-            
+
             for (let i = 0; i <= 22; i++) {
                 if (cardTypes[i][1] instanceof Array) {
                     cardTypes[i][1][1] += card.strength;
@@ -445,7 +445,7 @@ class Level2 extends Phaser.Scene {
 
             self.strength += card.strength;
             self.strengthBar.text = 'Str: +' + self.strength.toString();
-            
+
             if (self.strength > 0) {
                 self.strengthBar.alpha = 1;
             } else {
@@ -482,7 +482,7 @@ class Level2 extends Phaser.Scene {
             // Fuzzy Friend
             this.time.delayedCall(1500, () => {
                 // place Random Beast
-                this.beast = this.add.sprite(this.player.x + 60,this.player.y + 80, "beasts").setOrigin(0.0);
+                this.beast = this.add.sprite(this.player.x + 60, this.player.y + 80, "beasts").setOrigin(0.0);
                 this.beast.setScale(.2);
                 var randomFrame = Math.floor(Math.random() * 3);
                 randomFrame = "beast" + randomFrame;
@@ -498,7 +498,7 @@ class Level2 extends Phaser.Scene {
                 }
             }
         }
-        
+
         if (card.frame.name == 18) {
             // point blank
             this.player.hp -= Math.floor(Phaser.Math.Between(0, 4));
@@ -506,10 +506,10 @@ class Level2 extends Phaser.Scene {
 
         if (card.frame.name == 19) {
             // rot myst
-            
+
             this.shade.attack -= this.shade.attack * 0.25; // reduce next attack by 25%
             this.reduced = true;
-            
+
             this.shade.bleed += Math.floor(Phaser.Math.Between(2, 5));
 
         } else if (this.reduced) {
@@ -531,28 +531,29 @@ class Level2 extends Phaser.Scene {
 
         let attackTween = this.tweens.add({
             targets: this.player,
-            alpha: {from: 1, to: 1},
-            x: {from: this.player.x, to: this.player.x + 300},
+            alpha: { from: 1, to: 1 },
+            x: { from: this.player.x, to: this.player.x + 300 },
             ease: 'Expo.easeInOut',
             yoyo: true,
             repeat: 0,
             hold: 400,
             duration: 1000,
-            onComplete: function() {
+            onComplete: function () {
                 this.shade.hp -= card.use();
                 enemyTurn = true;
                 //what attack enemy will use
-                this.shade.attackType= Math.floor(Math.random() * 3);
+                this.shade.attackType = Math.floor(Math.random() * 3);
                 console.log(this.shade.attackType);
-                this.shade.attackType= Math.floor(Math.random() * 3);
+                this.shade.attackType = Math.floor(Math.random() * 3);
                 console.log(this.shade.attackType);
                 if (this.shade.attackType == 0 || this.shade.attackType == 1) {
-                    this.shield.alpha=0;
-                    this.swords.alpha=1;
+                    this.shield.alpha = 0;
+                    this.swords.alpha = 1;
                 }
-                if (this.shade.attackType == 2){
-                    this.shield.alpha=0;
-                    this.swords.alpha=1;                }
+                if (this.shade.attackType == 2) {
+                    this.shield.alpha = 0;
+                    this.swords.alpha = 1;
+                }
             },
             onCompleteScope: this
         });
@@ -563,23 +564,23 @@ class Level2 extends Phaser.Scene {
             // shake card
             let Cardshake = this.tweens.add({
                 targets: card,
-                x: {from: card.x + 10, to: card.x, end: card.x},
+                x: { from: card.x + 10, to: card.x, end: card.x },
                 ease: 'Expo.easeInOut',
                 repeat: 5,
             });
             Cardshake.setTimeScale(20);
 
             // use on shade
-            this.sound.play("hurt");    
+            this.sound.play("hurt");
             let shake = this.tweens.add({
                 targets: this.shade,
-                x: {from: this.shade.x + 5, to: this.shade.x},
+                x: { from: this.shade.x + 5, to: this.shade.x },
                 ease: 'Expo.easeInOut',
                 yoyo: true,
                 repeat: 3
             });
             shake.setTimeScale(20);
-            
+
         }, null, this);
     }
 }
