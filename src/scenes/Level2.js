@@ -46,6 +46,16 @@ class Level2 extends Phaser.Scene {
         yourTurn = true;
         enemyTurn = false;
 
+        // expand deck
+        for (let i = 5; i <= 14; i++) {
+            StartingDeck[i] = copyCardTypes[i];
+            if (StartingDeck[i][1] instanceof Array) {
+                StartingDeck[i][1][1] += playerStrength;
+            } else {
+                StartingDeck[i][1] += playerStrength;
+            }
+        }
+
         // hp config
         let hpConfig = {
             fontFamily: 'Impact',
@@ -183,25 +193,22 @@ class Level2 extends Phaser.Scene {
         row2 = 3 * game.config.width / 6;
         row3 = 4 * game.config.width / 6;
 
-        let randomNumber = Math.floor(Math.random() * 22);
-        randomNumber = 10;
+        let randomNumber = Math.floor(Math.random() * (StartingDeck.length));
 
         // place card 1
-        this.card1 = new Card(this, row1, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4], randomNumber).setInteractive();
+        this.card1 = new Card(this, row1, cardHeight, "cards", StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4], randomNumber).setInteractive();
         this.card1.row = row1;
         this.card1.visible = true;
 
-        randomNumber = Math.floor(Math.random() * 22);
-
+        randomNumber = Math.floor(Math.random() * (StartingDeck.length));
         // place card2
-        this.card2 = new Card(this, row2, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4], randomNumber).setInteractive();
+        this.card2 = new Card(this, row2, cardHeight, "cards", StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4], randomNumber).setInteractive();
         this.card2.row = row2;
         this.card2.visible = true;
 
-        randomNumber = Math.floor(Math.random() * 22);
-
+        randomNumber = Math.floor(Math.random() * (StartingDeck.length));
         // place card3
-        this.card3 = new Card(this, row3, cardHeight, "cards", cardTypes[randomNumber][1], cardTypes[randomNumber][2], cardTypes[randomNumber][3], cardTypes[randomNumber][4], randomNumber).setInteractive();
+        this.card3 = new Card(this, row3, cardHeight, "cards", StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4], randomNumber).setInteractive();
         this.card3.row = row3;
         this.card3.visible = true;
 
@@ -428,11 +435,11 @@ class Level2 extends Phaser.Scene {
     addStrength(self, card, num) {
         if (card.strength > 0) {
 
-            for (let i = 0; i <= 22; i++) {
-                if (cardTypes[i][1] instanceof Array) {
-                    cardTypes[i][1][1] += card.strength;
+            for (let i = 0; i <= (StartingDeck.length - 1); i++) {
+                if (StartingDeck[i][1] instanceof Array) {
+                    StartingDeck[i][1][1] += card.strength;
                 } else {
-                    cardTypes[i][1] += card.strength;
+                    StartingDeck[i][1] += card.strength;
                 }
             }
 

@@ -327,7 +327,7 @@ class Play extends Phaser.Scene {
                 this.time.delayedCall(500, () => {
                     this.player.hpBar.destroy();
                 }, null, this);
-                this.scene.start("gameOver");
+                this.scene.start("gameOver2");
             }
         }
         // update the enemy text
@@ -345,8 +345,7 @@ class Play extends Phaser.Scene {
                 // add the player to next level scene
                 playerHealth = this.player.hp;
                 playerStrength = this.player.strength;
-                this.scene.start("CardSelect");
-                
+                this.scene.start("gameOver");
             }
         }
 
