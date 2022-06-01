@@ -39,6 +39,8 @@ class GameOver extends Phaser.Scene {
             this.scene.start("Level2");
         }
         if (Phaser.Input.Keyboard.JustDown(keyM)) {
+            // reset cards
+            StartingDeck = StartingDeckCopy;
             this.scene.start("menuScene");
         }
     }
