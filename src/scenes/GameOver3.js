@@ -1,6 +1,6 @@
-class GameOver extends Phaser.Scene {
+class GameOver3 extends Phaser.Scene {
     constructor() {
-        super("gameOver");
+        super("gameOver3");
     }
 
     preload() {
@@ -25,8 +25,8 @@ class GameOver extends Phaser.Scene {
 
         this.add.text(game.config.width/2, game.config.height/2 - 64, 'BATTLE WON!!', menuConfig).setOrigin(0.5);
 
-        this.add.text(game.config.width/2, game.config.height/2, 'Entering The Tainted Moor', menuConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) for next Level or (M) for Menu', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2, 'Entering The Final Battle', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) for finale or (M) for Menu', menuConfig).setOrigin(0.5);
         
         // keys
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -36,7 +36,7 @@ class GameOver extends Phaser.Scene {
 
     update () {
         if (Phaser.Input.Keyboard.JustDown(keyR)) {
-            this.scene.start("Level2");
+            this.scene.start("Level3");
         }
         if (Phaser.Input.Keyboard.JustDown(keyM)) {
             this.scene.start("menuScene");
