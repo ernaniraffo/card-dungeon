@@ -38,15 +38,9 @@ class Level2 extends Phaser.Scene {
         this.swords.alpha = 1;
 
         //shield to go over enemy head and designate attacks 
-<<<<<<< Updated upstream
         this.shield = this.add.sprite(game.config.width / 1.23, 2.5 * game.config.height / 8, "shield").setOrigin(0.0);
         this.shield.setScale(.1);
         this.shield.alpha = 0;
-=======
-        this.shield = this.add.sprite(game.config.width / 1.23, 2.5 *game.config.height / 8, "shield").setOrigin(0.0);
-        this.shield.setScale(.1);
-        this.shield.alpha=0;
->>>>>>> Stashed changes
 
         // reset these
         yourTurn = true;
@@ -407,26 +401,15 @@ class Level2 extends Phaser.Scene {
             }
         }
 
-<<<<<<< Updated upstream
         if (enemyTurn) {
-=======
-        if(enemyTurn) {
->>>>>>> Stashed changes
             //let attack 2/3rds of time and block 1/3rd
             console.log(this.shade.attackType);
             if (this.shade.attackType == 0 || this.shade.attackType == 1) {
                 this.EnemyTurn();
             }
-<<<<<<< Updated upstream
             if (this.shade.attackType == 2) {
                 this.EnemyTurnBlock();
             }
-=======
-            if (this.shade.attackType == 2){
-                this.EnemyTurnBlock();
-            }
-            //this.EnemyTurnAttack();
->>>>>>> Stashed changes
         }
         this.shadow.x = this.player.x + 5;
         this.shadow.y = this.player.y + 25;
@@ -605,7 +588,6 @@ class Level2 extends Phaser.Scene {
                 this.shade.hp -= card.use();
                 enemyTurn = true;
                 //what attack enemy will use
-<<<<<<< Updated upstream
                 this.shade.attackType = Math.floor(Math.random() * 3);
                 console.log(this.shade.attackType);
                 this.shade.attackType = Math.floor(Math.random() * 3);
@@ -618,10 +600,6 @@ class Level2 extends Phaser.Scene {
                     this.shield.alpha = 0;
                     this.swords.alpha = 1;
                 }
-=======
-                this.shade.attackType= Math.floor(Math.random() * 3);
-                console.log(this.slime.attackType);
->>>>>>> Stashed changes
             },
             onCompleteScope: this
         });
