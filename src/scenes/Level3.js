@@ -162,6 +162,10 @@ class Level3 extends Phaser.Scene {
         this.EnemyHPbar = this.add.text(this.sporeMan.x + 150, this.sporeMan.y, this.sporeMan.hp, hpConfig).setOrigin(0.0);
         this.EnemyHPbar.gone = false;
 
+        //the type of attack the sporeMan will do
+        this.sporeMan.attackType = Math.floor(Math.random() * 3);
+        console.log(this.sporeMan.attackType)
+
         // Player hp
         this.player.hp = playerHealth;
         this.player.bleed = 0;
@@ -288,6 +292,42 @@ class Level3 extends Phaser.Scene {
             // yourTurn = true;
         }, null, this);
     }
+    EnemyTurnBlock() {
+        enemyTurn = false;
+        this.swords.alpha = 0;
+        this.shield.alpha = 1;
+        this.bleed(this.sporeMan, 0);
+        this.time.delayedCall(1200, () => {
+            let enemyTween = this.tweens.add({
+                targets: this.sporeMan,
+                alpha: { from: 1, to: 1 },
+                y: { from: this.sporeMan.y, to: this.sporeMan.y - 100 },
+                ease: 'Expo.easeInOut',
+                yoyo: true,
+                repeat: 0,
+                hold: 500,
+                duration: 1000,
+                onComplete: function () {
+                    this.sporeMan.hp += 6;
+                    yourTurn = true;
+                },
+                onCompleteScope: this
+            });
+            this.time.delayedCall((1000 / 3), () => {
+                this.sound.play("sporemanattack");
+                let shake = this.tweens.add({
+                    targets: this.player,
+                    x: { from: this.player.x - 5, to: this.player.x },
+                    ease: 'Expo.easeInOut',
+                    yoyo: true,
+                    repeat: 3
+                });
+                shake.setTimeScale(20);
+            }, null, this);
+            enemyTween.setTimeScale(2.5);
+            // yourTurn = true;
+        }, null, this);
+    }
 
     update() {
         // update the player text
@@ -323,7 +363,14 @@ class Level3 extends Phaser.Scene {
         }
 
         if(enemyTurn) {
-            this.EnemyTurn();
+            //let attack 2/3rds of time and block 1/3rd
+            console.log(this.sporeMan.attackType);
+            if (this.sporeMan.attackType == 0 || this.sporeMan.attackType == 1) {
+                this.EnemyTurn();
+            }
+            if (this.sporeMan.attackType == 2) {
+                this.EnemyTurnBlock();
+            }
         }
         this.shadow.x = this.player.x + 5;
         this.shadow.y = this.player.y + 25;
@@ -498,6 +545,19 @@ class Level3 extends Phaser.Scene {
             onComplete: function() {
                 this.sporeMan.hp -= card.use();
                 enemyTurn = true;
+                 //what attack enemy will use
+                 this.sporeMan.attackType = Math.floor(Math.random() * 3);
+                 console.log(this.sporeMan.attackType);
+                 this.sporeMan.attackType = Math.floor(Math.random() * 3);
+                 console.log(this.sporeMan.attackType);
+                 if (this.sporeMan.attackType == 0 || this.sporeMan.attackType == 1) {
+                     this.shield.alpha = 0;
+                     this.swords.alpha = 1;
+                 }
+                 if (this.sporeMan.attackType == 2) {
+                     this.shield.alpha = 0;
+                     this.swords.alpha = 1;
+                 }
             },
             onCompleteScope: this
         });
