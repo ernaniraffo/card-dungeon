@@ -66,15 +66,16 @@ class CardDraw extends Phaser.Scene {
     }
 
     create() {
-        //allows a random card after the first 5 which are already drawn for both cards
-        let randomNumberOne = Math.floor(Math.random() * (Math.floor(22) - Math.ceil(5)) + Math.ceil(5));
-        let randomNumberTwo = Math.floor(Math.random() * (Math.floor(22) - Math.ceil(5)) + Math.ceil(5));
+        // //allows a random card after the first 5 which are already drawn for both cards
+        // let randomNumberOne = Math.floor(Math.random() * (Math.floor(22) - Math.ceil(5)) + Math.ceil(5));
+        // let randomNumberTwo = Math.floor(Math.random() * (Math.floor(22) - Math.ceil(5)) + Math.ceil(5));
         //while true
         //if randomNumberOne == 
+        // Card Frames
         for(let i = 0; i <= 22; i++) {
             this.anims.create({
-                key: "cardHolderOne",
-                frames: this.anims.generateFrameNumbers("cards", {start: randomNumberOne, end:randomNumberOne}),
+                key: i.toString(),
+                frames: this.anims.generateFrameNumbers("cards", {start: i, end: i, first: i}),
                 frameRate: 1,
                 repeat: -1
             });
@@ -158,7 +159,7 @@ class CardDraw extends Phaser.Scene {
         this.cardpick1.setScale(2.5);
         this.cardpick1.setOrigin(0.0);
         this.cardpick1.setDepth(-1);
-        this.cardpick1.anims.play("cardHolderOne");
+        this.cardpick1.anims.play(game.config.cardChoice.toString());
 
 
         this.cardpick1.on("pointerdown", () => {
