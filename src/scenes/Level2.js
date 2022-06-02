@@ -38,9 +38,15 @@ class Level2 extends Phaser.Scene {
         this.swords.alpha = 1;
 
         //shield to go over enemy head and designate attacks 
+<<<<<<< Updated upstream
         this.shield = this.add.sprite(game.config.width / 1.23, 2.5 * game.config.height / 8, "shield").setOrigin(0.0);
         this.shield.setScale(.1);
         this.shield.alpha = 0;
+=======
+        this.shield = this.add.sprite(game.config.width / 1.23, 2.5 *game.config.height / 8, "shield").setOrigin(0.0);
+        this.shield.setScale(.1);
+        this.shield.alpha=0;
+>>>>>>> Stashed changes
 
         // reset these
         yourTurn = true;
@@ -88,6 +94,9 @@ class Level2 extends Phaser.Scene {
         this.shade = this.add.sprite(game.config.width / 1.6, 1.65 * game.config.height / 4, "shade").setOrigin(0.0);
         this.shade.setScale(1.5);
         this.shade.attack = 15;
+        //the type of attack the slime will do
+        this.shade.attackType= Math.floor(Math.random() * 3);
+        console.log(this.slime.attackType)
 
         //shade anim
         this.anims.create({
@@ -327,6 +336,42 @@ class Level2 extends Phaser.Scene {
             // yourTurn = true;
         }, null, this);
     }
+    EnemyTurnBlock() {
+        enemyTurn = false;
+        this.swords.alpha = 0;
+        this.shield.alpha = 1;
+        this.bleed(this.shade, 0);
+        this.time.delayedCall(1200, () => {
+            let enemyTween = this.tweens.add({
+                targets: this.shade,
+                alpha: {from: 1, to: 1},
+                y: {from: this.shade.y, to: this.shade.y - 100},
+                ease: 'Expo.easeInOut',
+                yoyo: true,
+                repeat: 0,
+                hold: 500,
+                duration: 1000,
+                onComplete: function() {
+                    this.shade.hp+=6;
+                    yourTurn = true;
+                },
+                onCompleteScope: this
+            });
+            this.time.delayedCall((1000 / 3), () => {
+                this.sound.play("shadeattack");
+                let shake = this.tweens.add({
+                    targets: this.player,
+                    x: {from: this.player.x - 5, to: this.player.x},
+                    ease: 'Expo.easeInOut',
+                    yoyo: true,
+                    repeat: 3
+                });
+                shake.setTimeScale(20);
+            }, null, this);
+            enemyTween.setTimeScale(2.5);
+            // yourTurn = true;
+        }, null, this);
+    }
 
 
     update() {
@@ -362,15 +407,26 @@ class Level2 extends Phaser.Scene {
             }
         }
 
+<<<<<<< Updated upstream
         if (enemyTurn) {
+=======
+        if(enemyTurn) {
+>>>>>>> Stashed changes
             //let attack 2/3rds of time and block 1/3rd
             console.log(this.shade.attackType);
             if (this.shade.attackType == 0 || this.shade.attackType == 1) {
                 this.EnemyTurn();
             }
+<<<<<<< Updated upstream
             if (this.shade.attackType == 2) {
                 this.EnemyTurnBlock();
             }
+=======
+            if (this.shade.attackType == 2){
+                this.EnemyTurnBlock();
+            }
+            //this.EnemyTurnAttack();
+>>>>>>> Stashed changes
         }
         this.shadow.x = this.player.x + 5;
         this.shadow.y = this.player.y + 25;
@@ -549,6 +605,7 @@ class Level2 extends Phaser.Scene {
                 this.shade.hp -= card.use();
                 enemyTurn = true;
                 //what attack enemy will use
+<<<<<<< Updated upstream
                 this.shade.attackType = Math.floor(Math.random() * 3);
                 console.log(this.shade.attackType);
                 this.shade.attackType = Math.floor(Math.random() * 3);
@@ -561,6 +618,10 @@ class Level2 extends Phaser.Scene {
                     this.shield.alpha = 0;
                     this.swords.alpha = 1;
                 }
+=======
+                this.shade.attackType= Math.floor(Math.random() * 3);
+                console.log(this.slime.attackType);
+>>>>>>> Stashed changes
             },
             onCompleteScope: this
         });
