@@ -82,7 +82,7 @@ class CardDraw extends Phaser.Scene {
         }
 
         var panel = CreatePanel(this)
-            .setPosition(2 * game.config.width / 6+75, game.config.height /4-75)
+            .setPosition(3.4 * game.config.width / 6+75, game.config.height / 2.8)
             .layout()
         //.drawBounds(this.add.graphics(), 0xff0000)
 
@@ -115,6 +115,8 @@ class CardDraw extends Phaser.Scene {
                 1, // r
                 `hsl(${hue},50%,50%)` // color
             );
+            console.log(canvas.input.localX);
+            console.log(canvas.input.localY);
 
             hue = (hue + 3) % 360;
         })
@@ -174,12 +176,22 @@ const COLOR_PRIMARY = 0x4e342e;
 const COLOR_LIGHT = 0x7b5e57;
 const COLOR_DARK = 0x260e04;
 var CreatePanel = function (scene) {
+
+    //hieght of each card
+    let cardHeight = game.config.height /4;
+
+    // card rows
+    let row1, row2, row3;
+    row1 = 2 * game.config.width / 6;
+    row2 = 3 * game.config.width / 6;
+    row3 = 4 * game.config.width / 6;
+
     // Top ui
     var panel = scene.rexUI.add.sizer({ orientation: 'x' });
 
     // Background of panel
     // Drawing canvas
-    var canvas = scene.rexUI.add.canvas(0, 0, 2 * game.config.width / 6, game.config.height /3).setOrigin(0)
+    var canvas = scene.rexUI.add.canvas(100, 100, 208, 150);
     // Buttons
     var buttons = scene.rexUI.add.buttons({
         width: 120,
