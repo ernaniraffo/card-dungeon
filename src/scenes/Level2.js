@@ -88,9 +88,9 @@ class Level2 extends Phaser.Scene {
         this.shade = this.add.sprite(game.config.width / 1.6, 1.65 * game.config.height / 4, "shade").setOrigin(0.0);
         this.shade.setScale(1.5);
         this.shade.attack = 15;
-        //the type of attack the slime will do
+        //the type of attack the shade will do
         this.shade.attackType= Math.floor(Math.random() * 3);
-        console.log(this.slime.attackType)
+        console.log(this.shade.attackType)
 
         //shade anim
         this.anims.create({
@@ -400,16 +400,16 @@ class Level2 extends Phaser.Scene {
                 this.scene.start("gameOver3");
             }
         }
-
-        if (enemyTurn) {
+        if(enemyTurn) {
             //let attack 2/3rds of time and block 1/3rd
             console.log(this.shade.attackType);
             if (this.shade.attackType == 0 || this.shade.attackType == 1) {
                 this.EnemyTurn();
             }
-            if (this.shade.attackType == 2) {
+            if (this.shade.attackType == 2){
                 this.EnemyTurnBlock();
             }
+            //this.EnemyTurnAttack();
         }
         this.shadow.x = this.player.x + 5;
         this.shadow.y = this.player.y + 25;
