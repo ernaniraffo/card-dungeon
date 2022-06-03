@@ -22,7 +22,7 @@ class Drawer{
             ctx.fillStyle = color;
             ctx.fill();
         } else {
-            ctx.lineWidth = 0.1;
+            ctx.lineWidth = 1;
             ctx.strokeStyle = color;
             ctx.stroke();
         }
@@ -112,6 +112,18 @@ class CardDraw extends Phaser.Scene {
                 drawer.circle(
                 Math.floor(canvas.input.localX), // x
                 Math.floor(canvas.input.localY), // y
+                1, // r
+                `hsl(${hue},50%,50%)` // color
+            );
+            drawer.circle(
+                Math.floor(canvas.input.localX+1), // x
+                Math.floor(canvas.input.localY+1), // y
+                1, // r
+                `hsl(${hue},50%,50%)` // color
+            );
+            drawer.circle(
+                Math.floor(canvas.input.localX-1), // x
+                Math.floor(canvas.input.localY-1), // y
                 1, // r
                 `hsl(${hue},50%,50%)` // color
             );
