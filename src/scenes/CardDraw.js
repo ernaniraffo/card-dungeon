@@ -47,7 +47,7 @@ class CardDraw extends Phaser.Scene {
         this.load.plugin('rexlzstringplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexlzstringplugin.min.js', true);
         
         // load assets here
-        this.load.spritesheet("colors", "./assets/colors.png", {frameWidth: 250, frameHeight: 250, startFrame: 0, endFrame: 8});
+        this.load.spritesheet("colors", "./assets/colors2.png", {frameWidth: 250, frameHeight: 250, startFrame: 0, endFrame: 6});
 
         this.load.spritesheet("slime", "./assets/slime.png", {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 1});
         this.load.spritesheet("Knight", "./assets/Knight.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 1});
@@ -74,7 +74,7 @@ class CardDraw extends Phaser.Scene {
         let brushHue =359;
         let brushSaturation = "34.3";
         let brushLightness = "40.0";
-        for(let i = 0; i <= 7; i++) {
+        for(let i = 0; i <= 6; i++) {
             this.anims.create({
                 key: i.toString(),
                 frames: this.anims.generateFrameNumbers("colors", {start: i, end:i}),
@@ -82,41 +82,41 @@ class CardDraw extends Phaser.Scene {
                 repeat: -1
             });
         }
-        this.redButton = this.add.sprite(0,0,"colors").setInteractive();
-        this.redButton.anims.play("0");
+        this.redButton = this.add.sprite(700,50,"colors").setInteractive();
+        this.redButton.anims.play("0"); 
         this.redButton.visible = true;
-        this.redButton.setScale(1.5);
-        this.redButton.setOrigin(-1.45,0.4);
-        this.darkBlueButton = this.add.sprite(0,0,"colors").setInteractive();
+        this.redButton.setScale(0.2);
+        this.redButton.setOrigin(0, 0);
+        this.darkBlueButton = this.add.sprite(700,100,"colors").setInteractive();
         this.darkBlueButton.anims.play("1");
         this.darkBlueButton.visible = true;
-        this.darkBlueButton.setScale(1.5);
-        this.darkBlueButton.setOrigin(-1.45,0.25);
-        this.greyButton = this.add.sprite(0,0,"colors").setInteractive();
+        this.darkBlueButton.setScale(0.2);
+        this.darkBlueButton.setOrigin(0, 0);
+        this.greyButton = this.add.sprite(700,150,"colors").setInteractive();
         this.greyButton.anims.play("2");
         this.greyButton.visible = true;
-        this.greyButton.setScale(1.5);
-        this.greyButton.setOrigin(-1.45,0.10);
+        this.greyButton.setScale(0.2);
+        this.greyButton.setOrigin(0, 0);
         //this.lightBlueButton = this.add.sprite(0,0,"colors").setInteractive();
         //this.lightBlueButton.anims.play("3");
         //this.lightBlueButton.visible = true;
-        //this.lightBlueButton.setScale(1.5);
-        //this.lightBlueButton.setOrigin(-1.45,-0.05);
-        this.yellowButton = this.add.sprite(0,0,"colors").setInteractive();
+        //this.lightBlueButton.setScale(0.2);
+        // this.lightBlueButton.setOrigin(0, 0);
+        this.yellowButton = this.add.sprite(700,200,"colors").setInteractive();
         this.yellowButton.anims.play("4");
         this.yellowButton.visible = true;
-        this.yellowButton.setScale(1.5);
-        this.yellowButton.setOrigin(-1.45,-0.20);
-        this.greenButton = this.add.sprite(0,0,"colors").setInteractive();
+        this.yellowButton.setScale(0.2);
+        this.yellowButton.setOrigin(0, 0);
+        this.greenButton = this.add.sprite(700,250,"colors").setInteractive();
         this.greenButton.anims.play("5");
         this.greenButton.visible = true;
-        this.greenButton.setScale(1.5);
-        this.greenButton.setOrigin(-1.45,-0.35);
-        this.pinkButton = this.add.sprite(0,0,"colors").setInteractive();
+        this.greenButton.setScale(0.2);
+        this.greenButton.setOrigin(0, 0);
+        this.pinkButton = this.add.sprite(700,300,"colors").setInteractive();
         this.pinkButton.anims.play("6");
         this.pinkButton.visible = true;
-        this.pinkButton.setScale(1.5);
-        this.pinkButton.setOrigin(-1.45,-0.50);
+        this.pinkButton.setScale(0.2);
+        this.pinkButton.setOrigin(0, 0);
 
         //.on('pointerout', () => startButton.setStyle({ fill: '#FFF' }))
         // //allows a random card after the first 5 which are already drawn for both cards
@@ -247,13 +247,12 @@ class CardDraw extends Phaser.Scene {
             this.brushLightness = "28.0";
 
         });
-        //this.lightBlueButton.on("pointerdown", () => {
-            //console.log("clicked on lightBlueButton");
-            //this.brushHue =154;
-            //this.brushSaturation = "17.0";
-            //this.brushLightness = "36.9";
-
-        //});
+        this.greyButton.on("pointerdown", () => {
+            console.log("clicked on greyButton");
+            this.brushHue =154;
+            this.brushSaturation = "17.0";
+            this.brushLightness = "36.9";
+        });
         this.yellowButton.on("pointerdown", () => {
             console.log("clicked on yellowButton");
             this.brushHue =209;
