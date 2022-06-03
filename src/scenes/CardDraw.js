@@ -47,6 +47,8 @@ class CardDraw extends Phaser.Scene {
         this.load.plugin('rexlzstringplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexlzstringplugin.min.js', true);
         
         // load assets here
+        this.load.spritesheet("colors", "./assets/colors.png", {frameWidth: 250, frameHeight: 250, startFrame: 0, endFrame: 8});
+
         this.load.spritesheet("slime", "./assets/slime.png", {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 1});
         this.load.spritesheet("Knight", "./assets/Knight.png", {frameWidth: 160, frameHeight: 160, startFrame: 0, endFrame: 1});
         this.load.spritesheet("BG", "./assets/Background.png", {frameWidth: 1600, frameHeight: 800, startFrame: 0, endFrame: 7});
@@ -64,8 +66,59 @@ class CardDraw extends Phaser.Scene {
         this.load.audio("hurt", "./assets/hurt.wav");
         this.load.audio("killed", "./assets/killed.wav");
     }
+    
 
     create() {
+        //set to first color of different buttons to change color of brush
+        //uses HSL color so create variables to represent hue saturation and lightness
+        let brushHue =359;
+        let brushSaturation = "34.3";
+        let brushLightness = "40.0";
+        for(let i = 0; i <= 7; i++) {
+            this.anims.create({
+                key: i.toString(),
+                frames: this.anims.generateFrameNumbers("colors", {start: i, end:i}),
+                frameRate: 1,
+                repeat: -1
+            });
+        }
+        this.redButton = this.add.sprite(0,0,"colors").setInteractive();
+        this.redButton.anims.play("0");
+        this.redButton.visible = true;
+        this.redButton.setScale(1.5);
+        this.redButton.setOrigin(-1.45,0.4);
+        this.darkBlueButton = this.add.sprite(0,0,"colors").setInteractive();
+        this.darkBlueButton.anims.play("1");
+        this.darkBlueButton.visible = true;
+        this.darkBlueButton.setScale(1.5);
+        this.darkBlueButton.setOrigin(-1.45,0.25);
+        this.greyButton = this.add.sprite(0,0,"colors").setInteractive();
+        this.greyButton.anims.play("2");
+        this.greyButton.visible = true;
+        this.greyButton.setScale(1.5);
+        this.greyButton.setOrigin(-1.45,0.10);
+        //this.lightBlueButton = this.add.sprite(0,0,"colors").setInteractive();
+        //this.lightBlueButton.anims.play("3");
+        //this.lightBlueButton.visible = true;
+        //this.lightBlueButton.setScale(1.5);
+        //this.lightBlueButton.setOrigin(-1.45,-0.05);
+        this.yellowButton = this.add.sprite(0,0,"colors").setInteractive();
+        this.yellowButton.anims.play("4");
+        this.yellowButton.visible = true;
+        this.yellowButton.setScale(1.5);
+        this.yellowButton.setOrigin(-1.45,-0.20);
+        this.greenButton = this.add.sprite(0,0,"colors").setInteractive();
+        this.greenButton.anims.play("5");
+        this.greenButton.visible = true;
+        this.greenButton.setScale(1.5);
+        this.greenButton.setOrigin(-1.45,-0.35);
+        this.pinkButton = this.add.sprite(0,0,"colors").setInteractive();
+        this.pinkButton.anims.play("6");
+        this.pinkButton.visible = true;
+        this.pinkButton.setScale(1.5);
+        this.pinkButton.setOrigin(-1.45,-0.50);
+
+        //.on('pointerout', () => startButton.setStyle({ fill: '#FFF' }))
         // //allows a random card after the first 5 which are already drawn for both cards
         // let randomNumberOne = Math.floor(Math.random() * (Math.floor(22) - Math.ceil(5)) + Math.ceil(5));
         // let randomNumberTwo = Math.floor(Math.random() * (Math.floor(22) - Math.ceil(5)) + Math.ceil(5));
@@ -113,24 +166,24 @@ class CardDraw extends Phaser.Scene {
                 Math.floor(canvas.input.localX), // x
                 Math.floor(canvas.input.localY), // y
                 1, // r
-                `hsl(${hue},50%,50%)` // color
+                `hsl(${brushHue},${brushSaturation}%,${brushLightness}%)` // color
             );
             drawer.circle(
                 Math.floor(canvas.input.localX+1), // x
                 Math.floor(canvas.input.localY+1), // y
                 1, // r
-                `hsl(${hue},50%,50%)` // color
+                `hsl(${brushHue},${brushSaturation}%,${brushLightness}%)` // color
             );
             drawer.circle(
                 Math.floor(canvas.input.localX-1), // x
                 Math.floor(canvas.input.localY-1), // y
                 1, // r
-                `hsl(${hue},50%,50%)` // color
+                `hsl(${brushHue},${brushSaturation}%,${brushLightness}%)` // color
             );
-            console.log(canvas.input.localX);
-            console.log(canvas.input.localY);
+            //console.log(canvas.input.localX);
+            //console.log(canvas.input.localY);
 
-            hue = (hue + 3) % 360;
+            //hue = (hue + 3) % 360;
         })
         .on('canvas.panend', function () {
             saveCanvas();
@@ -178,6 +231,48 @@ class CardDraw extends Phaser.Scene {
 
         this.cardpick1.on("pointerdown", () => {
             console.log("clicked on card");
+
+        });
+        this.redButton.on("pointerdown", () => {
+            console.log("clicked on red button");
+            this.brushHue =359;
+            this.brushSaturation = "34.3";
+            this. brushLightness = "40.0";
+
+        });
+        this.darkBlueButton.on("pointerdown", () => {
+            console.log("clicked on darkBlueButton");
+            this.brushHue =209;
+            this.brushSaturation = "35.7";
+            this.brushLightness = "28.0";
+
+        });
+        //this.lightBlueButton.on("pointerdown", () => {
+            //console.log("clicked on lightBlueButton");
+            //this.brushHue =154;
+            //this.brushSaturation = "17.0";
+            //this.brushLightness = "36.9";
+
+        //});
+        this.yellowButton.on("pointerdown", () => {
+            console.log("clicked on yellowButton");
+            this.brushHue =209;
+            this.brushSaturation = "35.7";
+            this.brushLightness = "28.0";
+
+        });
+        this.greenButton.on("pointerdown", () => {
+            console.log("clicked on greenButton");
+            this.brushHue =359;
+            this.brushSaturation = "34.3";
+            this. brushLightness = "40.0";
+
+        });
+        this.pinkButton.on("pointerdown", () => {
+            console.log("clicked on pinkButton");
+           this.brushHue =359;
+            this.brushSaturation = "34.3";
+            this. brushLightness = "40.0";
 
         });
     }   
