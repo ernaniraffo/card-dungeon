@@ -206,7 +206,7 @@ class CardDraw extends Phaser.Scene {
         })
         // Store initial canvas
         saveCanvas();
-        this.add.text(game.config.width / 6-100, 125, 'Drag on canvas to draw')
+        this.add.text(game.config.width / 6-100, 125, 'Drag slowly on canvas to draw')
 
         //hieght of each card
         let cardHeight = game.config.height /4;
@@ -217,7 +217,6 @@ class CardDraw extends Phaser.Scene {
         row2 = 3 * game.config.width / 6;
         row3 = 4 * game.config.width / 6;
         this.doneButton = this.add.sprite(game.config.width / 6, cardHeight+200, "doneButton").setInteractive();
-
         //add a new card to deck
         // changed to sprite instead of card due to bugs
         //this.player = this.add.sprite(game.config.width / 10, 2.5 * game.config.height / 4, "Knight").setOrigin(0.0);
@@ -228,50 +227,70 @@ class CardDraw extends Phaser.Scene {
         this.cardpick1.setDepth(-1);
         this.cardpick1.anims.play(game.config.cardChoice.toString());
 
+        this.doneButton.on("pointerdown",()=>{
+            //this code is based on the below link. after playing around with it for a long time i have determined
+            //the phaser example changes a particle emmiter to be the image but how to change a sprite
+            //https://phaser.io/examples/v3/view/snapshot/snapshot-area#
+            console.log("clicked on doneButton");
+            var textureManager = this.cardpick1.textures;
 
+            this.game.renderer.snapshotArea(this.cardpick1.x, this.cardpick1.y, 240, 360, function (image)
+            {
+                document.body.appendChild(image);
+                //cardpick1.setTexture(image);
+                //if (textureManager.exists('area'))
+                //{
+                //    textureManager.remove('area');
+                //}
+
+                //textureManager.addImage('area', image);
+                //this line below holds promise
+                //this.cardpick1.setTexture(image);
+            });
+        });
         this.cardpick1.on("pointerdown", () => {
             console.log("clicked on card");
 
         });
         this.redButton.on("pointerdown", () => {
             console.log("clicked on red button");
-            this.brushHue =359;
-            this.brushSaturation = "34.3";
-            this. brushLightness = "40.0";
+            brushHue =359;
+            brushSaturation = "34.3";
+            brushLightness = "40.0";
 
         });
         this.darkBlueButton.on("pointerdown", () => {
             console.log("clicked on darkBlueButton");
-            this.brushHue =209;
-            this.brushSaturation = "35.7";
-            this.brushLightness = "28.0";
+            brushHue =209;
+            brushSaturation = "35.7";
+            brushLightness = "28.0";
 
         });
         this.greyButton.on("pointerdown", () => {
             console.log("clicked on greyButton");
-            this.brushHue =154;
-            this.brushSaturation = "17.0";
-            this.brushLightness = "36.9";
+            brushHue =250;
+            brushSaturation = "15.0";
+            brushLightness = "15.7";
         });
         this.yellowButton.on("pointerdown", () => {
             console.log("clicked on yellowButton");
-            this.brushHue =209;
-            this.brushSaturation = "35.7";
-            this.brushLightness = "28.0";
+            brushHue =58;
+            brushSaturation = "42.4";
+            brushLightness = "74.1";
 
         });
         this.greenButton.on("pointerdown", () => {
             console.log("clicked on greenButton");
-            this.brushHue =359;
-            this.brushSaturation = "34.3";
-            this. brushLightness = "40.0";
+            brushHue =151;
+            brushSaturation = "90.6";
+            brushLightness = "33.5";
 
         });
         this.pinkButton.on("pointerdown", () => {
             console.log("clicked on pinkButton");
-           this.brushHue =359;
-            this.brushSaturation = "34.3";
-            this. brushLightness = "40.0";
+            brushHue =345;
+            brushSaturation = "84.7";
+            brushLightness = "61.6";
 
         });
     }   

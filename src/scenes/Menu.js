@@ -47,7 +47,7 @@ class Menu extends Phaser.Scene {
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
-            this.scene.start("playGame");
+            this.scene.start("CardSelect");
         }
     }
 }
