@@ -227,27 +227,56 @@ class CardDraw extends Phaser.Scene {
         this.cardpick1.setDepth(-1);
         this.cardpick1.anims.play(game.config.cardChoice.toString());
 
-        this.doneButton.on("pointerdown",()=>{
+        let scene = this;
+
+        this.doneButton.on("pointerdown", () => {
             //this code is based on the below link. after playing around with it for a long time i have determined
             //the phaser example changes a particle emmiter to be the image but how to change a sprite
             //https://phaser.io/examples/v3/view/snapshot/snapshot-area#
             console.log("clicked on doneButton");
-            var textureManager = this.cardpick1.textures;
+            // let textureManager = this.textures;
 
             this.game.renderer.snapshotArea(this.cardpick1.x, this.cardpick1.y, 240, 360, function (image)
             {
-                document.body.appendChild(image);
-                //cardpick1.setTexture(image);
-                //if (textureManager.exists('area'))
-                //{
-                //    textureManager.remove('area');
-                //}
+                // document.body.appendChild(image);
+                // console.log(this);
+                // console.log(scene);
+                //console.log(image);
+                // image1 = image;
+            
+                if (scene.textures.exists('newcard'))
+                {
+                    scene.textures.remove('newcard');
+                }
 
-                //textureManager.addImage('area', image);
-                //this line below holds promise
-                //this.cardpick1.setTexture(image);
-            });
-        });
+                // console.log(textureManager);
+                scene.textures.addImage('newcard', image); // adds texture to this scene
+                console.log("does the texture exist? ", scene.textures.exists('newcard'));
+                // console.log("does the texture exist? ", scene.textures.exists('newcard'));
+                // scene.add.sprite(row1, cardHeight, 'newcard').setInteractive();
+                // console.log("texture: ", scene.newtexture)
+
+            }, 'image/png');
+
+            // EVERYTHING that happens under snapshotArea() function actually occurs before the function.
+
+
+            // console.log(scene.textures);
+            // console.log("does the texture exist? ", scene.textures.exists('newcard'));
+            //onsole.log("after snapshot: ", this);
+            //console.log(this == scene);
+            //scene.add.sprite(row1, cardHeight, 'newcard').setInteractive();
+            //console.log("does the texture exist? ", scene.textures.exists('newcard'));
+            // console.log(this.textures);
+            // console.log("does the texture exist? ", scene.textures.exists('shade'));
+            // this.cardpick1.setTexture('new card');
+            // console.log("new texture: ", scene.newtexture);
+            // this.add.sprite(row1, cardHeight, scene.newtexture).setInteractive();
+            // console.log(this.card);
+
+        }, this);
+
+        
         this.cardpick1.on("pointerdown", () => {
             console.log("clicked on card");
 
@@ -294,7 +323,12 @@ class CardDraw extends Phaser.Scene {
 
         });
     }   
-    update() {}
+    update() {
+        if (this.textures.exists('newcard')) {
+            console.log("exists in this.textures");
+            this.add.sprite(2 * game.config.width / 6, game.config.height /4, 'newcard').setInteractive();
+        }
+    }
 
 }
 const COLOR_PRIMARY = 0x4e342e;
