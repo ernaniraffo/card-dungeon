@@ -28,6 +28,18 @@ class CardSelect extends Phaser.Scene {
         //allows a random card after the first 5 which are already drawn for both cards
         let randomNumberOne = Math.floor(Math.random() * (Math.floor(22) - Math.ceil(5)) + Math.ceil(5));
         let randomNumberTwo = Math.floor(Math.random() * (Math.floor(22) - Math.ceil(5)) + Math.ceil(5));
+
+        //makes sure you dont see the same card twice to add to your deck
+        for(let i = 0; i < cardsMade.length; i++) {
+            checkDupe(cardsMade[i]);
+        }
+        function checkDupe(element){
+            if(randomNumberOne==element || randomNumberTwo==element){
+                //if they are equal redo the create 
+                console.log("got same card");
+                return create();
+            }
+        }
         //while true
         //if randomNumberOne == 
         for(let i = 0; i <= 22; i++) {
@@ -81,20 +93,21 @@ class CardSelect extends Phaser.Scene {
 
         this.cardpick1.on("pointerdown", () => {
             console.log("clicked on card one");
-            this.cardpick2.destroy();
+            //this.cardpick2.destroy();
+            //adds to the global varaible cardChoice the card they are currently drawing
             game.config.cardChoice = randomNumberOne;
+            //adds that choice to a list that will forever hold all cards edited so the player cant draw on the same card twice
+            cardsMade.push(game.config.cardChoice);
             this.scene.start("CardDraw");
-
-
-
         });
         this.cardpick2.on("pointerdown", () => {
             console.log("clicked on card two");
+            //adds to the global varaible cardChoice the card they are currently drawing
             game.config.cardChoice = randomNumberTwo;
-            this.cardpick1.destroy();
+            //adds that choice to a list that will forever hold all cards edited so the player cant draw on the same card twice
+            cardsMade.push(game.config.cardChoice);
+            //this.cardpick1.destroy();
             this.scene.start("CardDraw");
-
-
         });
     }   
     update() {}

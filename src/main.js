@@ -73,7 +73,8 @@ let copyCardTypes = [
     ["Bile Bomb", [1, 5], 0, 0, 0]
 ];
 
-
+//cards added to starting deck
+let cardsMade = [];
 //starting deck
 let StartingDeck = [
     ["Ace", 1, 0, 0, 3],
