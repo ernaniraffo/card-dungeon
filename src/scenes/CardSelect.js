@@ -37,7 +37,8 @@ class CardSelect extends Phaser.Scene {
             if(randomNumberOne==element || randomNumberTwo==element){
                 //if they are equal redo the create 
                 console.log("got same card");
-                return create();
+                this.scene.restart();
+
             }
         }
         //while true
