@@ -36,7 +36,7 @@ class GameOver extends Phaser.Scene {
 
     update () {
         if (Phaser.Input.Keyboard.JustDown(keyR)) {
-            this.scene.start("Level2");
+            this.scene.start("CardSelect");
         }
         if (Phaser.Input.Keyboard.JustDown(keyM)) {
             // reset cards

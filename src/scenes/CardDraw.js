@@ -329,7 +329,16 @@ class CardDraw extends Phaser.Scene {
         if (this.textures.exists('newcard') && this.done) {
             console.log("exists in this.textures");
             this.add.sprite(2 * game.config.width / 6, game.config.height /4, 'newcard').setInteractive();
-            this.scene.start('Level2');
+            if (game.config.currentLevel==1){
+                this.scene.start('playGame');
+            }
+            if (game.config.currentLevel==2){
+                this.scene.start('Level2');
+            }
+            if (game.config.currentLevel==3){
+                this.scene.start('Level3');
+            }
+            console.log("error no level seen");
         }
     }
 

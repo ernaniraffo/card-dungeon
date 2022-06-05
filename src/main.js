@@ -11,7 +11,8 @@ let config = {
             debug: false
         }
     },
-    cardChoice : 0
+    cardChoice : 0,
+    currentLevel : 1
 }
 
 let game = new Phaser.Game(config);

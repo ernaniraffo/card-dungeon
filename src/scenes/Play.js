@@ -345,6 +345,7 @@ class Play extends Phaser.Scene {
                 // add the player to next level scene
                 playerHealth = this.player.hp;
                 playerStrength = this.player.strength;
+                game.config.currentLevel = 2;
                 this.scene.start("gameOver");
             }
         }
