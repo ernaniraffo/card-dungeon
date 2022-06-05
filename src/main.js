@@ -92,8 +92,8 @@ let StartingDeckCopy = [
 ]
 
 // global player strength + health
-let playerHealth;
-let playerStrength;
+let playerHealth = 70; // just to start level 2 from the Card Draw scene
+let playerStrength = 10;
 
 // reserve keyboard variables
 let keyRIGHT, keyR, keyM;

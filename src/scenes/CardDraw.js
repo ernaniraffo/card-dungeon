@@ -227,6 +227,7 @@ class CardDraw extends Phaser.Scene {
         this.cardpick1.setDepth(-1);
         this.cardpick1.anims.play(game.config.cardChoice.toString());
 
+        this.done = false;
         let scene = this;
 
         this.doneButton.on("pointerdown", () => {
@@ -252,6 +253,7 @@ class CardDraw extends Phaser.Scene {
                 // console.log(textureManager);
                 scene.textures.addImage('newcard', image); // adds texture to this scene
                 console.log("does the texture exist? ", scene.textures.exists('newcard'));
+                scene.done = true;
                 // console.log("does the texture exist? ", scene.textures.exists('newcard'));
                 // scene.add.sprite(row1, cardHeight, 'newcard').setInteractive();
                 // console.log("texture: ", scene.newtexture)
@@ -324,9 +326,10 @@ class CardDraw extends Phaser.Scene {
         });
     }   
     update() {
-        if (this.textures.exists('newcard')) {
+        if (this.textures.exists('newcard') && this.done) {
             console.log("exists in this.textures");
             this.add.sprite(2 * game.config.width / 6, game.config.height /4, 'newcard').setInteractive();
+            this.scene.start('Level2');
         }
     }
 

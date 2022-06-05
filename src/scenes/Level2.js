@@ -20,6 +20,7 @@ class Level2 extends Phaser.Scene {
         this.load.image("shadow", "./assets/Shadow.png");
         this.load.image("amalgam", "./assets/amalgam.png");
         this.load.image("dog", "./assets/dog.png");
+        this.load.image('newcard', "CardDraw/newcard.png"); // loads image from card draw scene
 
         //selected card:
         this.load.spritesheet("draw", "./assets/cards.png", { frameWidth: 96, frameHeight: 144, startFrame: 20, endFrame: 21 });
