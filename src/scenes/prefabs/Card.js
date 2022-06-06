@@ -21,24 +21,32 @@ class Card extends Phaser.GameObjects.Sprite {
         this.visible = false;
         this.row = 0;
 
+        this.scaling = 1;
+
         // Card Frames
-        for(let i = 0; i <= (StartingDeck.length-1); i++) {
-            this.anims.create({
-                key: i.toString(),
-                frames: this.anims.generateFrameNumbers(texture, {start: i, end: i, first: i}),
-                frameRate: 1,
-                repeat: -1
-            });
+        if (texture == 'newcard') {
+            // for(let i = 0; i <= (StartingDeck.length-1); i++) {
+            //     this.anims.create({
+            //         key: i.toString(),
+            //         frames: this.anims.generateFrameNumbers(texture, {start: i, end: i, first: i}),
+            //         frameRate: 1,
+            //         repeat: -1
+            //     });
+            // }
+            this.scaling = 0.4;
+            this.setScale(this.scaling);
         }
 
         this.on("pointerover", () => {
-            this.setScale(1.5);
+            console.log(this.scaling);
+            this.setScale(this.scaling + (this.scaling / 2));
             this.y += 50;
             this.setDepth(2);
         });
 
         this.on("pointerout", () => {
-            this.setScale(1);
+            console.log(this.scaling);
+            this.setScale(this.scaling);
             this.y -= 50;
             this.setDepth(1);
         });
@@ -62,7 +70,18 @@ class Card extends Phaser.GameObjects.Sprite {
 
         // New Card
         let randomNumber = Math.floor(Math.random() * (StartingDeck.length));
-        this.play(randomNumber.toString());
+        if (!(config.currentLevel == 1) && checkTexture(randomNumber == "newcard")) {
+            console.log("card choice: ", config.cardChoice);
+            console.log("playing new card");
+            this.setTexture("newcard");
+            this.scaling = 0.4;
+        } else {
+            // this.scaling = 1;
+            // this.setScale(this.scaling);
+            this.setTexture("cards", randomNumber);
+        }
+
+        // this.setScale(this.scaling);
         
         this.damage = StartingDeck[randomNumber][1];
         if (this.damage.constructor == Array) {

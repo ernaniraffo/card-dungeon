@@ -75,6 +75,7 @@ let copyCardTypes = [
 
 //cards added to starting deck
 let cardsMade = [];
+
 //starting deck
 let StartingDeck = [
     ["Ace", 1, 0, 0, 3],
@@ -94,8 +95,15 @@ let StartingDeckCopy = [
 ]
 
 // global player strength + health
-let playerHealth = 70; // just to start level 2 from the Card Draw scene
-let playerStrength = 10;
+let playerHealth; // just to start level 2 from the Card Draw scene
+let playerStrength;
 
 // reserve keyboard variables
 let keyRIGHT, keyR, keyM;
+
+function checkTexture(num) {
+    if (num == StartingDeck.length - 1) {
+        return "newcard";
+    }
+    return "cards";
+}

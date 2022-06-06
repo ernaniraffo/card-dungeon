@@ -47,14 +47,11 @@ class Level2 extends Phaser.Scene {
         yourTurn = true;
         enemyTurn = false;
 
-        // expand deck
-        for (let i = 5; i <= 14; i++) {
-            StartingDeck[i] = copyCardTypes[i];
-            if (StartingDeck[i][1] instanceof Array) {
-                StartingDeck[i][1][1] += playerStrength;
-            } else {
-                StartingDeck[i][1] += playerStrength;
-            }
+        StartingDeck[StartingDeck.length] = copyCardTypes[game.config.cardChoice]; // add the drawn card
+        if (StartingDeck[StartingDeck.length - 1][1] instanceof Array) {
+            StartingDeck[StartingDeck.length - 1][1][1] += playerStrength;
+        } else {
+            StartingDeck[StartingDeck.length - 1][1] += playerStrength;
         }
 
         // hp config
@@ -196,23 +193,30 @@ class Level2 extends Phaser.Scene {
         row1 = 2 * game.config.width / 6;
         row2 = 3 * game.config.width / 6;
         row3 = 4 * game.config.width / 6;
+        
+        let texture;
 
         let randomNumber = Math.floor(Math.random() * (StartingDeck.length));
+        texture = checkTexture(randomNumber);
 
         // place card 1
-        this.card1 = new Card(this, row1, cardHeight, "cards", StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4], randomNumber).setInteractive();
+        this.card1 = new Card(this, row1, cardHeight, texture, StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4], randomNumber).setInteractive();
         this.card1.row = row1;
         this.card1.visible = true;
 
         randomNumber = Math.floor(Math.random() * (StartingDeck.length));
+        randomNumber = StartingDeck.length - 1;
+        texture = checkTexture(randomNumber);
+        console.log(texture);
         // place card2
-        this.card2 = new Card(this, row2, cardHeight, "cards", StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4], randomNumber).setInteractive();
+        this.card2 = new Card(this, row2, cardHeight, texture, StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4], randomNumber).setInteractive();
         this.card2.row = row2;
         this.card2.visible = true;
 
         randomNumber = Math.floor(Math.random() * (StartingDeck.length));
+        texture = checkTexture(randomNumber);
         // place card3
-        this.card3 = new Card(this, row3, cardHeight, "cards", StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4], randomNumber).setInteractive();
+        this.card3 = new Card(this, row3, cardHeight, texture, StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4], randomNumber).setInteractive();
         this.card3.row = row3;
         this.card3.visible = true;
 
