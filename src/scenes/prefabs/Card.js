@@ -38,14 +38,14 @@ class Card extends Phaser.GameObjects.Sprite {
         }
 
         this.on("pointerover", () => {
-            console.log(this.scaling);
+            //console.log(this.scaling);
             this.setScale(this.scaling + (this.scaling / 2));
             this.y += 50;
             this.setDepth(2);
         });
 
         this.on("pointerout", () => {
-            console.log(this.scaling);
+            //console.log(this.scaling);
             this.setScale(this.scaling);
             this.y -= 50;
             this.setDepth(1);
@@ -70,18 +70,20 @@ class Card extends Phaser.GameObjects.Sprite {
 
         // New Card
         let randomNumber = Math.floor(Math.random() * (StartingDeck.length));
-        if (!(config.currentLevel == 1) && checkTexture(randomNumber == "newcard")) {
-            console.log("card choice: ", config.cardChoice);
+        console.log("card frame: ", randomNumber);
+        console.log("Inside cards: current level: ", game.config.currentLevel);
+        console.log("texture: ", checkTexture(randomNumber));
+        if (!(game.config.currentLevel == 1) && checkTexture(randomNumber) == "newcard") {
+            console.log("card choice: ", game.config.cardChoice);
             console.log("playing new card");
             this.setTexture("newcard");
             this.scaling = 0.4;
         } else {
-            // this.scaling = 1;
-            // this.setScale(this.scaling);
+            this.scaling = 1;
             this.setTexture("cards", randomNumber);
         }
 
-        // this.setScale(this.scaling);
+        this.setScale(this.scaling);
         
         this.damage = StartingDeck[randomNumber][1];
         if (this.damage.constructor == Array) {

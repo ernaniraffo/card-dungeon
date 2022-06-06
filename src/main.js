@@ -11,11 +11,13 @@ let config = {
             debug: false
         }
     },
-    cardChoice : 0,
-    currentLevel : 1
 }
 
 let game = new Phaser.Game(config);
+
+game.config.cardChoice = 0;
+game.config.currentLevel = 1;
+
 let yourTurn = true;
 let enemyTurn = false;
 
@@ -102,7 +104,7 @@ let playerStrength;
 let keyRIGHT, keyR, keyM;
 
 function checkTexture(num) {
-    if (num == StartingDeck.length - 1) {
+    if (num == (StartingDeck.length - 1)) {
         return "newcard";
     }
     return "cards";

@@ -32,6 +32,9 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+
+        console.log(game.config.currentLevel);
+
         // reset these if restart
         yourTurn = true;
         enemyTurn = false;
@@ -148,7 +151,7 @@ class Play extends Phaser.Scene {
         this.EnemyHPbar.gone = false;
         //the type of attack the slime will do
         this.slime.attackType= Math.floor(Math.random() * 3);
-        console.log(this.slime.attackType)
+        // console.log(this.slime.attackType)
         // Player hp
         this.player.hp = 100;
         this.player.hpBar = this.add.text(this.player.x + 10, this.player.y - 55, this.player.hp, hpConfig).setOrigin(0.0);
@@ -352,7 +355,7 @@ class Play extends Phaser.Scene {
 
         if(enemyTurn) {
             //let attack 2/3rds of time and block 1/3rd
-            console.log(this.slime.attackType);
+            // console.log(this.slime.attackType);
             if (this.slime.attackType == 0 || this.slime.attackType == 1) {
                 this.EnemyTurn();
             }
@@ -541,7 +544,7 @@ class Play extends Phaser.Scene {
                 enemyTurn = true;
                 //what attack enemy will use
                 this.slime.attackType= Math.floor(Math.random() * 3);
-                console.log(this.slime.attackType);
+                // console.log(this.slime.attackType);
                 if (this.slime.attackType == 0 || this.slime.attackType == 1) {
                     this.shield.alpha=0;
                     this.swords.alpha=1;

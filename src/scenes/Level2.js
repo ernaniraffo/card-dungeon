@@ -33,6 +33,10 @@ class Level2 extends Phaser.Scene {
     }
 
     create() {
+
+        console.log("current level: ", game.config.currentLevel);
+
+
         //sword to go over enemy head and designate attacks 
         this.swords = this.add.sprite(game.config.width / 1.23, 2.5 * game.config.height / 8, "swords").setOrigin(0.0);
         this.swords.setScale(.1);
@@ -200,23 +204,23 @@ class Level2 extends Phaser.Scene {
         texture = checkTexture(randomNumber);
 
         // place card 1
-        this.card1 = new Card(this, row1, cardHeight, texture, StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4], randomNumber).setInteractive();
+        this.card1 = new Card(this, row1, cardHeight, texture, StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4], randomNumber).setInteractive(this.input.makePixelPerfect());
         this.card1.row = row1;
         this.card1.visible = true;
 
         randomNumber = Math.floor(Math.random() * (StartingDeck.length));
         randomNumber = StartingDeck.length - 1;
         texture = checkTexture(randomNumber);
-        console.log(texture);
+        // console.log(texture);
         // place card2
-        this.card2 = new Card(this, row2, cardHeight, texture, StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4], randomNumber).setInteractive();
+        this.card2 = new Card(this, row2, cardHeight, texture, StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4], randomNumber).setInteractive(this.input.makePixelPerfect());
         this.card2.row = row2;
         this.card2.visible = true;
 
         randomNumber = Math.floor(Math.random() * (StartingDeck.length));
         texture = checkTexture(randomNumber);
         // place card3
-        this.card3 = new Card(this, row3, cardHeight, texture, StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4], randomNumber).setInteractive();
+        this.card3 = new Card(this, row3, cardHeight, texture, StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4], randomNumber).setInteractive(this.input.makePixelPerfect());
         this.card3.row = row3;
         this.card3.visible = true;
 
@@ -408,7 +412,7 @@ class Level2 extends Phaser.Scene {
         }
         if(enemyTurn) {
             //let attack 2/3rds of time and block 1/3rd
-            console.log(this.shade.attackType);
+            //console.log(this.shade.attackType);
             if (this.shade.attackType == 0 || this.shade.attackType == 1) {
                 this.EnemyTurn();
             }
@@ -595,9 +599,9 @@ class Level2 extends Phaser.Scene {
                 enemyTurn = true;
                 //what attack enemy will use
                 this.shade.attackType = Math.floor(Math.random() * 3);
-                console.log(this.shade.attackType);
+                //console.log(this.shade.attackType);
                 this.shade.attackType = Math.floor(Math.random() * 3);
-                console.log(this.shade.attackType);
+                //console.log(this.shade.attackType);
                 if (this.shade.attackType == 0 || this.shade.attackType == 1) {
                     this.shield.alpha = 0;
                     this.swords.alpha = 1;
