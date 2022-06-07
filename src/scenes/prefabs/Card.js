@@ -34,6 +34,7 @@ class Card extends Phaser.GameObjects.Sprite {
             //     });
             // }
             this.scaling = 0.4;
+            this.frame.name = game.config.cardChoice;
             this.setScale(this.scaling);
         }
 
@@ -78,6 +79,7 @@ class Card extends Phaser.GameObjects.Sprite {
             console.log("playing new card");
             this.setTexture("newcard");
             this.scaling = 0.4;
+            this.frame.name = game.config.cardChoice;
         } else {
             this.scaling = 1;
             this.setTexture("cards", randomNumber);
