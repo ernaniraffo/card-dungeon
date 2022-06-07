@@ -29,6 +29,7 @@ class Play extends Phaser.Scene {
         this.load.audio("killed", "./assets/killed.wav");
         this.load.audio("slimeattack", "./assets/slimeattack.wav");
         this.load.audio("burningFX", "./assets/burning.wav");
+        this.load.audio("slimelevel", "./assets/slimelevel.wav");
     }
 
     create() {
@@ -234,6 +235,8 @@ class Play extends Phaser.Scene {
 
         this.reduced = false; // rot mist card used?
 
+        this.background = this.sound.add('slimelevel', { loop: true, volume: 0.3 });
+        this.background.play();
     }
     
     // Player Turn
@@ -330,6 +333,7 @@ class Play extends Phaser.Scene {
                 this.time.delayedCall(500, () => {
                     this.player.hpBar.destroy();
                 }, null, this);
+                this.background.stop();
                 this.scene.start("gameOver2");
             }
         }
@@ -349,6 +353,7 @@ class Play extends Phaser.Scene {
                 playerHealth = this.player.hp;
                 playerStrength = this.player.strength;
                 game.config.currentLevel = 2;
+                this.background.stop();
                 this.scene.start("gameOver");
             }
         }

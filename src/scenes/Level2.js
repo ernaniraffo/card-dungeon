@@ -30,6 +30,7 @@ class Level2 extends Phaser.Scene {
         this.load.audio("hurt", "./assets/hurt.wav");
         this.load.audio("killed", "./assets/killed.wav");
         this.load.audio("shadeattack", "./assets/shadeattack.wav");
+        this.load.audio("shadelevel", "./assets/shadelevel.wav");
     }
 
     create() {
@@ -259,6 +260,9 @@ class Level2 extends Phaser.Scene {
         });
 
         this.reduced = false; // rot mist card used?
+
+        this.background = this.sound.add('shadelevel', { loop: true, volume: 0.3 });
+        this.background.play();
     }
 
     // Player Turn
@@ -388,6 +392,7 @@ class Level2 extends Phaser.Scene {
                 this.time.delayedCall(500, () => {
                     this.player.hpBar.destroy();
                 }, null, this);
+                this.background.stop();
                 this.scene.start("gameOver2");
             }
         }
@@ -407,6 +412,7 @@ class Level2 extends Phaser.Scene {
                 playerHealth = this.player.hp;
                 playerStrength = this.player.strength;
                 game.config.currentLevel = 3;
+                this.background.stop();
                 this.scene.start("gameOver3");
             }
         }

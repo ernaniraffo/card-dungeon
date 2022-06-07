@@ -26,6 +26,7 @@ class Level3 extends Phaser.Scene {
         this.load.audio("hurt", "./assets/hurt.wav");
         this.load.audio("killed", "./assets/killed.wav");
         this.load.audio("sporemanattack", "./assets/sporemanattack.wav");
+        this.load.audio("sporemanlevel", "./assets/sporemanlevel.wav");
     }
 
     create() {
@@ -250,6 +251,9 @@ class Level3 extends Phaser.Scene {
         });
 
         this.reduced = false; // rot mist card used?
+
+        this.background = this.sound.add('sporemanlevel', { loop: true, volume: 0.3 });
+        this.background.play();
     }
 
     // Player Turn
@@ -340,6 +344,7 @@ class Level3 extends Phaser.Scene {
                 this.time.delayedCall(500, () => {
                     this.player.hpBar.destroy();
                 }, null, this);
+                this.background.stop();
                 this.scene.start("gameOver");
             }
         }
@@ -358,6 +363,7 @@ class Level3 extends Phaser.Scene {
                 // add the player to next level scene
                 playerHealth = this.player.hp;
                 playerStrength = this.player.strength;
+                this.background.stop();
                 this.scene.start("Level3");
             }
         }
