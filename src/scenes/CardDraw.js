@@ -225,7 +225,20 @@ class CardDraw extends Phaser.Scene {
         this.cardpick1.setScale(2.5);
         this.cardpick1.setOrigin(0.0);
         this.cardpick1.setDepth(-1);
-        this.cardpick1.anims.play(game.config.cardChoice.toString());
+
+        // which card do we play?
+        let cardFrameChoice = null;
+        if (game.config.currentLevel == 2) {
+            cardFrameChoice = game.config.cardChoice;
+            console.log("cardFrameChoice: ", cardFrameChoice);
+        } else if (game.config.currentLevel == 3) {
+            cardFrameChoice = game.config.cardChoice2;
+            console.log("cardFrameChoice: ", cardFrameChoice);
+        } else {
+            console.log("error: cardFrameChoice: ", cardFrameChoice);
+        }
+
+        this.cardpick1.anims.play(cardFrameChoice.toString());
 
         this.done = false;
         let scene = this;
@@ -244,16 +257,33 @@ class CardDraw extends Phaser.Scene {
                 // console.log(scene);
                 //console.log(image);
                 // image1 = image;
-            
-                if (scene.textures.exists('newcard'))
-                {
-                    scene.textures.remove('newcard');
+
+                if (game.config.currentLevel == 2) {
+                    
+                    if (scene.textures.exists('newcard')) {
+                        scene.textures.remove('newcard');
+                    }
+    
+                    scene.textures.addImage('newcard', image); // adds texture to this scene
+                    console.log("does the texture exist? ", scene.textures.exists('newcard'));
+                    scene.done = true;
+
+                } else if (game.config.currentLevel == 3) {
+                    if (scene.textures.exists('newcard2')) {
+                        scene.textures.remove('newcard2');
+                    }
+    
+                    scene.textures.addImage('newcard2', image); // adds texture to this scene
+                    console.log("does the texture exist? ", scene.textures.exists('newcard2'));
+                    scene.done = true;
+                } else {
+                    console.log("error: snapshotArea: game.config.currentLevel: ", game.config.currentLevel);
                 }
 
-                // console.log(textureManager);
-                scene.textures.addImage('newcard', image); // adds texture to this scene
-                console.log("does the texture exist? ", scene.textures.exists('newcard'));
-                scene.done = true;
+                // // console.log(textureManager);
+                // scene.textures.addImage('newcard', image); // adds texture to this scene
+                // console.log("does the texture exist? ", scene.textures.exists('newcard'));
+                // scene.done = true;
                 // console.log("does the texture exist? ", scene.textures.exists('newcard'));
                 // scene.add.sprite(row1, cardHeight, 'newcard').setInteractive();
                 // console.log("texture: ", scene.newtexture)
@@ -326,19 +356,38 @@ class CardDraw extends Phaser.Scene {
         });
     }   
     update() {
-        if (this.textures.exists('newcard') && this.done) {
-            console.log("exists in this.textures");
-            this.add.sprite(2 * game.config.width / 6, game.config.height /4, 'newcard').setInteractive();
-            if (game.config.currentLevel==1){
-                this.scene.start('playGame');
+        if (game.config.currentLevel == 2) {
+            if (this.textures.exists('newcard') && this.done) {
+                console.log("exists in this.textures");
+                // this.add.sprite(2 * game.config.width / 6, game.config.height /4, 'newcard').setInteractive();
+                if (game.config.currentLevel==1){
+                    this.scene.start('playGame');
+                }
+                if (game.config.currentLevel==2){
+                    this.scene.start('Level2');
+                }
+                if (game.config.currentLevel==3){
+                    this.scene.start('Level3');
+                }
+                console.log("error no level seen");
             }
-            if (game.config.currentLevel==2){
-                this.scene.start('Level2');
+        } else if (game.config.currentLevel == 3) {
+            if (this.textures.exists('newcard2') && this.done) {
+                console.log("exists in this.textures");
+                // this.add.sprite(2 * game.config.width / 6, game.config.height /4, 'newcard').setInteractive();
+                if (game.config.currentLevel==1){
+                    this.scene.start('playGame');
+                }
+                if (game.config.currentLevel==2){
+                    this.scene.start('Level2');
+                }
+                if (game.config.currentLevel==3){
+                    this.scene.start('Level3');
+                }
+                console.log("error no level seen");
             }
-            if (game.config.currentLevel==3){
-                this.scene.start('Level3');
-            }
-            console.log("error no level seen");
+        } else {
+            console.log("error: no level seen");
         }
     }
 

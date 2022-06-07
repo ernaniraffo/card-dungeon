@@ -25,16 +25,12 @@ class Card extends Phaser.GameObjects.Sprite {
 
         // Card Frames
         if (texture == 'newcard') {
-            // for(let i = 0; i <= (StartingDeck.length-1); i++) {
-            //     this.anims.create({
-            //         key: i.toString(),
-            //         frames: this.anims.generateFrameNumbers(texture, {start: i, end: i, first: i}),
-            //         frameRate: 1,
-            //         repeat: -1
-            //     });
-            // }
             this.scaling = 0.4;
             this.frame.name = game.config.cardChoice;
+            this.setScale(this.scaling);
+        } else if (texture == 'newcard2') {
+            this.scaling = 0.4;
+            this.frame.name = game.config.cardChoice2;
             this.setScale(this.scaling);
         }
 
@@ -56,7 +52,7 @@ class Card extends Phaser.GameObjects.Sprite {
     update() {
         if (this.visible) {
             this.alpha = 1;
-            this.card = this.add.sprite(this.row, game.config.height /4, texture, {start: frame, end:frame});
+            // this.card = this.add.sprite(this.row, game.config.height /4, texture, {start: frame, end:frame});
         } else {
             this.row = 0;
             this.visible = false;
@@ -71,13 +67,21 @@ class Card extends Phaser.GameObjects.Sprite {
 
         // New Card
         let randomNumber = Math.floor(Math.random() * (StartingDeck.length));
-        console.log("card frame: ", randomNumber);
-        console.log("Inside cards: current level: ", game.config.currentLevel);
-        console.log("texture: ", checkTexture(randomNumber));
-        if (!(game.config.currentLevel == 1) && checkTexture(randomNumber) == "newcard") {
+
+        console.log("Card.js: card frame: ", randomNumber);
+        console.log("Card.js: current level: ", game.config.currentLevel);
+        console.log("Card.js: texture: ", checkTexture(randomNumber));
+
+        if (checkTexture(randomNumber) == "newcard") {
             console.log("card choice: ", game.config.cardChoice);
             console.log("playing new card");
             this.setTexture("newcard");
+            this.scaling = 0.4;
+            this.frame.name = game.config.cardChoice;
+        } else if (checkTexture(randomNumber) == "newcard2") {
+            console.log("card choice 2: ", game.config.cardChoice2);
+            console.log("playing newcard2");
+            this.setTexture("newcard2");
             this.scaling = 0.4;
             this.frame.name = game.config.cardChoice;
         } else {

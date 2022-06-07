@@ -21,6 +21,8 @@ class Level3 extends Phaser.Scene {
         this.load.image("shadow", "./assets/Shadow.png");
         this.load.image("amalgam", "./assets/amalgam.png");
         this.load.image("dog", "./assets/dog.png");
+        this.load.image('newcard', "CardDraw/newcard.png"); // loads image from card draw scene
+        this.load.image('newcard2', "CardDraw/newcard2.png"); // loads image from card draw scene
 
         // audio
         this.load.audio("hurt", "./assets/hurt.wav");
@@ -44,15 +46,23 @@ class Level3 extends Phaser.Scene {
         yourTurn = true;
         enemyTurn = false;
 
-        // expand deck
-        for (let i = 15; i <= 22; i++) {
-            StartingDeck[i] = copyCardTypes[i];
-            if (StartingDeck[i][1] instanceof Array) {
-                StartingDeck[i][1][1] += playerStrength;
-            } else {
-                StartingDeck[i][1] += playerStrength;
-            }
+        StartingDeck[StartingDeck.length] = copyCardTypes[game.config.cardChoice2]; // add the drawn card
+        if (StartingDeck[StartingDeck.length - 1][1] instanceof Array) {
+            StartingDeck[StartingDeck.length - 1][1][1] += playerStrength;
+        } else {
+            StartingDeck[StartingDeck.length - 1][1] += playerStrength;
         }
+        console.log("Deck: ", StartingDeck);
+
+        // // expand deck
+        // for (let i = 15; i <= 22; i++) {
+        //     StartingDeck[i] = copyCardTypes[i];
+        //     if (StartingDeck[i][1] instanceof Array) {
+        //         StartingDeck[i][1][1] += playerStrength;
+        //     } else {
+        //         StartingDeck[i][1] += playerStrength;
+        //     }
+        // }
 
         // hp config
         let hpConfig = {
@@ -165,7 +175,7 @@ class Level3 extends Phaser.Scene {
 
         //the type of attack the sporeMan will do
         this.sporeMan.attackType = Math.floor(Math.random() * 3);
-        console.log(this.sporeMan.attackType)
+        // console.log(this.sporeMan.attackType)
 
         // Player hp
         this.player.hp = playerHealth;
@@ -196,23 +206,33 @@ class Level3 extends Phaser.Scene {
         row1 = 2 * game.config.width / 6;
         row2 = 3 * game.config.width / 6;
         row3 = 4 * game.config.width / 6;
+
+        let texture;
         
-        let randomNumber = Math.floor(Math.random() * (StartingDeck.length));
+        let randomNumber = Math.floor(Math.random() * (StartingDeck.length - 1));
+        randomNumber = StartingDeck.length - 2;
+        texture = checkTexture(randomNumber);
+        console.log("texture 1: ", texture);
 
         // place card 1
-        this.card1 = new Card(this, row1, cardHeight, "cards", StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4], randomNumber).setInteractive();
+        this.card1 = new Card(this, row1, cardHeight, texture, StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4], randomNumber).setInteractive(this.input.makePixelPerfect());
         this.card1.row = row1;
         this.card1.visible = true;
         
-        randomNumber = Math.floor(Math.random() * (StartingDeck.length));
+        randomNumber = Math.floor(Math.random() * (StartingDeck.length - 1));
+        randomNumber = StartingDeck.length - 1;
+        texture = checkTexture(randomNumber);
+        console.log("texture2: ", texture);
         // place card2
-        this.card2 = new Card(this, row2, cardHeight, "cards", StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4],randomNumber).setInteractive();
+        this.card2 = new Card(this, row2, cardHeight, texture, StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4],randomNumber).setInteractive(this.input.makePixelPerfect());
         this.card2.row = row2;
         this.card2.visible = true;
         
-        randomNumber = Math.floor(Math.random() * (StartingDeck.length));
+        randomNumber = Math.floor(Math.random() * (StartingDeck.length - 1));
+        texture = checkTexture(randomNumber);
+        console.log("texture3: ", texture);
         // place card3
-        this.card3 = new Card(this, row3, cardHeight, "cards", StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4],randomNumber).setInteractive();
+        this.card3 = new Card(this, row3, cardHeight, texture, StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4],randomNumber).setInteractive(this.input.makePixelPerfect());
         this.card3.row = row3;
         this.card3.visible = true;
 
@@ -370,7 +390,7 @@ class Level3 extends Phaser.Scene {
 
         if(enemyTurn) {
             //let attack 2/3rds of time and block 1/3rd
-            console.log(this.sporeMan.attackType);
+            // console.log(this.sporeMan.attackType);
             if (this.sporeMan.attackType == 0 || this.sporeMan.attackType == 1) {
                 this.EnemyTurn();
             }
@@ -553,9 +573,9 @@ class Level3 extends Phaser.Scene {
                 enemyTurn = true;
                  //what attack enemy will use
                  this.sporeMan.attackType = Math.floor(Math.random() * 3);
-                 console.log(this.sporeMan.attackType);
+                //  console.log(this.sporeMan.attackType);
                  this.sporeMan.attackType = Math.floor(Math.random() * 3);
-                 console.log(this.sporeMan.attackType);
+                //  console.log(this.sporeMan.attackType);
                  if (this.sporeMan.attackType == 0 || this.sporeMan.attackType == 1) {
                      this.shield.alpha = 0;
                      this.swords.alpha = 1;

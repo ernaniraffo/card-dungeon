@@ -31,35 +31,34 @@ class CardSelect extends Phaser.Scene {
 
         //makes sure you dont see the same card twice to add to your deck
         for(let i = 0; i < cardsMade.length; i++) {
-            checkDupe(cardsMade[i]);
+            checkDupe(this, cardsMade[i]);
         }
-        function checkDupe(element){
+        function checkDupe(scene, element){
             if(randomNumberOne==element || randomNumberTwo==element){
                 //if they are equal redo the create 
                 console.log("got same card");
-                this.scene.restart();
-
+                scene.scene.restart();
             }
         }
         //while true
         //if randomNumberOne == 
-        for(let i = 0; i <= 22; i++) {
-            this.anims.create({
-                key: "cardHolderOne",
-                frames: this.anims.generateFrameNumbers("cards", {start: randomNumberOne, end:randomNumberOne}),
-                frameRate: 1,
-                repeat: -1
-            });
-        }
+        // for(let i = 0; i <= 22; i++) {
+        //     this.anims.create({
+        //         key: i.toString(),
+        //         frames: this.anims.generateFrameNumbers("cards", {start: i, end: i}),
+        //         frameRate: 1,
+        //         repeat: -1
+        //     });
+        // }
 
-        for(let i = 0; i <= 22; i++) {
-            this.anims.create({
-                key: "cardHolderTwo",
-                frames: this.anims.generateFrameNumbers("cards", {start: randomNumberTwo, end:randomNumberTwo}),
-                frameRate: 1,
-                repeat: -1
-            });
-        }
+        // for(let i = 0; i <= 22; i++) {
+        //     this.anims.create({
+        //         key: "cardHolderTwo",
+        //         frames: this.anims.generateFrameNumbers("cards", {start: randomNumberTwo, end:randomNumberTwo}),
+        //         frameRate: 1,
+        //         repeat: -1
+        //     });
+        // }
   
         this.add.text(150, 20, 'select card you would like to add to deck')
 
@@ -83,20 +82,30 @@ class CardSelect extends Phaser.Scene {
         this.cardpick1.setScale(2)
         this.cardpick1.setOrigin(0.0)
         this.cardpick1.setDepth(-1);
-        this.cardpick1.anims.play("cardHolderOne");
+        console.log("playing frame1 as: ", randomNumberOne);
+        this.cardpick1.setTexture("cards", randomNumberOne);
 
         this.cardpick2 = this.add.sprite(row2+75, cardHeight, "cards").setInteractive();
         this.cardpick2.visible = true;
         this.cardpick2.setScale(2)
         this.cardpick2.setOrigin(0.0)
         this.cardpick2.setDepth(-1);
-        this.cardpick2.anims.play("cardHolderTwo");
+        console.log("playing frame2 as: ", randomNumberTwo);
+        this.cardpick2.setTexture("cards", randomNumberTwo);
 
         this.cardpick1.on("pointerdown", () => {
             console.log("clicked on card one");
             //this.cardpick2.destroy();
             //adds to the global varaible cardChoice the card they are currently drawing
-            game.config.cardChoice = randomNumberOne;
+            if (game.config.currentLevel == 2) {
+                game.config.cardChoice = randomNumberOne;
+                console.log("game.confing.cardChoice: ", game.config.cardChoice);
+            } else if (game.config.currentLevel == 3) {
+                game.config.cardChoice2 = randomNumberOne;
+                console.log("game.confing.cardChoice2: ", game.config.cardChoice2);
+            } else {
+                console.log("error: game.config.currentLevel: ", game.config.currentLevel);
+            }
             //adds that choice to a list that will forever hold all cards edited so the player cant draw on the same card twice
             cardsMade.push(game.config.cardChoice);
             this.scene.start("CardDraw");
@@ -104,7 +113,15 @@ class CardSelect extends Phaser.Scene {
         this.cardpick2.on("pointerdown", () => {
             console.log("clicked on card two");
             //adds to the global varaible cardChoice the card they are currently drawing
-            game.config.cardChoice = randomNumberTwo;
+            if (game.config.currentLevel == 2) {
+                game.config.cardChoice = randomNumberTwo;
+                console.log("game.confing.cardChoice: ", game.config.cardChoice);
+            } else if (game.config.currentLevel == 3) {
+                game.config.cardChoice2 = randomNumberTwo;
+                console.log("game.confing.cardChoice2: ", game.config.cardChoice2);
+            } else {
+                console.log("error: game.config.currentLevel: ", game.config.currentLevel);
+            }
             //adds that choice to a list that will forever hold all cards edited so the player cant draw on the same card twice
             cardsMade.push(game.config.cardChoice);
             //this.cardpick1.destroy();

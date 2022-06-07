@@ -201,7 +201,7 @@ class Level2 extends Phaser.Scene {
         
         let texture;
 
-        let randomNumber = Math.floor(Math.random() * (StartingDeck.length));
+        let randomNumber = Math.floor(Math.random() * (StartingDeck.length - 1));
         texture = checkTexture(randomNumber);
 
         // place card 1
@@ -209,7 +209,7 @@ class Level2 extends Phaser.Scene {
         this.card1.row = row1;
         this.card1.visible = true;
 
-        randomNumber = Math.floor(Math.random() * (StartingDeck.length));
+        randomNumber = Math.floor(Math.random() * (StartingDeck.length - 1));
         randomNumber = StartingDeck.length - 1;
         texture = checkTexture(randomNumber);
         // console.log(texture);
@@ -218,7 +218,7 @@ class Level2 extends Phaser.Scene {
         this.card2.row = row2;
         this.card2.visible = true;
 
-        randomNumber = Math.floor(Math.random() * (StartingDeck.length));
+        randomNumber = Math.floor(Math.random() * (StartingDeck.length - 1));
         texture = checkTexture(randomNumber);
         // place card3
         this.card3 = new Card(this, row3, cardHeight, texture, StartingDeck[randomNumber][1], StartingDeck[randomNumber][2], StartingDeck[randomNumber][3], StartingDeck[randomNumber][4], randomNumber).setInteractive(this.input.makePixelPerfect());
