@@ -34,6 +34,7 @@ class Play extends Phaser.Scene {
 
     create() {
 
+        this.summonedBeast = false;
         console.log(game.config.currentLevel);
 
         // reset these if restart
@@ -321,8 +322,6 @@ class Play extends Phaser.Scene {
     }
 
     update() {
-
-
         // update the player text
         if (this.player.hpBar.txt != this.player.hp && !(this.player.hpBar.gone)) {
             this.player.hpBar.text = this.player.hp;
@@ -493,6 +492,7 @@ class Play extends Phaser.Scene {
                 randomFrame = "beast" + randomFrame;
                 this.beast.anims.play(randomFrame);
             }, null, this);
+            this.summonedBeast = true;
         }
 
         if (card.frame.name == 14) {
@@ -585,5 +585,24 @@ class Play extends Phaser.Scene {
             shake.setTimeScale(20);
             
         }, null, this);
+        // Beast damage
+        if(this.summonedBeast == true) {
+            let beastTween = this.tweens.add({
+                targets: this.beast,
+                alpha: {from: 1, to: 1},
+                x: {from: this.beast.x, to: this.beast.x + 300},
+                ease: 'Expo.easeInOut',
+                yoyo: true,
+                repeat: 0,
+                hold: 400,
+                duration: 1000,
+                onComplete: function() {
+    
+                    this.slime.hp -= 5;
+                },
+                onCompleteScope: this
+            });
+            beastTween.setTimeScale(2.5);
+        }
     }
 }

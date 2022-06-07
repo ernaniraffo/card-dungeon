@@ -20,6 +20,7 @@ game.config.currentLevel = 1;
 
 let yourTurn = true;
 let enemyTurn = false;
+let summonedBeast = false;
 
 // 2D Array of Card Names, Stats + etc...
 // Name, Damage, Burn, Bleed, Strength

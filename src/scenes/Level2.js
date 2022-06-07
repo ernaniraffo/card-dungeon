@@ -644,5 +644,24 @@ class Level2 extends Phaser.Scene {
             shake.setTimeScale(20);
 
         }, null, this);
+        // Beast damage
+        if(this.summonedBeast == true) {
+            let beastTween = this.tweens.add({
+                targets: this.beast,
+                alpha: {from: 1, to: 1},
+                x: {from: this.beast.x, to: this.beast.x + 300},
+                ease: 'Expo.easeInOut',
+                yoyo: true,
+                repeat: 0,
+                hold: 400,
+                duration: 1000,
+                onComplete: function() {
+    
+                    this.slime.hp -= 5;
+                },
+                onCompleteScope: this
+            });
+            beastTween.setTimeScale(2.5);
+        }
     }
 }
