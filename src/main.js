@@ -4,7 +4,7 @@ let config = {
     width: 800,
     height: 400,
     backgroundColor: 0x00000000,
-    scene: [ Menu, Play, GameOver, GameOver2, GameOver3, Level2, CardSelect, CardDraw, Level3 ],
+    scene: [ Menu, Play, GameOver, GameOver2, GameOver3, Level2, CardSelect, CardDraw, Level3, BeatGame ],
     physics: {
         default: 'arcade',
         arcade: {
@@ -99,7 +99,7 @@ let StartingDeckCopy = [
 ]
 
 // global player strength + health
-let playerHealth; // just to start level 2 from the Card Draw scene
+let playerHealth;
 let playerStrength;
 
 // reserve keyboard variables
