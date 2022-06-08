@@ -290,6 +290,8 @@ class CardDraw extends Phaser.Scene {
 
             }, 'image/png');
 
+            this.sound.stopAll();
+
             // EVERYTHING that happens under snapshotArea() function actually occurs before the function.
 
 

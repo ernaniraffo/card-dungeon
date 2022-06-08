@@ -22,6 +22,8 @@ class CardSelect extends Phaser.Scene {
         // audio
         this.load.audio("hurt", "./assets/hurt.wav");
         this.load.audio("killed", "./assets/killed.wav");
+        this.load.audio("drawingMusic", "./assets/intro_noDrum.wav");
+        this.load.audio("drawingMusic2", "./assets/intro_twang.wav");
     }
 
     create() {
@@ -127,8 +129,25 @@ class CardSelect extends Phaser.Scene {
             //this.cardpick1.destroy();
             this.scene.start("CardDraw");
         });
+
+
+        if (game.config.currentLevel == 2) {
+            this.music = this.sound.add('drawingMusic', {
+                loop: true
+            });
+        } else if (game.config.currentLevel == 3) {
+            this.music = this.sound.add('drawingMusic2', {
+                loop: true
+            });
+        }
+        
     }   
-    update() {}
+    update() {
+        if (!(this.music.isPlaying)) {
+            console.log("playing");
+            this.music.play();
+        }
+    }
 
 }
 

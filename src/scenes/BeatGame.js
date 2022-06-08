@@ -5,6 +5,8 @@ class BeatGame extends Phaser.Scene {
 
     preload() {
         this.load.spritesheet("BG", "./assets/Background.png", {frameWidth: 1600, frameHeight: 800, startFrame: 0, endFrame: 7});
+
+        this.load.audio("endingMusic", "./assets/introBrass.wav");
     }
 
     create () {
@@ -47,6 +49,10 @@ class BeatGame extends Phaser.Scene {
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
 
+        this.music = this.sound.add('endingMusic', {
+            loop: true
+        });
+
     }
 
     update () {
@@ -62,10 +68,17 @@ class BeatGame extends Phaser.Scene {
         game.config.cardChoice2 = null;
         summonedBeast = false;
 
+        if (!(this.music.isPlaying)) {
+            console.log("playing");
+            this.music.play();
+        }
+
         if (Phaser.Input.Keyboard.JustDown(keyR)) {
+            this.sound.stopAll();
             this.scene.start("playGame");
         }
         if (Phaser.Input.Keyboard.JustDown(keyM)) {
+            this.sound.stopAll();
             this.scene.start("menuScene");
         }
     }

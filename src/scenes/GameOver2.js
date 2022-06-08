@@ -34,8 +34,17 @@ class GameOver2 extends Phaser.Scene {
 
     update () {
         // reset cards
+        // reset everything
         StartingDeck = StartingDeckCopy;
+        cardsMade = [];
+        playerHealth = 0;
+        playerStrength = 0;
+        yourTurn = true;
+        enemyTurn = false;
+        game.config.cardChoice = null;
         game.config.currentLevel = 1;
+        game.config.cardChoice2 = null;
+        summonedBeast = false;
         if (Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.start("playGame");
         }

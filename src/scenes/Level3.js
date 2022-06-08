@@ -366,7 +366,7 @@ class Level3 extends Phaser.Scene {
                     this.player.hpBar.destroy();
                 }, null, this);
                 this.background.stop();
-                this.scene.start("gameOver");
+                this.scene.start("gameOver2");
             }
         }
         // update the enemy text
