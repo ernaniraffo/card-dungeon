@@ -90,7 +90,7 @@ let StartingDeck = [
 ]
 
 //starting deck
-let StartingDeckCopy = [
+const StartingDeckCopy = [
     ["Ace", 1, 0, 0, 3],
     ["Slash", 6, 0, 0, 0],
     ["Reklass Charge", 4, 0, 0, 2],
@@ -121,4 +121,11 @@ function checkTexture(num) {
     } else {
         return "cards";
     }
+}
+
+function resetDeck(deck) {
+    // Clone the 1st dimension (column)
+    StartingDeck = [...deck];
+    // Clone each row
+    StartingDeck.forEach((row, rowIndex) => StartingDeck[rowIndex] = [...row])
 }

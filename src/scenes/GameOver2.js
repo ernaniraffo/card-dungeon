@@ -29,26 +29,41 @@ class GameOver2 extends Phaser.Scene {
         // keys
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
+        
+        console.log("copy: ", StartingDeckCopy);
 
     }
 
     update () {
         // reset cards
         // reset everything
-        StartingDeck = StartingDeckCopy;
-        cardsMade = [];
-        playerHealth = 0;
-        playerStrength = 0;
-        yourTurn = true;
-        enemyTurn = false;
-        game.config.cardChoice = null;
-        game.config.currentLevel = 1;
-        game.config.cardChoice2 = null;
-        summonedBeast = false;
+    
         if (Phaser.Input.Keyboard.JustDown(keyR)) {
+            // reset everything
+            resetDeck(StartingDeckCopy);
+            cardsMade = [];
+            playerHealth = 0;
+            playerStrength = 0;
+            yourTurn = true;
+            enemyTurn = false;
+            game.config.cardChoice = null;
+            game.config.currentLevel = 1;
+            game.config.cardChoice2 = null;
+            summonedBeast = false;
             this.scene.start("playGame");
         }
         if (Phaser.Input.Keyboard.JustDown(keyM)) {
+            // reset everything
+            resetDeck(StartingDeckCopy);
+            cardsMade = [];
+            playerHealth = 0;
+            playerStrength = 0;
+            yourTurn = true;
+            enemyTurn = false;
+            game.config.cardChoice = null;
+            game.config.currentLevel = 1;
+            game.config.cardChoice2 = null;
+            summonedBeast = false;
             this.scene.start("menuScene");
         }
     }
