@@ -57,7 +57,7 @@ class BeatGame extends Phaser.Scene {
 
     update () {
 
-        StartingDeck = StartingDeckCopy;
+        resetDeck(StartingDeckCopy);
         cardsMade = [];
         playerHealth = 0;
         playerStrength = 0;

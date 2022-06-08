@@ -40,7 +40,7 @@ class GameOver3 extends Phaser.Scene {
         }
         if (Phaser.Input.Keyboard.JustDown(keyM)) {
             // reset everything
-            StartingDeck = StartingDeckCopy;
+            resetDeck(StartingDeckCopy);
             cardsMade = [];
             playerHealth = 0;
             playerStrength = 0;
